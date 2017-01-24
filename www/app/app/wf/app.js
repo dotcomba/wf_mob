@@ -108,7 +108,7 @@ app.config(function ($routeProvider) {
 });
 
 //var serviceBase = 'http://localhost:49213/';
-var serviceBase = 'http://server-wealthflow.azurewebsites.net/';
+var serviceBase = 'https://server-wealthflow.azurewebsites.net/';
 
 //var serviceBase = 'http://dev-m5.cloudapp.net/';
 
