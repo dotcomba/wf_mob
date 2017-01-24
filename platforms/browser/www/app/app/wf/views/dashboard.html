@@ -1,0 +1,370 @@
+﻿    
+<div class="row" data-ng-show="authentication.isAuth">
+
+
+
+
+    <div class="panel" id="latest-transaction" ng-show="transactions.length > 0 && settings.isLatestTransactionWP">
+        <div class="panel-heading">
+            <h3 class="panel-title">Latest transaction</h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group list-group-dividered list-group-full">
+                <li class="list-group-item" data-ng-repeat="transaction in transactions | limitTo : 1" ng-show="$first">
+                    <div class="media">
+                        <div class="media-left">
+                            <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
+                            <i data-ng-show="transaction.transactionCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important">&nbsp;</i>
+                            <i data-ng-show="transaction.transactionCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
+                                    <span class="tag-lg" style="color:#77d6e1;">
+                                        <span data-ng-show="transaction.currencyCode =='USD'">$</span>
+                                        <span data-ng-show="transaction.currencyCode =='EUR'">&euro;</span>
+                                        <span data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></span>
+                                        <span data-ng-show="transaction.currencyCode !='USD'
+                                              && transaction.currencyCode !='EUR'
+                                              && transaction.currencyCode !='RUB'">
+                                            {{ transaction.currencyCode }}
+                                        </span>
+                                        {{ transaction.transactionValue | number:2 }}
+                                    </span>
+                                </small>
+                                <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right">
+                                    <span class="tag-lg grey-600">
+                                        <span data-ng-show="transaction.currencyCode =='USD'">$</span>
+                                        <span data-ng-show="transaction.currencyCode =='EUR'">&euro;</span>
+                                        <span data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></span>
+                                        <span data-ng-show="transaction.currencyCode !='USD'
+                                              && transaction.currencyCode !='EUR'
+                                              && transaction.currencyCode !='RUB'">
+                                            {{ transaction.currencyCode }}
+                                        </span>
+                                        {{ transaction.transactionValue | number:2 }}
+                                    </span>
+                                </small>
+                                <a class="name">
+                                    <span data-ng-show="transaction.transactionCode =='EXP'">
+                                        You had expensies for
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category
+                                    </span>
+                                    <span data-ng-show="transaction.transactionCode =='INC'">
+                                        You are registered income from
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong>
+                                    </span>
+                                    <span data-ng-show="transaction.transactionCode =='TRAN'">
+                                        You made transfer of founds from
+                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> to
+                                        <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
+                                    </span>
+                                </a>
+                            </h4>
+                            <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}</small>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row" data-plugin="matchHeight" data-by-row="true" ng-show="dashboard.expensisesValue != 0 && dashboard.incomeValue != 0 && dashboard.expensisesValue != null && dashboard.incomeValue != null && settings.isTrendsWP">
+
+        <div class="col-xl-6 col-md-6 col-xs-12 info-panel">
+            <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                    <button type="button" class="btn btn-floating btn-sm btn-warning" ng-click="go('/reportExpensises')">
+                        <i class="icon wb-shopping-cart"></i>
+                    </button>
+                    <span class="m-l-15 font-weight-400">EXPENSISES</span>
+                    <div class="content-text text-xs-center m-b-0">
+                        <i class="text-danger icon wb-triangle-up font-size-20" ng-show="dashboard.expensisesTrend > 0">
+                        </i>
+                        <i class="text-success icon wb-triangle-down font-size-20" ng-show="dashboard.expensisesTrend < 0">
+                        </i>
+                        <span class="font-size-40 font-weight-100">
+                            <span data-ng-show="homeCurrency =='USD'">$</span>
+                            <span data-ng-show="homeCurrency =='EUR'">&euro;</span>
+                            <span data-ng-show="homeCurrency =='RUB'" class="fa-rub"></span>
+                            <span data-ng-show="homeCurrency !='USD'
+                                              && homeCurrency !='EUR'
+                                              && homeCurrency !='RUB'">
+                                {{ homeCurrency }}
+                            </span>
+                        
+                         {{ dashboard.expensisesValue | number }}</span>
+                        <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.expensisesTrend != 0"> 
+                        <span ng-show="dashboard.expensisesTrend > 0">+</span>
+                        {{ dashboard.expensisesTrend }}% from previous month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-xs-12 info-panel">
+
+
+
+            <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                    <button type="button" class="btn btn-floating btn-sm btn-success" ng-click="go('/reportIncomes')">
+                        <i class="icon fa-dollar"></i>
+                    </button>
+                    <span class="m-l-15 font-weight-400">INCOME</span>
+                    <div class="content-text text-xs-center m-b-0">
+                        <i class="text-success icon wb-triangle-up font-size-20" ng-show="dashboard.incomeTrend > 0">
+                        </i>
+                        <i class="text-danger icon wb-triangle-down font-size-20" ng-show="dashboard.incomeTrend < 0">
+                        </i>
+                        <span class="font-size-40 font-weight-100">
+                            <span data-ng-show="homeCurrency =='USD'">$</span>
+                            <span data-ng-show="homeCurrency =='EUR'">&euro;</span>
+                            <span data-ng-show="homeCurrency =='RUB'" class="fa-rub"></span>
+                            <span data-ng-show="homeCurrency !='USD'
+                                              && homeCurrency !='EUR'
+                                              && homeCurrency !='RUB'">
+                                {{ homeCurrency }}
+                            </span>
+                         {{ dashboard.incomeValue | number }}</span>
+                        <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.incomeTrend != 0">
+                        <span ng-show="dashboard.incomeTrend > 0">+</span>
+                        {{ dashboard.incomeTrend }}% from previous month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel" id="current-balance" ng-show="accounts.length > 0  && settings.isBalanceWP">
+        <div class="panel-heading">
+            <h3 class="panel-title">Current balance</h3>
+            <div class="panel-actions panel-actions-keep">
+                <div class="dropdown">
+                    <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
+                    <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                        <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> Remove</a>
+                        <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <!--<div class="pie-progress pie-progress-lg center-block" id="examplePieApi" data-plugin="pieProgress" data-barcolor="#fa7a7a" data-goal="100" data-size="350" data-barsize="10" aria-valuemin="-100" aria-valuemax="250" role="progressbar" aria-valuenow="200">
+            <div class="pie-progress-content">
+                <div class="pie-progress-number">$ {{ dashboard.balanceValue }}</div>
+                <div class="pie-progress-label">Balance</div>
+            </div>
+            <div class="pie-progress-svg">
+                <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350">
+                    <ellipse rx="170" ry="170" cx="175" cy="175" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
+                    <path fill="none" stroke-width="10" stroke="#57c7d4" d="M175,5 A170,170 0 1 1 42.088647980434814,69.00673368401544" style="stroke-dasharray: 915.601, 915.601; stroke-dashoffset: 0;"></path>
+                </svg>
+            </div>
+        </div>-->
+
+
+            <div class="col-xl-4 col-md-4 col-xs-12 info-panel">
+                <div style="max-width:300px;">
+                    <canvas id="doughnut" class="chart chart-doughnut" chart-options="options1"
+                            chart-data="data" chart-labels="labels"></canvas>
+
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-md-8 col-xs-12 info-panel">
+
+                <div class="table-responsive">
+                    <table class="table table-analytics m-b-0 text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="language">Account</th>
+                                <th class="vists">Currency</th>
+                                <th class="vists">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="account in accounts">
+                                <td style="vertical-align:middle">
+                                    <i class="green-400 ti-credit-card" style="font-size:18pt !important; vertical-align:middle">&nbsp;</i>
+                                    <span class="name">{{ account.title }}</span>
+                                </td>
+                                <td style="vertical-align:middle">{{ account.currencyCode }}</td>
+                                <td style="vertical-align:middle">{{ account.ammount | number: 2 }}</td>
+                     
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div ng-controller="accountsController">
+
+                    <div class="modal fade" id="editAccountForm" aria-hidden="true" aria-labelledby="editAccountForm"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-12 col-xs-12">
+                                                <input type="text" class="form-control" name="account_title" data-ng-model="account.title" />
+                                                <label class="floating-label">Title</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-12 col-xs-12">
+                                                <select class="form-control" name="currency" data-ng-model="account.currencyCode">
+                                                    <option ng-selected="currency.thirdCurencyCode == account.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                </select>
+                                                <label class="floating-label">Currency</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == ''" data-ng-click="saveChanges()">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="removeAccountForm" aria-hidden="true" aria-labelledby="removeAccountForm"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account removing</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-12 col-xs-12">
+                                                We are going to remove <strong>{{account.title}}</strong> account. Are you sure?
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeAccount()">Remove</button>
+
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                        <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                        <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                        {{message}}
+                    </div>
+
+                    <div class="modal-footer">
+                        <p>If you want to add new account, click</p>
+                        <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
+                            <i class="icon wb-plus" aria-hidden="true"></i>
+                            CREATE ACCOUNT
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+            </div>
+    </div>
+
+    <div class="panel" id="daily-transactions" ng-show="transactions.length > 0 && settings.isTransactionLogWP">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Transactions log
+            </h3>
+            <div class="panel-actions panel-actions-keep">
+                <div class="dropdown">
+                    <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
+                    <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                        <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> Remove</a>
+                        <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> Settings</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <ul class="list-group list-group-dividered list-group-full">
+
+                <li class="list-group-item" data-ng-repeat="transaction in transactions | limitTo : 5">
+                    <div class="media">
+                        <div class="media-left">
+                            <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
+                            <i data-ng-show="transaction.transactionCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important">&nbsp;</i>
+                            <i data-ng-show="transaction.transactionCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
+                                    <span class="tag-lg" style="color:#77d6e1;">
+                                        <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="transaction.currencyCode !='USD'
+                                              && transaction.currencyCode !='EUR'
+                                              && transaction.currencyCode !='RUB'">
+                                            {{ transaction.currencyCode }}
+                                        </span>
+                                        {{ transaction.transactionValue | number:2 }}
+                                    </span>
+                                </small>
+                                <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right"><span class="tag-lg grey-600">
+                                    <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
+                                    <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
+                                    <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
+                                    <span data-ng-show="transaction.currencyCode !='USD' 
+                                              && transaction.currencyCode !='EUR' 
+                                              && transaction.currencyCode !='RUB'">
+                                            {{ transaction.currencyCode }}
+                                        </span>
+                                    {{ transaction.transactionValue | number:2 }}
+                                 </span></small>
+                                <a class="name">
+                                 <span data-ng-show="transaction.transactionCode =='EXP'">You had expensies for 
+                                     <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category</span>
+                                    <span data-ng-show="transaction.transactionCode =='INC'">You are registered income from 
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong></span>
+                                    <span data-ng-show="transaction.transactionCode =='TRAN'">You made transfer of founds from 
+                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> to  
+                                        <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
+                                    </span>
+                                 </a>
+                            </h4>
+                            <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}</small>
+                        </div>
+                    </div>
+                </li>
+
+                <a href="#/allstuf" class="btn btn-block btn-primary" ng-show="transactions.length > 4">
+                    <i class="icon wb-chevron-down m-r-5" aria-hidden="true"></i>Show
+                    More
+                </a>
+
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+

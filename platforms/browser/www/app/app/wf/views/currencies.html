@@ -1,0 +1,163 @@
+﻿<div class="row" data-ng-show="authentication.isAuth">
+
+    <div class="panel" id="all-currencies">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Manage currencies
+            </h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+
+        </div>
+        <div class="panel-body">
+
+            <div class="modal fade" id="editCurrencyForm" aria-hidden="true" aria-labelledby="editCurrencyForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Currency</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" class="form-control" data-ng-disabled="homeCurrency != ''" name="currency_homeCode" data-ng-model="currency.homeCurrencyCode" />
+                                        <label class="floating-label">Home currency</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <select class="form-control" name="currency_thirdCode" data-ng-model="currency.thirdCurencyCode">
+                                            <option ng-selected="currency.thirdCurencyCode == currencyL.code" ng-repeat="currencyL in currencyList" value="{{currencyL.code}}">{{currencyL.code}}</option>
+                                        </select>
+                                        <label class="floating-label">Third curency</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" class="form-control" name="currency_value" data-ng-model="currency.value" />
+                                        <label class="floating-label">Value for exchange</label>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="currency.thirdCurencyCode == '' || currency.value == ''" data-ng-click="saveChanges()">Save</button>
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="removeCurrencyForm" aria-hidden="true" aria-labelledby="removeCurrencyForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Currency removing</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        We are going to remove <strong>{{currency.thirdCurencyCode}}</strong> currency. Are you sure?
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeCurrency()">Remove</button>
+
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="homeCurrencyForm" aria-hidden="true" aria-labelledby="homeCurrencyForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Currency</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <select class="form-control" name="currency_thirdCode" data-ng-model="currency.thirdCurencyCode">
+                                            <option ng-selected="currency.thirdCurencyCode == currencyL.code" ng-repeat="currencyL in currencyList" value="{{currencyL.code}}">{{currencyL.code}}</option>
+                                        </select>
+                                        <label class="floating-label">Home currency</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="currency.thirdCurencyCode == ''" data-ng-click="saveHomeCurrency()">Save</button>
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                {{message}}
+            </div>
+
+            <div class="table-responsive" ng-show="currencies.length > 0">
+                <table class="table table-analytics m-b-0 text-nowrap">
+                    <thead>
+                    <th>Home currency</th>
+                    <th>Third currency</th>
+                    <th>Exchange</th>
+                    <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="currency in currencies">
+                            <td style="vertical-align:middle">
+                                {{ currency.homeCurrencyCode }}
+                            </td>
+                            <td style="vertical-align:middle"><span>{{ currency.thirdCurencyCode }}</span></td>
+                            <td style="vertical-align:middle">
+                                <span>{{ currency.value }}</span>
+                            </td>
+
+                            <td style="vertical-align:middle">
+                                <span data-ng-show="currency.thirdCurencyCode == homeCurrency">Home currency</span>
+                                <button data-ng-show="currency.thirdCurencyCode != homeCurrency" ng-click="showModal(currency)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></button>
+                                <button data-ng-show="currency.thirdCurencyCode != homeCurrency" ng-click="showRemoveModal(currency)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer" ng-show="currencies.length == 0">
+                <p>First of all, choose your home currency</p>
+                <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="homeCurrencyModal()">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    CHOOSE HOME CURRENCY
+                </button>
+            </div>
+
+            <div class="modal-footer" ng-show="currencies.length > 0">
+                <p>to put additional currency, click</p>
+                <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="showModal()">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    INSERT CURRENCY
+                </button>
+            </div>
+
+            </div>
+        </div>
+</div>

@@ -1,0 +1,83 @@
+﻿    
+<div class="row" data-ng-show="authentication.isAuth">
+
+
+
+    <div class="panel" id="all-transactions" ng-show="transactions.length > 0">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Expensises
+            </h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <ul class="list-group list-group-dividered list-group-full">
+
+                <li class="list-group-item" data-ng-repeat="transaction in transactions | filter : {transactionCode: 'EXP' }">
+                    <div class="media">
+                        <div class="media-left">
+                            <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
+                            <i data-ng-show="transaction.transactionCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important">&nbsp;</i>
+                            <i data-ng-show="transaction.transactionCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
+                                    <span class="tag-lg" style="color:#77d6e1;">
+                                        <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="transaction.currencyCode !='USD'
+                                              && transaction.currencyCode !='EUR'
+                                              && transaction.currencyCode !='RUB'">
+                                            {{ transaction.currencyCode }}
+                                        </span>
+                                        {{ transaction.transactionValue | number:2 }}
+                                    </span>
+                                </small>
+                                <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right">
+                                    <span class="tag-lg grey-600">
+                                        <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="transaction.currencyCode !='USD'
+                                              && transaction.currencyCode !='EUR'
+                                              && transaction.currencyCode !='RUB'">
+                                            {{ transaction.currencyCode }}
+                                        </span>
+                                        {{ transaction.transactionValue | number:2 }}
+                                    </span>
+                                </small>
+                                <a class="name">
+                                    <span data-ng-show="transaction.transactionCode =='EXP'">
+                                        You had expensies for
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category
+                                    </span>
+                                    <span data-ng-show="transaction.transactionCode =='INC'">
+                                        You are registered income from
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong>
+                                    </span>
+                                    <span data-ng-show="transaction.transactionCode =='TRAN'">
+                                        You made transfer of founds from
+                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> to
+                                        <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
+                                    </span>
+                                </a>
+                            </h4>
+                            <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}</small>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+
+</div>
+
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Wealthflow App</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+    </head>
+    <body>
+	
+	    <div class="app" onclick="Open()" style="cursor:pointer;">
+            <h1>Wealthflow</h1>
+            <br />
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting ...</p>
+                <p class="event received">Connected</p>
+                <p class="event error">Connection error</p>
+            </div>
+        </div>
+	
+        <script type="text/javascript" src="cordova.js"></script>
+		<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript">
+            app.initialize();
+
+            function Open() {
+                window.location = "app/index.html"
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,63 @@
+﻿    
+<div class="row" data-ng-show="authentication.isAuth">
+
+
+
+
+    <div class="panel" id="report-incomes">
+        <div class="panel-heading">
+            <h3 class="panel-title">Incomes</h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-xl-4 col-md-4 col-xs-12 info-panel">
+                <div style="max-width:300px;">
+                    <canvas id="pie" class="chart chart-pie"
+                            chart-data="data" chart-labels="labels" chart-options="options1"></canvas> 
+
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-md-8 col-xs-12 info-panel">
+
+                <div class="table-responsive">
+                    <table class="table table-analytics m-b-0 text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="language">Category</th>
+                                <th class="vists">Amount,   <span data-ng-show="homeCurrency =='USD'">$</span>
+                                    <span data-ng-show="homeCurrency =='EUR'">&euro;</span>
+                                    <span data-ng-show="homeCurrency =='RUB'" class="fa-rub"></span>
+                                    <span data-ng-show="homeCurrency !='USD'
+                                              && homeCurrency !='EUR'
+                                              && homeCurrency !='RUB'">
+                                        {{ homeCurrency }}
+                                    </span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="transaction in transactions | filter : {transactionCode: 'INC' }">
+
+                                <td>{{ categoriesLookup[transaction.categoryId].title }}</td>
+                                <td>{{ transaction.amount | number: 2 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+           
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+

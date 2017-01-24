@@ -1,0 +1,428 @@
+﻿
+<style type="text/css">
+
+    .site-navbar {
+        display: none !important;
+    }
+
+    .site-menubar {
+        display: none !important;
+    }
+</style>
+
+
+<div class="row" data-ng-show="authentication.isAuth">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Few things before you will begin</h3>
+        </div>
+        <div class="panel-body">
+            <!-- Steps -->
+            <div class="pearls row">
+                <div class="pearl col-xs-3" id="wz1">
+                    <div class="pearl-icon"><i class="icon fa-dollar" aria-hidden="true"></i></div>
+                    <span class="pearl-title">Currencies</span>
+                </div>
+                <div class="pearl col-xs-3" id="wz2">
+                    <div class="pearl-icon"><i class="icon ti-shopping-cart" aria-hidden="true"></i></div>
+                    <span class="pearl-title">Categories</span>
+                </div>
+                <div class="pearl col-xs-3" id="wz3">
+                    <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                    <span class="pearl-title">Accounts</span>
+                </div>
+                <div class="pearl col-xs-3" id="wz4">
+                    <div class="pearl-icon"><i class="icon wb-check" aria-hidden="true"></i></div>
+                    <span class="pearl-title">Ready to use</span>
+                </div>
+            </div>
+            <!-- End Steps -->
+            <!-- Wizard Content -->
+            <form class="wizard-content">
+                <div class="wizard-pane" role="tabpanel" id="wp1">
+                    <div class="form-group" ng-controller="currenciesController">
+
+                        <div class="modal fade" id="editCurrencyForm" aria-hidden="true" aria-labelledby="editCurrencyForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Currency</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <input type="text" class="form-control" data-ng-disabled="homeCurrency != ''" name="currency_homeCode" data-ng-model="currency.homeCurrencyCode" />
+                                                    <label class="floating-label">Home currency</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <select class="form-control" name="currency_thirdCode" data-ng-model="currency.thirdCurencyCode">
+                                                        <option ng-selected="currency.thirdCurencyCode == currencyL.code" ng-repeat="currencyL in currencyList" value="{{currencyL.code}}">{{currencyL.code}}</option>
+                                                    </select>
+                                                    <label class="floating-label">Third curency</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <input type="text" class="form-control" name="currency_value" data-ng-model="currency.value" />
+                                                    <label class="floating-label">Value for exchange</label>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="currency.thirdCurencyCode == '' || currency.value == ''" data-ng-click="saveChanges()">Save</button>
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="removeCurrencyForm" aria-hidden="true" aria-labelledby="removeCurrencyForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Currency removing</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    We are going to remove <strong>{{currency.thirdCurencyCode}}</strong> currency. Are you sure?
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeCurrency()">Remove</button>
+
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="homeCurrencyForm" aria-hidden="true" aria-labelledby="homeCurrencyForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Currency</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <select class="form-control" name="currency_thirdCode" data-ng-model="currency.thirdCurencyCode">
+                                                        <option ng-selected="currency.thirdCurencyCode == currencyL.code" ng-repeat="currencyL in currencyList" value="{{currencyL.code}}">{{currencyL.code}}</option>
+                                                    </select>
+                                                    <label class="floating-label">Home currency</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="currency.thirdCurencyCode == ''" data-ng-click="saveHomeCurrency()">Save</button>
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                            <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                            <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                            {{message}}
+                        </div>
+
+                        <div class="table-responsive" ng-show="currencies.length > 0">
+                            <table class="table table-analytics m-b-0 text-nowrap">
+                                <thead>
+                                <th>Home currency</th>
+                                <th>Third currency</th>
+                                <th>Exchange</th>
+                                <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="currency in currencies">
+                                        <td style="vertical-align:middle">
+                                         {{ currency.homeCurrencyCode }}    </td>
+                                        <td style="vertical-align:middle"><span>{{ currency.thirdCurencyCode }}</span></td>
+                                        <td style="vertical-align:middle">
+                                            <span>{{ currency.value }}</span>
+                                        </td>
+
+                                        <td style="vertical-align:middle">
+                                            <span data-ng-show="currency.thirdCurencyCode == homeCurrency">Home currency</span>
+                                            <button data-ng-show="currency.thirdCurencyCode != homeCurrency" ng-click="showModal(currency)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></button>
+                                            <button data-ng-show="currency.thirdCurencyCode != homeCurrency" ng-click="showRemoveModal(currency)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer" ng-show="currencies.length == 0">
+                            <p>First of all, choose your home currency</p>
+                            <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="homeCurrencyModal()">
+                                <i class="icon wb-plus" aria-hidden="true"></i>
+                                CHOOSE HOME CURRENCY
+                            </button>
+                        </div>
+
+                        <div class="modal-footer" ng-show="currencies.length > 0">
+                            <p>to put additional currency, click</p>
+                            <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="showModal()">
+                                <i class="icon wb-plus" aria-hidden="true"></i>
+                                INSERT CURRENCY
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="wizard-pane" role="tabpanel" id="wp2">
+                    <div class="form-group" ng-controller="categoriesController">
+
+                        <div class="modal fade" id="editCategoryForm" aria-hidden="true" aria-labelledby="editCategoryForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Category</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <input type="text" class="form-control" name="account_title" data-ng-model="category.title" />
+                                                    <label class="floating-label">Category</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <select class="form-control" name="currency" data-ng-model="category.typeCode">
+                                                        <option value="INC">Income</option>
+                                                        <option value="EXP">Expensise</option>
+                                                    </select>
+                                                    <label class="floating-label">Type</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="category.title == '' || category.typeCode == ''" data-ng-click="saveChanges()">Save</button>
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="removeCategoryForm" aria-hidden="true" aria-labelledby="removeCategoryForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Category removing</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    We are going to remove <strong>{{category.title}}</strong> category. Are you sure?
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeCategory()">Remove</button>
+
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                            <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                            <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                            {{message}}
+                        </div>
+
+                        <div class="table-responsive" ng-show="categories.length > 0">
+                            <table class="table table-analytics m-b-0 text-nowrap">
+                                <thead>
+                                    <th>TP</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="category in categories">
+                                        <td style="vertical-align:middle">
+                                            <i data-ng-show="category.typeCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important; vertical-align:middle"></i>
+                                            <i data-ng-show="category.typeCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important;vertical-align:middle">&nbsp;</i>
+                                            <i data-ng-show="category.typeCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important;vertical-align:middle"></i>
+                                          </td>
+                                        <td style="vertical-align:middle"><span>{{ category.typeCode }}</span></td>
+                                        <td style="vertical-align:middle">
+                                              <span>{{ category.title }}</span>
+                                        </td>
+                                       
+                                        <td style="vertical-align:middle">
+                                            <a ng-click="showModal(category)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
+                                            <a ng-click="showRemoveModal(category)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <p>to add new category, click</p>
+                            <button class="btn btn-outline btn-warning  btn-direction btn-up " ng-click="showModal()">
+                                <i class="icon wb-plus" aria-hidden="true"></i>
+                                NEW CATEGORY
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="wizard-pane" role="tabpanel" id="wp3">
+                    <div class="form-group" ng-controller="accountsController">
+               
+                        <div class="modal fade" id="editAccountForm" aria-hidden="true" aria-labelledby="editAccountForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <input type="text" class="form-control" name="account_title" data-ng-model="account.title" />
+                                                    <label class="floating-label">Title</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <select class="form-control" name="currency" data-ng-model="account.currencyCode">
+                                                        <option ng-selected="currency.thirdCurencyCode == account.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                    </select>
+                                                    <label class="floating-label">Currency</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == ''" data-ng-click="saveChanges()">Save</button>
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="removeAccountForm" aria-hidden="true" aria-labelledby="removeAccountForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account removing</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    We are going to remove <strong>{{account.title}}</strong> account. Are you sure?
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeAccount()">Remove</button>
+
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                            <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                            <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                            {{message}}
+                        </div>
+                        
+                        <div class="table-responsive" ng-show="accounts.length > 0">
+                            <table class="table table-analytics m-b-0 text-nowrap">
+                        <thead><th>Account title</th>
+                                <th>Currency</th>
+                                <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="account in accounts">
+                                        <td style="vertical-align:middle">
+                                            <i class="green-400 ti-credit-card" style="font-size:18pt !important; vertical-align:middle" >&nbsp;</i>
+                                            <span>{{ account.title }}</span>
+                                        </td>
+                                        <td style="vertical-align:middle"><span>{{ account.currencyCode }}</span></td>
+                                        <td style="vertical-align:middle">
+                                            <a ng-click="showModal(account)"  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
+                                            <a ng-click="showRemoveModal(account)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <p>to add new account, click</p>
+                            <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
+                                <i class="icon wb-plus" aria-hidden="true"></i>
+                                CREATE ACCOUNT
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="wizard-pane" role="tabpanel" id="wp4">
+                    <div class="form-group">
+                        <div class="page-header text-xs-center">
+                            <h6 class="page-title">Congradulation!</h6>
+                            <p class="page-description">
+                                Now you are ready to start. </p>
+                            <div class="page-title">
+                                <img src="app/assets/images/logo@2x.png">
+                            </div>
+                            <p class="page-description">
+                                <br/>
+                                click button <strong>"Finish"</strong> to start <br />your Wealthflow-experience here.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Wizard Content -->
+            <div class="wizard-buttons">
+                <a class="btn btn-default btn-outline disabled" id="btnBack" ng-click="btnBack()" data-wizard="back" role="button">Back</a>
+                <a class="btn btn-primary btn-outline pull-xs-right" id="btnNext" ng-click="btnNext()" data-wizard="next" role="button">Next</a>
+                <a class="btn btn-success btn-outline pull-xs-right hidden-xs-up" id="btnFinish" ng-click="btnFinish()" data-wizard="finish" role="button">Finish</a>
+            </div>
+        </div>
+    </div>
+
+</div>

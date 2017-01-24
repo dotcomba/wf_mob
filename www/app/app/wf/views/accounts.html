@@ -1,0 +1,114 @@
+﻿<div class="row" data-ng-show="authentication.isAuth">
+
+    <div class="panel" id="all-accounts">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Manage accounts
+            </h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+
+        </div>
+        <div class="panel-body">
+
+            <div class="modal fade" id="editAccountForm" aria-hidden="true" aria-labelledby="editAccountForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" class="form-control" name="account_title" data-ng-model="account.title" />
+                                        <label class="floating-label">Title</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <select class="form-control" name="currency" data-ng-model="account.currencyCode">
+                                            <option ng-selected="currency.thirdCurencyCode == account.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                        </select>
+                                        <label class="floating-label">Currency</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == ''" data-ng-click="saveChanges()">Save</button>
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="removeAccountForm" aria-hidden="true" aria-labelledby="removeAccountForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account removing</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        We are going to remove <strong>{{account.title}}</strong> account. Are you sure?
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeAccount()">Remove</button>
+
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                {{message}}
+            </div>
+
+            <div class="table-responsive" ng-show="accounts.length > 0">
+                <table class="table table-analytics m-b-0 text-nowrap">
+                    <thead>
+                    <th>Account title</th>
+                    <th>Currency</th>
+                    <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="account in accounts">
+                            <td style="vertical-align:middle">
+                                <i class="green-400 ti-credit-card" style="font-size:18pt !important; vertical-align:middle">&nbsp;</i>
+                                <span>{{ account.title }}</span>
+                            </td>
+                            <td style="vertical-align:middle"><span>{{ account.currencyCode }}</span></td>
+                            <td style="vertical-align:middle">
+                                <a ng-click="showModal(account)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
+                                <a ng-click="showRemoveModal(account)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <p>to add new account, click</p>
+                <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    CREATE ACCOUNT
+                </button>
+            </div>
+
+            </div>
+        </div>
+</div>

@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en" data-ng-app="WFApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Wealthflow is a way to understand your money">
+    <meta name="author" content="">
+    <title>Wealthflow</title>
+    <link rel="shortcut icon" href="app/assets/images/favicon.ico">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="app/global/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/global/css/bootstrap-extend.css">
+    <link rel="stylesheet" href="app/assets/css/site.css">
+    <link rel="stylesheet" href="app/assets/skins/green.css">
+    <!-- Plugins -->
+    <link rel="stylesheet" href="app/global/vendor/animsition/animsition.css">
+    <link rel="stylesheet" href="app/global/vendor/asscrollable/asScrollable.css">
+    <link rel="stylesheet" href="app/global/vendor/jquery-wizard/jquery-wizard.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="app/global/fonts/web-icons/web-icons.min.css">
+    <link rel="stylesheet" href="app/global/fonts/brand-icons/brand-icons.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+    <link rel="stylesheet" href="app/global/fonts/themify/themify.css">
+    <link rel="stylesheet" href="app/global/fonts/octicons/octicons.css">
+    <link rel="stylesheet" href="app/global/fonts/font-awesome/font-awesome.css">
+    <!--[if lt IE 9]>
+      <script src="app/global/vendor/html5shiv/html5shiv.min.js"></script>
+      <![endif]-->
+    <!--[if lt IE 10]>
+      <script src="app/global/vendor/media-match/media.match.min.js"></script>
+      <script src="app/global/vendor/respond/respond.min.js"></script>
+      <![endif]-->
+    <!-- Scripts -->
+    <!-- Angular JS -->
+    <script src="app/angular-1.3.15/angular.min.js"></script>
+    <script src="app/angular-1.3.15/angular-route.min.js"></script>
+    <script src="app/scripts/angular-local-storage.min.js"></script>
+    <link href="app/content/css/loading-bar.css" rel="stylesheet" />
+    <script src="app/scripts/loading-bar.min.js"></script>
+    <script src="app/scripts/ui-bootstrap-tpls-0.13.0.min.js"></script>
+    <script src="app/wf/app.js?v=2"></script>
+    <!-- Load services -->
+    <script src="app/wf/services/authInterceptorService.js?v=2"></script>
+    <script src="app/wf/services/authService.js?v=2"></script>
+    <script src="app/wf/services/accountsService.js?v=2"></script>
+    <script src="app/wf/services/dashboardService.js?v=2"></script>
+    <script src="app/wf/services/transactionsService.js?v=2"></script>
+    <script src="app/wf/services/categoriesService.js?v=2"></script>
+    <script src="app/wf/services/currenciesService.js?v=2"></script>
+    <script src="app/wf/services/settingsService.js?v=2"></script>
+    <!-- Load controllers -->
+    <script src="app/wf/controllers/indexController.js?v=2"></script>
+    <script src="app/wf/controllers/transactionsController.js?v=2"></script>
+    <script src="app/wf/controllers/accountsController.js?v=2"></script>
+    <script src="app/wf/controllers/categoriesController.js?v=2"></script>
+    <script src="app/wf/controllers/currenciesController.js?v=2"></script>
+    <script src="app/wf/controllers/dashboardController.js?v=2"></script>
+    <script src="app/wf/controllers/loginController.js?v=2"></script>
+    <script src="app/wf/controllers/forgotController.js?v=2"></script>
+    <script src="app/wf/controllers/signupController.js?v=2"></script>
+    <script src="app/wf/controllers/reportIncomesController.js?v=2"></script>
+    <script src="app/wf/controllers/reportExpensisesController.js?v=2"></script>
+    <script src="app/wf/controllers/reportTrendsController.js?v=2"></script>
+    <script src="app/wf/controllers/wizardController.js?v=2"></script>
+    <script src="app/wf/controllers/allstufController.js?v=2"></script>
+    <script src="app/wf/controllers/settingsController.js?v=2"></script>
+
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+
+</head>
+<body class="animsition app-contacts page-aside-left" data-ng-controller="indexController">
+
+    <nav class="site-navbar navbar navbar-default navbar-inverse navbar-fixed-top navbar-mega"
+         role="navigation" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+        
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided"
+                    data-toggle="menubar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="hamburger-bar"></span>
+            </button>
+            <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-collapse"
+                    data-toggle="collapse">
+                <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+            </button>
+            <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+                <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow"> Wealtflow
+            </div>
+        </div>
+
+        <div class="navbar-container container-fluid">
+            <!-- Navbar Collapse -->
+            <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                <!-- Navbar Toolbar -->
+                <ul class="nav navbar-toolbar">
+                    <li class="nav-item hidden-float" id="toggleMenubar">
+                        <a class="nav-link" data-toggle="menubar" role="button">
+                            <i class="icon hamburger hamburger-arrow-left">
+                                <span class="sr-only">Toggle menubar</span>
+                                <span class="hamburger-bar"></span>
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- End Navbar Toolbar -->
+                <!-- Navbar Toolbar Right -->
+                <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link navbar-avatar" data-toggle="dropdown" href="" aria-expanded="false"
+                           data-animation="scale-up" role="button">
+                            <span class="avatar avatar-online">
+                                <img src="app/global/portraits/5.jpg" alt="...">
+                                <i></i>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+                            <div class="dropdown-divider" role="presentation"></div>
+                            <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+                        </div>
+                    </li>
+
+                </ul>
+                <!-- End Navbar Toolbar Right -->
+                <div class="navbar-brand navbar-brand-center">
+                    <a href="#/">
+                        <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow">
+                    </a>
+                </div>
+            </div>
+            <!-- End Navbar Collapse -->
+        </div>
+    </nav>
+
+
+    <div class="site-menubar" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+        <div class="site-menubar-body">
+            <div>
+                <div>
+                    <ul class="site-menu" data-plugin="menu">
+                        <li class="site-menu-item has-sub">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon wb-grid-4" aria-hidden="true"></i>
+                                <span class="site-menu-title">Accounts</span>
+                                <!--<div class="site-menu-badge">
+                                    <span data-ng-controller="dashboardController" class="tag tag-pill tag-info">$ {{ dashboard.balanceValue | number:2 }}</span>
+                                </div>-->
+                                <span class="site-menu-arrow"></span>
+                            </a>
+                            <ul class="site-menu-sub" data-ng-controller="accountsController">
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="JavaScript:$('#makeTransferForm').modal()">
+                                        <i class="site-menu-icon ti-credit-card"></i>
+                                        <span class="site-menu-title">Make transfer</span>
+                                    </a>
+                                </li>
+
+                                <!--<li class="site-menu-item" data-ng-repeat="account in accounts">
+                                    <a class="animsition-link" href="">
+                                        <span class="site-menu-title">{{ account.title | limitTo:15 }}</span>
+                                        <div class="site-menu-label">
+                                            <span data-ng-show="account.ammount < 0"class="tag tag-warning tag-outline">- ${{ account.ammount | number:2 }}</span>
+                                            <span data-ng-show="account.ammount > 0" class="tag tag-success tag-outline">+ ${{ account.ammount | number:2 }}</span>
+                                        </div>
+                                    </a>
+                                </li>-->
+
+                                <div class="dropdown-divider"></div>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/accounts">
+                                        <i class="site-menu-icon fa-gear"></i>
+                                        <span class="site-menu-title">Manage accounts</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                                <span class="site-menu-title">Transactions</span>
+                                <span class="site-menu-arrow"></span>
+                            </a>
+                            <ul class="site-menu-sub">
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="JavaScript:$('#addExpensiesForm').modal()">
+                                        <i class="site-menu-icon ti-shopping-cart"></i>
+                                        <span class="site-menu-title">Add expensises</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="Javascript:$('#addIncomeForm').modal()">
+                                        <i class="site-menu-icon fa-dollar"></i>
+                                        <span class="site-menu-title">Add income</span>
+                                    </a>
+                                </li>
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/expensises">
+                                        <span class="site-menu-title">Expensises</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/incomes">
+                                        <span class="site-menu-title">Incomes</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/allstuf">
+                                        <span class="site-menu-title">All stuf</span>
+                                    </a>
+                                </li>
+
+
+                                <div class="dropdown-divider"></div>
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/currencies">
+                                        <i class="site-menu-icon oi-globe"></i>
+                                        <span class="site-menu-title">Currencies</span>
+                                    </a>
+                                </li>
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/categories">
+                                        <i class="site-menu-icon fa-gear"></i>
+                                        <span class="site-menu-title">Manage categories</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon wb-pie-chart" aria-hidden="true"></i>
+                                <span class="site-menu-title">Reports</span>
+                                <span class="site-menu-arrow"></span>
+                            </a>
+                            <ul class="site-menu-sub">
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/reportExpensises">
+                                        <span class="site-menu-title">Expensises</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/reportIncomes">
+                                        <span class="site-menu-title">Incomes</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/reportTrends">
+                                        <span class="site-menu-title">Trends</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="site-menu-item">
+                            <a class="animsition-link" href="#/settings">
+                                <i class="site-menu-icon oi-gear" aria-hidden="true"></i>
+                                <span class="site-menu-title">Settings</span>
+                            </a>
+                        </li>
+
+                        <div class="dropdown-divider"></div>
+
+                        <li class="site-menu-item">
+                            <a class="animsition-link" href="" ng-click="logOut()">
+                                <i class="site-menu-icon wb-power" aria-hidden="true"></i>
+                                <span class="site-menu-title">Logout</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="page-header">
+        </div>
+        <div class="page-content">
+            <div data-ng-show="authentication.isAuth && authentication.isSetup">
+                <div data-ng-controller="transactionsController">
+                    <div class="modal fade" id="addExpensiesForm" aria-hidden="true" aria-labelledby="addExpensiesForm"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Expensies</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-3 col-xs-6">
+                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId">
+                                                    <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
+                                                </select>
+                                                <label class="floating-label">Category</label>
+                                            </div>
+                                            <div class="col-md-9 col-xs-6">
+                                                <input type="text" class="form-control empty" name="expense_description">
+                                                <label class="floating-label">Description</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-material floating has-success" data-plugin="formMaterial">
+                                            <select class="form-control empty" name="expense_account" data-ng-model="transaction.accountSourceId">
+                                                <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                            </select>
+                                            <label class="floating-label">Account for this expense</label>
+                                        </div>
+
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-2 col-xs-2">
+                                                <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
+                                                    <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-10 col-xs-10">
+
+                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autofocus />
+                                                <label class="floating-label">Ammont</label>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == ''" data-ng-click="createTransaction('EXP')">Save</button>
+
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                        <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                        <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                        {{message}}
+                    </div>
+
+                    <!-- Add Income Form -->
+                    <div class="modal fade" id="addIncomeForm" aria-hidden="true" aria-labelledby="addIncomeForm"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Income</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-3 col-xs-6">
+                                                <select class="form-control empty" name="income_category" data-ng-model="transaction.categoryId">
+                                                    <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'INC'}" value="{{category.id}}">{{category.title}}</option>
+                                                </select>
+                                                <label class="floating-label">Category</label>
+                                            </div>
+                                            <div class="col-md-9 col-xs-6">
+                                                <input type="text" class="form-control empty" name="income_description">
+                                                <label class="floating-label">Description</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-material floating has-success" data-plugin="formMaterial">
+                                            <select class="form-control empty" name="income_account" data-ng-model="transaction.accountDestinationId">
+                                                <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                            </select>
+                                            <label class="floating-label">Add income to account...</label>
+                                        </div>
+
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-2 col-xs-2">
+                                                <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
+                                                    <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-10 col-xs-10">
+                                                <input type="text" class="form-control empty" name="income_ammount"
+                                                       data-ng-model="transaction.transactionValue">
+                                                <label class="floating-label">Ammont</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('INC')">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Add Income Form -->
+                    <!-- Add Make trasfer Form -->
+                    <div class="modal fade" id="makeTransferForm" aria-hidden="true" aria-labelledby="makeTransferForm"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title"> <i class="site-menu-icon ti-credit-card"></i>Transfer</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-material floating has-success" data-plugin="formMaterial">
+                                            <select class="form-control empty" name="from_account" data-ng-model="transaction.accountSourceId">
+                                                <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number:2}})</option>
+                                            </select>
+                                            <label class="floating-label">From</label>
+                                        </div>
+
+                                        <div class="form-material floating has-success" data-plugin="formMaterial">
+                                            <select class="form-control empty" name="to_account" data-ng-model="transaction.accountDestinationId">
+                                                <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                            </select>
+                                            <label class="floating-label">To</label>
+                                        </div>
+
+                                        <div class="form-material floating has-success" data-plugin="formMaterial">
+                                            <input type="text" class="form-control empty"
+                                                   name="transfer_ammount" data-ng-model="transaction.transactionValue">
+                                            <label class="floating-label">Ammont</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('TRAN')">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Make Transfer Form -->
+                </div>
+            </div>
+            
+            <section class="content">
+                <div data-ng-view="">
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="site-action" data-plugin="actionBtn" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+        <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating">
+            <i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
+            <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
+        </button>
+        <div class="site-action-buttons">
+            <button type="button" data-target="#makeTransferForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-primary btn-floating animation-slide-bottom">
+                <i class="icon ti-credit-card" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" data-target="#addExpensiesForm" data-toggle="modal" onclick="Javascript:CloseButtons();" class="btn-raised btn btn-warning btn-floating animation-slide-bottom">
+                <i class="icon ti-shopping-cart" aria-hidden="true"></i>
+            </button>
+            <button type="button" data-target="#addIncomeForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-info btn-floating animation-slide-bottom">
+                <i class="icon fa-dollar" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+        <div class="site-footer-legal">© 2017 <a href="http://www.wealthflowapp.com">Wealthflow</a></div>
+        <div class="site-footer-right">
+            we will encounte <i class="green-600 wb wb-eye"></i> what <a href="https://my-wealthflow.azurewebsites.net/#/dashboard"> matters for you</a>
+        </div>
+    </footer>
+
+    <!-- Core  -->
+    <script src="app/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+    <script src="app/global/vendor/jquery/jquery.js"></script>
+    <script src="app/global/vendor/tether/tether.js"></script>
+    <script src="app/global/vendor/bootstrap/bootstrap.js"></script>
+    <script src="app/global/vendor/animsition/animsition.js"></script>
+    <script src="app/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+    <script src="app/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+    <script src="app/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+    <!-- Scripts -->
+    <script src="app/global/js/State.js"></script>
+    <script src="app/global/js/Component.js"></script>
+    <script src="app/global/js/Plugin.js"></script>
+    <script src="app/global/js/Base.js"></script>
+    <script src="app/global/js/Config.js"></script>
+    <script src="app/assets/js/Section/Menubar.js"></script>
+    <script src="app/assets/js/Section/Sidebar.js"></script>
+    <script src="app/assets/js/Plugin/menu.js"></script>
+    <script>
+            Config.set('assets', 'app/assets');
+    </script>
+    <!-- Plugin -->
+    <script src="app/assets/js/Site.js"></script>
+    <script src="app/global/js/Plugin/asscrollable.js"></script>
+    <script src="app/global/js/Plugin/action-btn.js"></script>
+    <script src="app/global/js/Plugin/asselectable.js"></script>
+    <script src="app/global/js/Plugin/material.js"></script>
+    <script src="app/global/js/Plugin/selectable.js"></script>
+    <script src="app/global/js/Plugin/slidepanel.js"></script>
+    <script src="app/global/js/Plugin/matchheight.js"></script>
+    <script src="app/global/js/Plugin/panel.js"></script>
+
+    <script>
+        function CloseButtons()
+        {
+            $('.site-action-toggle').click();
+        }
+    </script>
+    <script src="app/global/vendor/chart-js/Chart.js"></script>
+    <script src="app/scripts/angular-chart.js"></script>
+
+    <!-- Example ????? -->
+    <script src="app/assets/js/BaseApp.js"></script>
+    <script src="app/assets/js/App/Contacts.js"></script>
+    <script>
+    $(document).ready(function() {
+    AppContacts.run();
+    });
+    </script>
+ 
+</body>
+</html>

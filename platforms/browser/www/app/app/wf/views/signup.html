@@ -1,0 +1,64 @@
+﻿
+<link rel="stylesheet" href="app/assets/examples/css/pages/register-v3.css">
+
+<style type="text/css">
+    .page-content, .page-header, .page {
+        background-color: #5cd29d !important;
+    }
+
+    .content {
+        background-color: #5cd29d !important;
+    }
+
+    .page-header { display: none;}
+
+    .site-navbar {
+        display: none;
+    }
+
+    .site-menubar {
+        display: none;
+    }
+
+    .page-content {
+    padding: 0px 0px !important;
+}
+</style>
+
+
+
+
+<div class="page-register-v3 layout-full page vertical-align text-xs-center">
+    
+    <div class="page-content vertical-align-middle">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="brand">
+                    <img class="brand-img" src="app/assets//images/logo-blue.png" alt="...">
+                    <h2 class="brand-text font-size-18">Wealthflow</h2>
+                </div>
+                <form role="form">
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="email" class="form-control" data-ng-model="registration.userName" autofocus />
+                        <label class="floating-label">Email</label>
+                    </div>
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="password" class="form-control" data-ng-model="registration.password" />
+                        <label class="floating-label">Password</label>
+                    </div>
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="password" class="form-control" data-ng-model="registration.confirmPassword" />
+                        <label class="floating-label">Re-enter Password</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-click="signUp()">Sign up</button>
+                </form>
+                <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                    {{message}}
+                </div>
+        
+                <p>Have account already? Please go to <a href="#/login">Sign In</a></p>
+            </div>
+        </div>
+        <footer class="page-copyright page-copyright-inverse"></footer>
+    </div>
+</div>

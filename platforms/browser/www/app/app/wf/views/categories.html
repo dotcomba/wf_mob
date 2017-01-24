@@ -1,0 +1,121 @@
+﻿<div class="row" data-ng-show="authentication.isAuth">
+
+    <div class="panel" id="all-categories">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Manage categories
+            </h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+
+        </div>
+        <div class="panel-body">
+
+
+            <div class="modal fade" id="editCategoryForm" aria-hidden="true" aria-labelledby="editCategoryForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Category</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" class="form-control" name="account_title" data-ng-model="category.title" />
+                                        <label class="floating-label">Category</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <select class="form-control" name="currency" data-ng-model="category.typeCode">
+                                            <option value="INC">Income</option>
+                                            <option value="EXP">Expensise</option>
+                                        </select>
+                                        <label class="floating-label">Type</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="category.title == '' || category.typeCode == ''" data-ng-click="saveChanges()">Save</button>
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="removeCategoryForm" aria-hidden="true" aria-labelledby="removeCategoryForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Category removing</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        We are going to remove <strong>{{category.title}}</strong> category. Are you sure?
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeCategory()">Remove</button>
+
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                {{message}}
+            </div>
+
+            <div class="table-responsive" ng-show="categories.length > 0">
+                <table class="table table-analytics m-b-0 text-nowrap">
+                    <thead>
+                    <th>TP</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="category in categories">
+                            <td style="vertical-align:middle">
+                                <i data-ng-show="category.typeCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important; vertical-align:middle"></i>
+                                <i data-ng-show="category.typeCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important;vertical-align:middle">&nbsp;</i>
+                                <i data-ng-show="category.typeCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important;vertical-align:middle"></i>
+                            </td>
+                            <td style="vertical-align:middle"><span>{{ category.typeCode }}</span></td>
+                            <td style="vertical-align:middle">
+                                <span>{{ category.title }}</span>
+                            </td>
+
+                            <td style="vertical-align:middle">
+                                <a ng-click="showModal(category)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
+                                <a ng-click="showRemoveModal(category)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <p>to add new category, click</p>
+                <button class="btn btn-outline btn-warning  btn-direction btn-up " ng-click="showModal()">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    NEW CATEGORY
+                </button>
+            </div>
+            </div>
+        </div>
+</div>
