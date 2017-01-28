@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+app.factory('authService', ['$http', '$q', 'localStorageService', '$location', 'ngAuthSettings', function ($http, $q, localStorageService, $location, ngAuthSettings) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
@@ -45,6 +45,11 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             else {
                 localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
             }
+            // alx
+            if (getParameterByName('state')) {
+                window.location = ngAuthSettings.apiAlxUri +
+                getParameterByName('state') + "&access_token=" + response.access_token + '|' + loginData.userName + "&token_type=Bearer";
+            }
             _authentication.isAuth = true;
             _authentication.userName = loginData.userName;
             _authentication.useRefreshTokens = loginData.useRefreshTokens;
@@ -76,12 +81,31 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         var authData = localStorageService.get('authorizationData');
         if (authData) {
+
+            // alx
+            if (getParameterByName('state'))
+            {
+                window.location = ngAuthSettings.apiAlxUri +
+                getParameterByName('state') + "&access_token=" + authData.token + '|' + authData.userName + "&token_type=Bearer";
+            }
+
             _authentication.isAuth = true;
             _authentication.userName = authData.userName;
             _authentication.useRefreshTokens = authData.useRefreshTokens;
         }
 
     };
+
+    function getParameterByName(name) {
+        var regexS = "[\\?&]" + name + "=([^&#]*)",
+      regex = new RegExp(regexS),
+      results = regex.exec(window.location.search);
+        if (results == null) {
+            return "";
+        } else {
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    }
 
     var _refreshToken = function () {
         var deferred = $q.defer();

@@ -10,19 +10,23 @@
         background-color: #5cd29d !important;
     }
 
-    .page-header { display: none;}
+    @media (max-width: 479px) {
+        .page-header {
+            display: none !important;
+        }
 
-    .site-navbar {
-        display: none;
+        .site-navbar {
+            display: none !important;
+        }
+
+        .site-menubar {
+            display: none !important;
+        }
+
+        .page-content {
+            padding: 0px 0px !important;
+        }
     }
-
-    .site-menubar {
-        display: none;
-    }
-
-    .page-content {
-    padding: 0px 0px !important;
-}
 </style>
 
 

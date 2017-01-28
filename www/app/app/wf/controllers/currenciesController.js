@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('currenciesController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal',  'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, $modal, currenciesService) {
+app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'currenciesService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, currenciesService) {
 
     // Method to Insert
     $scope.createCurrency = function () {
@@ -34,6 +34,7 @@ app.controller('currenciesController', ['$scope', '$routeParams', '$location', '
         $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
+            $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
         }, 2000);
     }

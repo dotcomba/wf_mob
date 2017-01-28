@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('categoriesController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal',  'categoriesService', function ($scope, $routeParams, $location, $timeout, $route, $modal, categoriesService) {
+app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'categoriesService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, categoriesService) {
 
     // Method to Insert
     $scope.createCategory = function () {
@@ -34,6 +34,7 @@ app.controller('categoriesController', ['$scope', '$routeParams', '$location', '
         $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
+            $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
         }, 2000);
     }

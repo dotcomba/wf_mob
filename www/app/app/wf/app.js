@@ -109,11 +109,13 @@ app.config(function ($routeProvider) {
 
 //var serviceBase = 'http://localhost:49213/';
 var serviceBase = 'https://server-wealthflow.azurewebsites.net/';
+var alxUri = 'https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M301DP3LUKK6ND#state=';
 
 //var serviceBase = 'http://dev-m5.cloudapp.net/';
 
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
+    apiAlxUri: alxUri,
     clientId: 'ngAuthApp'
 });
 

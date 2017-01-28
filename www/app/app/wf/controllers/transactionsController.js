@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('transactionsController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, currenciesService) {
+app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'currenciesService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, currenciesService) {
 
     // Method to Insert
     $scope.createTransaction = function (transactionCode) {
@@ -50,7 +50,7 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
         }
         else startInitTimer();
 
-        }, 100);
+        }, 1000);
     }
 
     var initFields = function () 
@@ -130,6 +130,12 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
         });
     }
     // ....
+    $rootScope.$on('neadTRANReload', function (event, msg) {
+        _accountsLoad();
+        _categoriesLoad();
+        _currenciesLoad();
+    });
+
 }]);
 
 

@@ -50,7 +50,7 @@
                                 </small>
                                 <a class="name">
                                     <span data-ng-show="transaction.transactionCode =='EXP'">
-                                        You had expensies for
+                                        You had expenses for
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category
                                     </span>
                                     <span data-ng-show="transaction.transactionCode =='INC'">
@@ -80,7 +80,7 @@
                     <button type="button" class="btn btn-floating btn-sm btn-warning" ng-click="go('/reportExpensises')">
                         <i class="icon wb-shopping-cart"></i>
                     </button>
-                    <span class="m-l-15 font-weight-400">EXPENSISES</span>
+                    <span class="m-l-15 font-weight-400">EXPENSES</span>
                     <div class="content-text text-xs-center m-b-0">
                         <i class="text-danger icon wb-triangle-up font-size-20" ng-show="dashboard.expensisesTrend > 0">
                         </i>
@@ -268,7 +268,7 @@
                         {{message}}
                     </div>
 
-                    <div class="modal-footer">
+                    <div class="modal-footer" ng-show="accounts.length <=2">
                         <p>If you want to add new account, click</p>
                         <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
                             <i class="icon wb-plus" aria-hidden="true"></i>
@@ -336,7 +336,7 @@
                                     {{ transaction.transactionValue | number:2 }}
                                  </span></small>
                                 <a class="name">
-                                 <span data-ng-show="transaction.transactionCode =='EXP'">You had expensies for 
+                                 <span data-ng-show="transaction.transactionCode =='EXP'">You had expenses for 
                                      <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category</span>
                                     <span data-ng-show="transaction.transactionCode =='INC'">You are registered income from 
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong></span>

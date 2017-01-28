@@ -6,7 +6,7 @@
     <div class="panel" id="all-transactions" ng-show="transactions.length > 0">
         <div class="panel-heading">
             <h3 class="panel-title">
-                Expensises
+                Expenses
             </h3>
             <div class="panel-actions panel-actions-keep">
                 <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
@@ -53,7 +53,7 @@
                                 </small>
                                 <a class="name">
                                     <span data-ng-show="transaction.transactionCode =='EXP'">
-                                        You had expensies for
+                                        You had expenses for
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category
                                     </span>
                                     <span data-ng-show="transaction.transactionCode =='INC'">

@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('accountsController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal',  'accountsService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, $modal, accountsService, currenciesService) {
+app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'accountsService', 'currenciesService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, accountsService, currenciesService) {
 
     // Method to Insert
     $scope.createAccount = function () {
@@ -34,6 +34,7 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
         $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
+            $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
         }, 2000);
     }

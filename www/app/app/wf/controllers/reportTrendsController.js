@@ -2,7 +2,7 @@
 app.controller('reportTrendsController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'dashboardService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, dashboardService, currenciesService) {
 
   $scope.trends = [];
-  $scope.series = ['Incomes', 'Expensises'];
+  $scope.series = ['Incomes', 'Expenses'];
   $scope.monthLookup = ["","January", "February", "March", "April", "May", "June", "July","August","September","Octomber","November","December"];
 
   $scope.labels = [];
