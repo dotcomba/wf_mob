@@ -4,6 +4,7 @@ app.controller('allstufController', ['$scope', '$routeParams', '$location', '$ti
     $scope.categories = [];
     $scope.categoriesLookup = {};
     $scope.transactions = [];
+    $scope.accountsLookup = {};
     $scope.accounts = [];
     $scope.message = "";
 
@@ -19,7 +20,12 @@ app.controller('allstufController', ['$scope', '$routeParams', '$location', '$ti
         });
 
             accountsService.getAccounts().then(function (results) {
-            $scope.accounts = results.data;
+                $scope.accounts = results.data;
+
+                for (var i = 0, len = $scope.accounts.length; i < len; i++) {
+                    $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
+                }
+
         }, function (error) {
             $scope.message = "Error on loading of accounts!";
         });

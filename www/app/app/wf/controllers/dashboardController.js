@@ -102,6 +102,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
         }, function (error) {
             $scope.message = "Error on loading of categories!";
+            startReloadTimer();
         });
 
     accountsService.getAccounts().then(function (results) {
@@ -118,6 +119,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
         }, function (error) {
             $scope.message = "Error on loading!";
+            startReloadTimer();
         });
 
     accountsService.getAccountsHome().then(function (results) {
@@ -133,6 +135,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
         }, function (error) {
             $scope.message = "Error on loading!";
+            startReloadTimer();
         });
 
     dashboardService.getDashboard().then(function (results) {
@@ -140,15 +143,27 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             $scope.options1.title.text = $scope.homeCurrency + ' ' + $scope.dashboard.balanceValue;
         }, function (error) {
             $scope.message = "Error on loading!";
+            startReloadTimer();
         });
 
     transactionsService.getTransactions().then(function (results) {
             $scope.transactions = results.data;
         }, function (error) {
             $scope.message = "Error on loading!";
+            startReloadTimer();
         });
 
 
+
+    var startReloadTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+            //$location.path('/dashboard');
+            $route.reload();
+        }, 2000);
+    }
 
 
     // ....

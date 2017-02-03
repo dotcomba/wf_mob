@@ -167,8 +167,8 @@
         </div>-->
 
 
-            <div class="col-xl-4 col-md-4 col-xs-12 info-panel">
-                <div style="max-width:300px;">
+            <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="dashboard.balanceValue > 0">
+                <div style="max-width:300px;" >
                     <canvas id="doughnut" class="chart chart-doughnut" chart-options="options1"
                             chart-data="data" chart-labels="labels"></canvas>
 
@@ -278,6 +278,14 @@
                     </div>
 
                 </div>
+            </div>
+
+            <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="dashboard.balanceValue <= 0">
+                <blockquote class="blockquote cover-quote">
+                    Your current balance is null. <br />
+                    Try add new income. <br />
+                    Click on <span style="color:#3aa677">big green button</span> right bottom to find button <b><span style="color:#33b6c5">$</span></b> to put new income.
+                </blockquote>
             </div>
 
             </div>

@@ -89,7 +89,7 @@
                 <i class="icon wb-more-horizontal" aria-hidden="true"></i>
             </button>
             <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
-                <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow"> Wealtflow
+                <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow"> 
             </div>
         </div>
 
@@ -194,7 +194,7 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="JavaScript:$('#addExpensiesForm').modal()">
                                         <i class="site-menu-icon ti-shopping-cart"></i>
-                                        <span class="site-menu-title">Add expenses</span>
+                                        <span class="site-menu-title">Add expense</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
@@ -216,7 +216,7 @@
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="#/allstuf">
-                                        <span class="site-menu-title">All stuf</span>
+                                        <span class="site-menu-title">All stuff</span>
                                     </a>
                                 </li>
 
@@ -306,7 +306,7 @@
                                     <form role="form">
                                         <div class="form-group form-material row" data-plugin="formMaterial">
                                             <div class="col-md-3 col-xs-6">
-                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId">
+                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId" >
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
                                                 <label class="floating-label">Category</label>
@@ -332,8 +332,8 @@
                                             </div>
                                             <div class="col-md-10 col-xs-10">
 
-                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autofocus />
-                                                <label class="floating-label">Ammont</label>
+                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autocomplete="off" />
+                                                <label class="floating-label">Amount</label>
                                             </div>
                                         </div>
 
@@ -396,7 +396,7 @@
                                             <div class="col-md-10 col-xs-10">
                                                 <input type="text" class="form-control empty" name="income_ammount"
                                                        data-ng-model="transaction.transactionValue">
-                                                <label class="floating-label">Ammont</label>
+                                                <label class="floating-label">Amount</label>
                                             </div>
                                         </div>
                                     </form>
@@ -437,7 +437,7 @@
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
                                             <input type="text" class="form-control empty"
                                                    name="transfer_ammount" data-ng-model="transaction.transactionValue">
-                                            <label class="floating-label">Ammont</label>
+                                            <label class="floating-label">Amount</label>
                                         </div>
                                     </form>
                                 </div>
@@ -470,7 +470,7 @@
                 <i class="icon ti-credit-card" aria-hidden="true"></i>
             </button>
 
-            <button type="button" data-target="#addExpensiesForm" data-toggle="modal" onclick="Javascript:CloseButtons();" class="btn-raised btn btn-warning btn-floating animation-slide-bottom">
+            <button type="button" data-target="#addExpensiesForm" data-toggle="modal" onclick="Javascript: CloseButtons()" class="btn-raised btn btn-warning btn-floating animation-slide-bottom">
                 <i class="icon ti-shopping-cart" aria-hidden="true"></i>
             </button>
             <button type="button" data-target="#addIncomeForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-info btn-floating animation-slide-bottom">
@@ -480,10 +480,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="site-footer" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+    <footer class="site-footer" data-ng-show="authentication.isAuth && authentication.isSetup">
         <div class="site-footer-legal">© 2017 <a href="http://www.wealthflowapp.com">Wealthflow</a></div>
         <div class="site-footer-right">
-            we will encounte <i class="green-600 wb wb-eye"></i> what <a href="https://my-wealthflow.azurewebsites.net/#/dashboard"> matters for you</a>
+            we will count <i class="green-600 wb wb-eye"></i> what <a href="https://my-wealthflow.azurewebsites.net/#/dashboard"> matters for you</a>
         </div>
     </footer>
 

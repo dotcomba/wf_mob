@@ -35,7 +35,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             $timeout.cancel(timer);
             //$location.path('/dashboard');
             $route.reload();
-        }, 2000);
+        }, 1000);
     }
 
     var startInitTimer = function () {
@@ -83,6 +83,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
 
         }, function (error) {
             $scope.message = "Error on loading!";
+            startInitTimer();
         });
     }
 
@@ -109,6 +110,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
 
         }, function (error) {
             $scope.message = "Error on loading of categories!";
+            startInitTimer();
         });
     }
 
@@ -118,6 +120,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             $scope.accounts = results.data;
         }, function (error) {
             $scope.message = "Error on loading of accounts!";
+            startInitTimer();
         });
     }
 
@@ -127,6 +130,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             $scope.transactions = results.data;
         }, function (error) {
             $scope.message = "Error on loading of transactions!";
+            startInitTimer();
         });
     }
     // ....
