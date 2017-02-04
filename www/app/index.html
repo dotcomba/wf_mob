@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="app/global/fonts/themify/themify.css">
     <link rel="stylesheet" href="app/global/fonts/octicons/octicons.css">
     <link rel="stylesheet" href="app/global/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="app/global/vendor/intro-js/introjs.css">
     <!--[if lt IE 9]>
       <script src="app/global/vendor/html5shiv/html5shiv.min.js"></script>
       <![endif]-->
@@ -80,7 +81,7 @@
         
         <div class="navbar-header">
             <button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided"
-                    data-toggle="menubar">
+                    data-toggle="menubar" id="toggleMenubar2">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="hamburger-bar"></span>
             </button>
@@ -92,7 +93,7 @@
                 <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow"> 
             </div>
         </div>
-
+     
         <div class="navbar-container container-fluid">
             <!-- Navbar Collapse -->
             <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
@@ -121,6 +122,7 @@
                         </a>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+                            <a class="dropdown-item site-tour-trigger" href="javascript:void(0)" role="menuitem"><i class="icon oi-versions" aria-hidden="true"></i> Tour</a>
                             <div class="dropdown-divider" role="presentation"></div>
                             <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
                         </div>
@@ -460,7 +462,7 @@
         </div>
     </div>
 
-    <div class="site-action" data-plugin="actionBtn" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+    <div class="site-action" id="actionBtn" data-plugin="actionBtn" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating">
             <i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
             <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
@@ -518,6 +520,8 @@
     <script src="app/global/js/Plugin/slidepanel.js"></script>
     <script src="app/global/js/Plugin/matchheight.js"></script>
     <script src="app/global/js/Plugin/panel.js"></script>
+    <script src="app/global/vendor/intro-js/intro.js"></script>
+    <script src="app/assets/js/config/tour.js"></script>
 
     <script>
         function CloseButtons()

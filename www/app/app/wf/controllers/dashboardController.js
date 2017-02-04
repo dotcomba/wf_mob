@@ -141,6 +141,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
     dashboardService.getDashboard().then(function (results) {
             $scope.dashboard = results.data;
             $scope.options1.title.text = $scope.homeCurrency + ' ' + $scope.dashboard.balanceValue;
+            if ($scope.dashboard.balanceValue == 0)
+                introJs().setOptions(Config.get('tour')).start();
         }, function (error) {
             $scope.message = "Error on loading!";
             startReloadTimer();

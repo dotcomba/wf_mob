@@ -35,7 +35,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             $timeout.cancel(timer);
             //$location.path('/dashboard');
             $route.reload();
-        }, 1000);
+        }, 500);
     }
 
     var startInitTimer = function () {
@@ -47,6 +47,9 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
         _accountsLoad();
         _categoriesLoad();
         _currenciesLoad();
+        $scope.savedSuccessfully = false;
+        $scope.message = "";
+        $timeout.cancel(timer);
         }
         else startInitTimer();
 

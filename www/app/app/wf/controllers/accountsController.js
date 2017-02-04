@@ -36,7 +36,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
             $timeout.cancel(timer);
             $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
-        }, 2000);
+        }, 500);
     }
 
     var initFields = function () 
