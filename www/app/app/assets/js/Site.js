@@ -298,7 +298,7 @@
         // let loadingType = 'default';
         $BODY.animsition({
           inClass: 'fade-in',
-          inDuration: 200,
+          inDuration: 2000,
           loading: true,
           loadingClass: 'loader-overlay',
           loadingParentElement: 'html',

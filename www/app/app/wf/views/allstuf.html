@@ -3,7 +3,7 @@
 
 
 
-    <div class="panel" id="all-transactions" ng-show="transactions.length > 0">
+    <div class="panel" id="all-transactions">
         <div class="panel-heading">
             <h3 class="panel-title">
                 All stuff
@@ -14,7 +14,7 @@
 
         </div>
         <div class="panel-body">
-            <ul class="list-group list-group-dividered list-group-full">
+            <ul class="list-group list-group-dividered list-group-full" ng-show="transactions.length > 0">
 
                 <li class="list-group-item" data-ng-repeat="transaction in transactions">
                     <div class="media">
@@ -73,6 +73,11 @@
                 </li>
 
             </ul>
+
+            <div class="parent-no-data" ng-show="transactions.length == 0">
+                <div class="chield-no-data">here is no data</div>
+            </div>
+
         </div>
     </div>
 

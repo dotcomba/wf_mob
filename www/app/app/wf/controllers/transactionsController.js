@@ -29,13 +29,14 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
 
     var startTimer = function () {
         var timer = $timeout(function () {
-        _accountsLoad();
+            _accountsLoad();
+            _categoriesLoad();
         $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
             //$location.path('/dashboard');
             $route.reload();
-        }, 500);
+        }, 1000);
     }
 
     var startInitTimer = function () {
@@ -62,6 +63,7 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             accountSourceId: '',
             accountDestinationId: '',
             categoryId: 'null',
+            newCategoryTitle: '',
             currencyCode: $scope.homeCurrency,
             transactionValue: '',
             transactionCode: 'TRAN'

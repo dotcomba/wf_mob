@@ -13,7 +13,7 @@
         </div>
         <div class="panel-body">
 
-            <div class="col-xl-4 col-md-4 col-xs-12 info-panel">
+            <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="transactions.length > 0">
                 <div style="max-width:300px;">
                     <canvas id="pie" class="chart chart-polar-area"
                             chart-data="data" chart-labels="labels" chart-options="options1"></canvas> 
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-8 col-md-8 col-xs-12 info-panel">
+            <div class="col-xl-8 col-md-8 col-xs-12 info-panel" ng-show="transactions.length > 0">
 
                 <div class="table-responsive">
                     <table class="table table-analytics m-b-0 text-nowrap">
@@ -52,6 +52,9 @@
 
             </div>
 
+            <div class="parent-no-data" ng-show="transactions.length == 0">
+                <div class="chield-no-data">here is no data</div>
+            </div>
            
         </div>
     </div>
