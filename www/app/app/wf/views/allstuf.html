@@ -14,9 +14,9 @@
 
         </div>
         <div class="panel-body">
-            <ul class="list-group list-group-dividered list-group-full" ng-show="transactions.length > 0">
-
-                <li class="list-group-item" data-ng-repeat="transaction in transactions">
+            <ul class="list-group list-group-dividered list-group-full">
+                
+                <li class="list-group-item" data-ng-repeat="transaction in transactions" ng-show="transactions.length > 0">
                     <div class="media">
                         <div class="media-left">
                             <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
@@ -72,13 +72,17 @@
                     </div>
                 </li>
 
+                <div class="parent-no-data" ng-show="transactions.length == 0">
+                    <div class="chield-no-data">there is no data</div>
+                </div>
+
             </ul>
 
-            <div class="parent-no-data" ng-show="transactions.length == 0">
-                <div class="chield-no-data">here is no data</div>
-            </div>
+
 
         </div>
+
+
     </div>
 
 

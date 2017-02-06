@@ -12,8 +12,11 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             initFields();
         },
          function (response) {
-            if (response.status == 400)
-                $scope.message = "Error in process of creating: " + response.data.message;
+             if (response.status == 400)
+                 if (response.data.message.indexOf('Lack of money') != -1)
+                     $scope.message = 'Lack of money to make this transaction. Check amount and try again';
+                 else
+                     $scope.message = "Error in process of creating: " + response.data.message;
             else
             {
                  var errors = [];

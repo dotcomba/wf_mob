@@ -49,6 +49,39 @@ app.factory('transactionsService', ['$http', 'ngAuthSettings', function ($http, 
     };
     transactionsServiceFactory.getReportExpensisesTransactions = _getReportExpensisesTransactions;
 
+    //
+    var _getReportPeriodsIncome = function () {
+
+        return $http.get(serviceBase + 'api/transactions/getReportPeriodsINC').then(function (results) {
+            return results;
+        });
+    };
+    transactionsServiceFactory.getReportPeriodsIncome = _getReportPeriodsIncome;
+
+    var _getReportPeriodsExpense = function () {
+
+        return $http.get(serviceBase + 'api/transactions/getReportPeriodsEXP').then(function (results) {
+            return results;
+        });
+    };
+    transactionsServiceFactory.getReportPeriodsExpense = _getReportPeriodsExpense;
+
+    var _getReportExpensesByPeriod = function (id) {
+
+        return $http.get(serviceBase + 'api/transactions/getReportExpensesByPeriod/' + id).then(function (results) {
+            return results;
+        });
+    };
+    transactionsServiceFactory.getReportExpensesByPeriod = _getReportExpensesByPeriod;
+
+    var _getReportIncomesByPeriod = function (id) {
+
+        return $http.get(serviceBase + 'api/transactions/getReportIncomesByPeriod/' + id).then(function (results) {
+            return results;
+        });
+    };
+    transactionsServiceFactory.getReportIncomesByPeriod = _getReportIncomesByPeriod;
+
     return transactionsServiceFactory;
 
 }]);
