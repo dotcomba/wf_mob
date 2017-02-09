@@ -34,6 +34,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
     settingsService.getUserSettings().then(function (results) {
         $scope.settings = results.data;
+
     }, function (error) {
 
         $scope.settings = {
@@ -42,7 +43,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             isLatestTransactionWP: true,
             isTrendsWP: true,
             isBalanceWP: true,
-            isTransactionLogWP: true
+            isTransactionLogWP: true,
+            avatarNumber: 0
         };
         updateUserSettings();
 

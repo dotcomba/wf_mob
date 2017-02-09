@@ -1,4 +1,4 @@
-﻿app.controller('settingsController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'settingsService',  function ($scope, $routeParams, $location, $timeout, $route, $authService, settingsService) {
+﻿app.controller('settingsController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService) {
 
     var startTimer = function () {
         var timer = $timeout(function () {
@@ -16,7 +16,8 @@
             isLatestTransactionWP : true,
             isTrendsWP : true,
             isBalanceWP : true,
-            isTransactionLogWP : true
+            isTransactionLogWP: true,
+            avatarNumber: 0
         };
     }
 
@@ -50,12 +51,16 @@
         $scope.updateUserSettings();
     }
 
-    settingsService.getUserSettings().then(function (results) {
-        $scope.settings = results.data;
-        initControls();
-    }, function (error) {
-        $scope.message = "Error on loading!";
-    });
+    var _settingsLoad = function (lb) {
+        settingsService.getUserSettings().then(function (results) {
+            $scope.settings = results.data;
+            if (lb == null) initControls();
+        }, function (error) {
+            $scope.message = "Error on loading!";
+        });
+    }
+
+    _settingsLoad(null);
 
     $scope.updateUserSettings = function () {
         settingsService.updateUserSettings($scope.settings.id, $scope.settings).then(function (response) {
@@ -77,6 +82,11 @@
              }
          });
     };
+
+    $rootScope.$on('neadSETTINGSReload', function (event, msg) {
+        _settingsLoad();
+        
+    });
 
     // ....
 }]);

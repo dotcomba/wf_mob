@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authService', ['$http', '$q', 'localStorageService', '$location', 'ngAuthSettings', function ($http, $q, localStorageService, $location, ngAuthSettings) {
+app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '$rootScope', 'ngAuthSettings', function ($http, $q, localStorageService, $location, $rootScope, ngAuthSettings) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
@@ -22,6 +22,30 @@ app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '
         _logOut();
 
         return $http.post(serviceBase + 'api/account/register', registration).then(function (response) {
+            return response;
+        });
+
+    };
+
+    var _changePassword = function (cp) {
+
+        return $http.post(serviceBase + 'api/account/changePassword', cp).then(function (response) {
+            return response;
+        });
+
+    };
+
+    var _forgotPassword = function (cp) {
+
+        return $http.post(serviceBase + 'api/account/forgotPassword', cp).then(function (response) {
+            return response;
+        });
+
+    };
+
+    var _resetPassword = function (cp) {
+
+        return $http.post(serviceBase + 'api/account/resetPassword', cp).then(function (response) {
             return response;
         });
 
@@ -55,6 +79,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '
             _authentication.useRefreshTokens = loginData.useRefreshTokens;
             /// если нотификации доступні то мы узнаем об этом в момент аутентификации или уже после нее. подумать потом где ????
             _authentication.isNotification = false;
+
+            $rootScope.$broadcast('neadTRANReload', '');
+            $rootScope.$broadcast('neadSETTINGSReload', '');
 
             deferred.resolve(response);
 
@@ -183,6 +210,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '
     };
 
     authServiceFactory.saveRegistration = _saveRegistration;
+    authServiceFactory.changePassword = _changePassword;
+    authServiceFactory.resetPassword = _resetPassword;
+    authServiceFactory.forgotPassword = _forgotPassword;
     authServiceFactory.login = _login;
     authServiceFactory.logOut = _logOut;
     authServiceFactory.fillAuthData = _fillAuthData;

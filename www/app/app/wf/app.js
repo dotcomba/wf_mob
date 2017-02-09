@@ -24,13 +24,23 @@ app.config(function ($routeProvider) {
     });
 
     $routeProvider.when("/forgot", {
-        controller: "forgotController",
+        controller: "forgotPasswordController",
         templateUrl: "app/wf/views/forgot-password.html"
     });
 
     $routeProvider.when("/signup", {
         controller: "signupController",
         templateUrl: "app/wf/views/signup.html"
+    });
+
+    $routeProvider.when("/changePassword", {
+        controller: "changePasswordController",
+        templateUrl: "app/wf/views/change-password.html"
+    });
+
+    $routeProvider.when("/resetPassword", {
+        controller: "resetPasswordController",
+        templateUrl: "app/wf/views/reset-password.html"
     });
 
     $routeProvider.when("/refresh", {
@@ -71,6 +81,11 @@ app.config(function ($routeProvider) {
     $routeProvider.when("/settings", {
         controller: "settingsController",
         templateUrl: "app/wf/views/settings.html"
+    });
+
+    $routeProvider.when("/profile", {
+        controller: "profileController",
+        templateUrl: "app/wf/views/profile.html"
     });
 
     $routeProvider.when("/currencies", {

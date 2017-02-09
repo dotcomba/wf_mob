@@ -27,9 +27,22 @@ app.factory('authInterceptorService', ['$q', '$injector','$location', 'localStor
                 }
             }
             authService.logOut();
-            $location.path('/login');
+            //if (getParameterByName('code') == null) {
+                $location.path('/login');
+            //}
         }
         return $q.reject(rejection);
+    }
+
+    function getParameterByName(name) {
+        var regexS = "[\\?&]" + name + "=([^&#]*)",
+      regex = new RegExp(regexS),
+      results = regex.exec(window.location.search);
+        if (results == null) {
+            return "";
+        } else {
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
     }
 
     authInterceptorServiceFactory.request = _request;

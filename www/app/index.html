@@ -66,6 +66,10 @@
     <script src="app/wf/controllers/wizardController.js?v=2"></script>
     <script src="app/wf/controllers/allstufController.js?v=2"></script>
     <script src="app/wf/controllers/settingsController.js?v=2"></script>
+    <script src="app/wf/controllers/profileController.js?v=2"></script>
+    <script src="app/wf/controllers/changePasswordController.js?v=2"></script>
+    <script src="app/wf/controllers/forgotPasswordController.js?v=2"></script>
+    <script src="app/wf/controllers/resetPasswordController.js?v=2"></script>
 
     <style type="text/css">
         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -114,14 +118,15 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link navbar-avatar" data-toggle="dropdown" href="" aria-expanded="false"
-                           data-animation="scale-up" role="button" onclick="closeU()">
+                           data-animation="scale-up" role="button" onclick="closeU()"   >
                             <span class="avatar avatar-online">
-                                <img src="app/global/portraits/5.jpg" alt="...">
+                                <img ng-controller="settingsController" ng-cloak src="app/global/portraits/{{settings.avatarNumber}}.png" alt="...">
                                 <i></i>
                             </span>
                         </a>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item site-tour-trigger" onclick="closeU('rm')" role="menuitem"><i class="icon oi-versions" aria-hidden="true"></i> Tour</a>
+                            <a class="dropdown-item" onclick="closeU('rm')" href="#/profile" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
                             <a class="dropdown-item" href="#/settings" onclick="closeU('rm')" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
                             <div class="dropdown-divider" role="presentation"></div>
                             <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>

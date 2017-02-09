@@ -60,7 +60,7 @@
                         </div>
                         <a class="pull-xs-right" href="#/forgot">Forgot password?</a>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40"  data-ng-click="login()">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-disabled="loginData.userName == '' || loginData.password == ''"  data-ng-click="login()">
                       Sign In
               
                     </button>
