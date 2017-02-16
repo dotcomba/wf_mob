@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('allstufController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService',  function ($scope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService) {
+app.controller('allstufController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'settingsService', '$translate', function ($scope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, settingsService, $translate) {
 
     $scope.categories = [];
     $scope.categoriesLookup = {};
@@ -7,6 +7,18 @@ app.controller('allstufController', ['$scope', '$routeParams', '$location', '$ti
     $scope.accountsLookup = {};
     $scope.accounts = [];
     $scope.message = "";
+
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['error_on_loading']).then(function (translations) {
+    $scope.translations = translations;
+}, null);
 
     categoriesService.getCategories().then(function (results) {
             $scope.categories = results.data;
@@ -16,7 +28,7 @@ app.controller('allstufController', ['$scope', '$routeParams', '$location', '$ti
         }
 
         }, function (error) {
-            $scope.message = "Error on loading of categories!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of categories!";
         });
 
             accountsService.getAccounts().then(function (results) {
@@ -27,13 +39,13 @@ app.controller('allstufController', ['$scope', '$routeParams', '$location', '$ti
                 }
 
         }, function (error) {
-            $scope.message = "Error on loading of accounts!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of accounts!";
         });
 
          transactionsService.getAllTransactions().then(function (results) {
             $scope.transactions = results.data;
         }, function (error) {
-            $scope.message = "Error on loading of transactions!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of transactions!";
         });
     // ....
 }]);

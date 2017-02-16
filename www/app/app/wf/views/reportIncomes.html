@@ -6,7 +6,7 @@
 
     <div class="panel" id="report-incomes">
         <div class="panel-heading">
-            <h3 class="panel-title">Incomes</h3>
+            <h3 class="panel-title" translate="repIncomes.Incomes">Incomes</h3>
             <div class="panel-actions panel-actions-keep">
                 <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
             </div>
@@ -50,8 +50,8 @@
                     <table class="table table-analytics m-b-0 text-nowrap">
                         <thead>
                             <tr>
-                                <th class="language">Category</th>
-                                <th class="vists">Amount,   <span data-ng-show="homeCurrency =='USD'">$</span>
+                                <th class="language" translate="repIncomes.Category">Category</th>
+                                <th class="vists">{{'repIncomes.Amount' | translate}},   <span data-ng-show="homeCurrency =='USD'">$</span>
                                     <span data-ng-show="homeCurrency =='EUR'">&euro;</span>
                                     <span data-ng-show="homeCurrency =='RUB'" class="fa-rub"></span>
                                     <span data-ng-show="homeCurrency !='USD'
@@ -74,7 +74,7 @@
             </div>
 
             <div class="parent-no-data" ng-show="transactions.length == 0">
-                <div class="chield-no-data">there is no data</div>
+                <div class="chield-no-data" translate="repIncomes.there_is_no_data">there is no data</div>
             </div>
            
         </div>

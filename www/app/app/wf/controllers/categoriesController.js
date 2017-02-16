@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'categoriesService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, categoriesService) {
+app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'categoriesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, categoriesService, settingsService, $translate) {
 
     // Method to Insert
     $scope.createCategory = function () {
@@ -7,13 +7,14 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
         categoriesService.createCategory($scope.category).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Category has been created!";
+            $scope.message = $scope.translations.category_has_been_created; //"Category has been created!";
             startTimer();
             initFields();
         },
          function (response) {
             if (response.status == 400)
-                $scope.message = "Error in process of creating: " + response.data.message;
+                $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
+                    + response.data.message;
             else
             {
                  var errors = [];
@@ -22,7 +23,8 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error in process of creating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
+                     + errors.join(' ');
             }
          });
     };
@@ -76,13 +78,14 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
         categoriesService.updateCategory($scope.category.id, $scope.category).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Category info has been updated!";
+            $scope.message = $scope.translations.category_info_has_been_updated; //"Category info has been updated!";
             startTimer();
 
         },
          function (response) {
             if (response.status == 400)
-                $scope.message = "Error in process of updating: " + response.data.message;
+                $scope.message = $scope.translations.error_on_category_updating //"Error in process of updating: "
+                    + response.data.message;
             else
             {
                  var errors = [];
@@ -91,7 +94,8 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error on category updating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_on_category_updating //"Error on category updating: "
+                     + errors.join(' ');
             }
          });
     };
@@ -100,11 +104,12 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
     {
       categoriesService.deleteCategory($scope.category.id).then(function (response) {
                     $scope.savedSuccessfully = true;
-                    $scope.message = "Category has been removed!";
+                    $scope.message = $scope.translations.category_has_been_removed; //"Category has been removed!";
                     startTimer();
 
                 }, function (err) {
-                    $scope.message = "Error on category deleting: " + err;
+                    $scope.message = $scope.translations.error_on_category_deleting //"Error on category deleting: "
+                    + err;
                 });
     }
 
@@ -114,12 +119,25 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
     $scope.savedSuccessfully = false;
     $scope.message = "";
 
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['error_on_loading', 'error_in_process_of_creating', 'error_on_category_deleting',
+    'category_has_been_removed','error_on_category_updating','category_info_has_been_updated', 'category_has_been_created']).then(function (translations) {
+        $scope.translations = translations;
+    }, null);
+
     initFields();
 
     categoriesService.getCategories().then(function (results) {
             $scope.categories = results.data;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
         });
 
 

@@ -1,4 +1,4 @@
-﻿app.controller('settingsController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService) {
+﻿app.controller('settingsController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', '$translate', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService, $translate) {
 
     var startTimer = function () {
         var timer = $timeout(function () {
@@ -17,7 +17,8 @@
             isTrendsWP : true,
             isBalanceWP : true,
             isTransactionLogWP: true,
-            avatarNumber: 0
+            avatarNumber: 0,
+            userLang: 'en'
         };
     }
 
@@ -39,6 +40,18 @@
     $scope.savedSuccessfully = false;
     $scope.message = "";
 
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['error_on_loading', 'error_on_settings_updating']).then(function (translations) {
+        $scope.translations = translations;
+    }, null);
+
     initFields();
 
     $scope.checkboxClick = function (id)
@@ -56,7 +69,7 @@
             $scope.settings = results.data;
             if (lb == null) initControls();
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
         });
     }
 
@@ -70,7 +83,8 @@
         },
          function (response) {
              if (response.status == 400)
-                 $scope.message = "Error in process of updating: " + response.data.message;
+                 $scope.message = $scope.translations.error_on_settings_updating //"Error in process of updating: "
+                     + response.data.message;
              else {
                  var errors = [];
                  for (var key in response.data.modelState) {
@@ -78,7 +92,8 @@
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error on settings updating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_on_settings_updating //"Error on settings updating: "
+                     + errors.join(' ');
              }
          });
     };

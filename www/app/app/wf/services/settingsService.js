@@ -23,6 +23,12 @@ app.factory('settingsService', ['$http', 'ngAuthSettings', function ($http, ngAu
         return result;
     }
 
+    settingsServiceFactory.getUserLang = function () {
+        return $http.get(serviceBase + 'api/settings').then(function (results) {
+            return results;
+        });
+    };
+
     return settingsServiceFactory;
 
 }]);

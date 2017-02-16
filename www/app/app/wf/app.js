@@ -1,5 +1,5 @@
 ﻿
-var app = angular.module('WFApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'ui.bootstrap', 'chart.js']);
+var app = angular.module('WFApp', ['pascalprecht.translate', 'ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'ui.bootstrap', 'chart.js']);
 
 app.config(function ($routeProvider) {
 
@@ -136,6 +136,17 @@ app.constant('ngAuthSettings', {
 
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
+});
+
+app.config(function ($translateProvider) {
+    $translateProvider
+
+            .useStaticFilesLoader({
+                prefix: 'app\\scripts\\translator\\langs\\',
+                suffix: '.json'
+            })
+            .preferredLanguage('en')
+            .useSanitizeValueStrategy('escape');
 });
 
 app.run(['authService', function (authService) {

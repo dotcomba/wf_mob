@@ -44,11 +44,11 @@
                 <form role="form">
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="email" class="form-control" name="email" data-ng-model="loginData.userName" autofocus/>
-                        <label class="floating-label">Email</label>
+                        <label class="floating-label" translate="login.Email">Email</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="password" class="form-control" name="password" data-ng-model="loginData.password" />
-                        <label class="floating-label">Password</label>
+                        <label class="floating-label" translate="login.Password">Password</label>
                     </div>
 
 
@@ -56,11 +56,11 @@
                     <div class="form-group clearfix">
                         <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-xs-left">
                             <input type="checkbox" id="inputCheckbox" name="remember">
-                            <label for="inputCheckbox">Remember me</label>
+                            <label for="inputCheckbox" translate="login.Remember_me">Remember me</label>
                         </div>
-                        <a class="pull-xs-right" href="#/forgot">Forgot password?</a>
+                        <a class="pull-xs-right" href="#/forgot" translate="login.Forgot_password">Forgot password?</a>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-disabled="loginData.userName == '' || loginData.password == ''"  data-ng-click="login()">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-disabled="loginData.userName == '' || loginData.password == ''"  data-ng-click="login()" translate="login.Sign_In">
                       Sign In
               
                     </button>
@@ -71,7 +71,7 @@
                 <div data-ng-hide="message == ''" class="alert alert-danger">
                     {{message}}
                 </div>
-                <p>Still no account? Please go to <a href="#/signup">Sign up</a></p>
+                <p>{{'login.Still_no_account_Please_go_to' | translate}} <a href="#/signup" translate="login.Sign_up">Sign up</a></p>
             </div>
 
 

@@ -71,6 +71,17 @@
     <script src="app/wf/controllers/forgotPasswordController.js?v=2"></script>
     <script src="app/wf/controllers/resetPasswordController.js?v=2"></script>
 
+    <script src="app/scripts/translator/translate.js"></script>
+    <script src="app/scripts/translator/service/default-interpolation.js"></script>
+    <script src="app/scripts/translator/service/loader-static-files.js"></script>
+    <script src="app/scripts/translator/service/storage-key.js"></script>
+    <script src="app/scripts/translator/service/storage-local.js"></script>
+    <script src="app/scripts/translator/service/storage-cookie.js"></script>
+    <script src="app/scripts/translator/service/sanitization.js"></script>
+    <script src="app/scripts/translator/service/translate.js"></script>
+    <script src="app/scripts/translator/directive/translate.js"></script>
+    <script src="app/scripts/translator/filter/translate.js"></script>
+
     <style type="text/css">
         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
             display: none !important;
@@ -125,11 +136,11 @@
                             </span>
                         </a>
                         <div class="dropdown-menu" role="menu">
-                            <a class="dropdown-item site-tour-trigger" onclick="closeU('rm')" role="menuitem"><i class="icon oi-versions" aria-hidden="true"></i> Tour</a>
-                            <a class="dropdown-item" onclick="closeU('rm')" href="#/profile" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
-                            <a class="dropdown-item" href="#/settings" onclick="closeU('rm')" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+                            <a class="dropdown-item site-tour-trigger" onclick="closeU('rm')" role="menuitem"><i class="icon oi-versions" aria-hidden="true"></i> <span translate="menu.Tour">Tour</span></a>
+                            <a class="dropdown-item" onclick="closeU('rm')" href="#/profile" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> <span translate="menu.Profile">Profile</span></a>
+                            <a class="dropdown-item" href="#/settings" onclick="closeU('rm')" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> <span translate="menu.Settings">Settings</span></a>
                             <div class="dropdown-divider" role="presentation"></div>
-                            <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+                            <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> <span translate="menu.Logout">Logout</span></a>
                         </div>
                     </li>
 
@@ -154,7 +165,7 @@
                         <li class="site-menu-item has-sub">
                             <a href="">
                                 <i class="site-menu-icon wb-grid-4" aria-hidden="true"></i>
-                                <span class="site-menu-title">Accounts</span>
+                                <span translate="menu.accounts" class="site-menu-title">Accounts</span>
                                 <!--<div class="site-menu-badge">
                                     <span data-ng-controller="dashboardController" class="tag tag-pill tag-info">$ {{ dashboard.balanceValue | number:2 }}</span>
                                 </div>-->
@@ -165,7 +176,7 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="JavaScript:$('#makeTransferForm').modal()">
                                         <i class="site-menu-icon ti-credit-card"></i>
-                                        <span class="site-menu-title">Make transfer</span>
+                                        <span translate="menu.Make_transfer" class="site-menu-title">Make transfer</span>
                                     </a>
                                 </li>
 
@@ -183,7 +194,7 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="#/accounts" onclick="closeU()">
                                         <i class="site-menu-icon fa-gear"></i>
-                                        <span class="site-menu-title">Manage accounts</span>
+                                        <span translate="menu.Manage_accounts" class="site-menu-title">Manage accounts</span>
                                     </a>
                                 </li>
 
@@ -193,7 +204,7 @@
                         <li class="site-menu-item has-sub">
                             <a href="javascript:void(0)">
                                 <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
-                                <span class="site-menu-title">Transactions</span>
+                                <span translate="menu.Transactions" class="site-menu-title">Transactions</span>
                                 <span class="site-menu-arrow"></span>
                             </a>
                             <ul class="site-menu-sub">
@@ -201,29 +212,29 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="JavaScript:$('#addExpensiesForm').modal()">
                                         <i class="site-menu-icon ti-shopping-cart"></i>
-                                        <span class="site-menu-title">Add expense</span>
+                                        <span translate="menu.Add_expense" class="site-menu-title">Add expense</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="Javascript:$('#addIncomeForm').modal()">
                                         <i class="site-menu-icon fa-dollar"></i>
-                                        <span class="site-menu-title">Add income</span>
+                                        <span translate="menu.Add_income" class="site-menu-title">Add income</span>
                                     </a>
                                 </li>
 
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="#/expensises" onclick="closeU()">
-                                        <span class="site-menu-title">Expenses</span>
+                                        <span translate="menu.Expenses" class="site-menu-title">Expenses</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="#/incomes" onclick="closeU()">
-                                        <span class="site-menu-title">Incomes</span>
+                                        <span translate="menu.Incomes" class="site-menu-title">Incomes</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="#/allstuf" onclick="closeU()">
-                                        <span class="site-menu-title">All stuff</span>
+                                        <span translate="menu.All_stuff" class="site-menu-title">All stuff</span>
                                     </a>
                                 </li>
 
@@ -233,14 +244,14 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="#/currencies" onclick="closeU()">
                                         <i class="site-menu-icon oi-globe"></i>
-                                        <span class="site-menu-title">Currencies</span>
+                                        <span translate="menu.Currencies" class="site-menu-title">Currencies</span>
                                     </a>
                                 </li>
 
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="index.html#/categories" onclick="closeU()">
                                         <i class="site-menu-icon fa-gear"></i>
-                                        <span class="site-menu-title">Manage categories</span>
+                                        <span translate="menu.Manage_categories" class="site-menu-title">Manage categories</span>
                                     </a>
                                 </li>
 
@@ -250,23 +261,23 @@
                         <li class="site-menu-item has-sub">
                             <a href="javascript:void(0)">
                                 <i class="site-menu-icon wb-pie-chart" aria-hidden="true"></i>
-                                <span class="site-menu-title">Reports</span>
+                                <span translate="menu.Reports" class="site-menu-title">Reports</span>
                                 <span class="site-menu-arrow"></span>
                             </a>
                             <ul class="site-menu-sub">
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="index.html#/reportExpensises" onclick="closeU()">
-                                        <span class="site-menu-title">Expenses</span>
+                                        <span translate="menu.RExpenses" class="site-menu-title">Expenses</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="index.html#/reportIncomes" onclick="closeU()">
-                                        <span class="site-menu-title">Incomes</span>
+                                        <span translate="menu.RIncomes" class="site-menu-title">Incomes</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="index.html#/reportTrends" onclick="closeU()">
-                                        <span class="site-menu-title">Trends</span>
+                                        <span translate="menu.RTrends" class="site-menu-title">Trends</span>
                                     </a>
                                 </li>
                             </ul>
@@ -275,7 +286,7 @@
                         <li class="site-menu-item">
                             <a class="animsition-link" href="#/settings" onclick="closeU()">
                                 <i class="site-menu-icon oi-gear" aria-hidden="true"></i>
-                                <span class="site-menu-title">Settings</span>
+                                <span translate="menu.Settings" class="site-menu-title">Settings</span>
                             </a>
                         </li>
 
@@ -284,7 +295,7 @@
                         <li class="site-menu-item">
                             <a class="animsition-link" href="" ng-click="logOut()">
                                 <i class="site-menu-icon wb-power" aria-hidden="true"></i>
-                                <span class="site-menu-title">Logout</span>
+                                <span translate="menu.Logout" class="site-menu-title">Logout</span>
                             </a>
                         </li>
 
@@ -307,7 +318,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Expenses</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i><span translate="addExpensesForm.Expenses">Expenses</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form role="form">
@@ -316,11 +327,11 @@
                                                 <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId" >
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
-                                                <label class="floating-label">Category</label>
+                                                <label class="floating-label" translate="addExpensesForm.Category">Category</label>
                                             </div>
                                             <div class="col-md-9 col-xs-6">
                                                 <input type="text" class="form-control empty" name="expense_description" data-ng-model="transaction.newCategoryTitle">
-                                                <label class="floating-label">New category</label>
+                                                <label class="floating-label" translate="addExpensesForm.New_category">New category</label>
                                             </div>
                                         </div>
 
@@ -328,7 +339,7 @@
                                             <select class="form-control empty" name="expense_account" data-ng-model="transaction.accountSourceId">
                                                 <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
-                                            <label class="floating-label">Account for this expense</label>
+                                            <label class="floating-label" translate="addExpensesForm.Account_for_this_expense">Account for this expense</label>
                                         </div>
 
                                         <div class="form-group form-material row" data-plugin="formMaterial">
@@ -340,16 +351,16 @@
                                             <div class="col-md-10 col-xs-10">
 
                                                 <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autocomplete="off" />
-                                                <label class="floating-label">Amount</label>
+                                                <label class="floating-label" translate="addExpensesForm.Amount">Amount</label>
                                             </div>
                                         </div>
 
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || (transaction.categoryId == 'null' && transaction.newCategoryTitle == '')" data-ng-click="createTransaction('EXP')">Save</button>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || (transaction.categoryId == 'null' && transaction.newCategoryTitle == '')" data-ng-click="createTransaction('EXP')" translate="addExpensesForm.Save">Save</button>
 
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="addExpensesForm.Cancel">Cancel</a>
                                 </div>
 
                             </div>
@@ -369,7 +380,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Income</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i><span translate="addIncomeForm.Income">Income</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form>
@@ -379,11 +390,11 @@
                                                 <select class="form-control empty" name="income_category" data-ng-model="transaction.categoryId">
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'INC'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
-                                                <label class="floating-label">Category</label>
+                                                <label class="floating-label" translate="addIncomeForm.Category">Category</label>
                                             </div>
                                             <div class="col-md-9 col-xs-6">
                                                 <input type="text" class="form-control empty" name="income_description" data-ng-model="transaction.newCategoryTitle">
-                                                <label class="floating-label">New category</label>
+                                                <label class="floating-label" translate="addIncomeForm.New_category">New category</label>
                                             </div>
                                         </div>
 
@@ -391,7 +402,7 @@
                                             <select class="form-control empty" name="income_account" data-ng-model="transaction.accountDestinationId">
                                                 <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
-                                            <label class="floating-label">Add income to account...</label>
+                                            <label class="floating-label" translate="addIncomeForm.Add_income_to_account">Add income to account...</label>
                                         </div>
 
                                         <div class="form-group form-material row" data-plugin="formMaterial">
@@ -403,14 +414,14 @@
                                             <div class="col-md-10 col-xs-10">
                                                 <input type="text" class="form-control empty" name="income_ammount"
                                                        data-ng-model="transaction.transactionValue">
-                                                <label class="floating-label">Amount</label>
+                                                <label class="floating-label" translate="addIncomeForm.Amount">Amount</label>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountDestinationId == '' || (transaction.categoryId == 'null' && transaction.newCategoryTitle == '')" data-ng-click="createTransaction('INC')">Save</button>
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountDestinationId == '' || (transaction.categoryId == 'null' && transaction.newCategoryTitle == '')" data-ng-click="createTransaction('INC')" translate="addIncomeForm.Save">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="addIncomeForm.Cancel">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -423,7 +434,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon ti-credit-card"></i>Transfer</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon ti-credit-card"></i><span translate="makeTransferForm.Transfer">Transfer</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form>
@@ -431,26 +442,26 @@
                                             <select class="form-control empty" name="from_account" data-ng-model="transaction.accountSourceId">
                                                 <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number:2}})</option>
                                             </select>
-                                            <label class="floating-label">From</label>
+                                            <label class="floating-label" translate="makeTransferForm.From">From</label>
                                         </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
                                             <select class="form-control empty" name="to_account" data-ng-model="transaction.accountDestinationId">
                                                 <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
-                                            <label class="floating-label">To</label>
+                                            <label class="floating-label" translate="makeTransferForm.To">To</label>
                                         </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
                                             <input type="text" class="form-control empty"
                                                    name="transfer_ammount" data-ng-model="transaction.transactionValue">
-                                            <label class="floating-label">Amount</label>
+                                            <label class="floating-label" translate="makeTransferForm.Amount">Amount</label>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('TRAN')">Save</button>
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('TRAN')" translate="makeTransferForm.Save">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="makeTransferForm.Cancel">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -460,6 +471,7 @@
             </div>
             
             <section class="content">
+              
                 <div data-ng-view="">
 
                 </div>
@@ -490,7 +502,7 @@
     <footer class="site-footer" data-ng-show="authentication.isAuth && authentication.isSetup">
         <div class="site-footer-legal">© 2017 <a href="http://www.wealthflowapp.com">Wealthflow</a></div>
         <div class="site-footer-right">
-            we will count <i class="green-600 wb wb-eye"></i> what <a href="https://my-wealthflow.azurewebsites.net/#/dashboard"> matters for you</a>
+            {{'index.we_will_count' | translate}} <i class="green-600 wb wb-eye"></i> {{'index.what' | translate}} <a href="https://my-wealthflow.azurewebsites.net/#/dashboard"> {{'index.matters_for_you' | translate}}</a>
         </div>
     </footer>
 

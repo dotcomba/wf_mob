@@ -5,7 +5,7 @@
 
     <div class="panel" id="all-transactions">
         <div class="panel-heading">
-            <h3 class="panel-title">
+            <h3 class="panel-title" translate="allstuff.All_stuff">
                 All stuff
             </h3>
             <div class="panel-actions panel-actions-keep">
@@ -52,17 +52,17 @@
                                     </span>
                                 </small>
                                 <a class="name">
-                                    <span data-ng-show="transaction.transactionCode =='EXP'">
-                                        You had expenses for
-                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category
+									<span data-ng-show="transaction.transactionCode =='EXP'">
+                                        {{'allstuff.You_had_expenses_for' | translate}}
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'allstuff.category' | translate}}
                                     </span>
                                     <span data-ng-show="transaction.transactionCode =='INC'">
-                                        You are registered income from
+                                        {{'allstuff.You_are_registered_income_from' | translate}}
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong>
                                     </span>
                                     <span data-ng-show="transaction.transactionCode =='TRAN'">
-                                        You made transfer of founds from
-                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> to
+                                        {{'allstuff.You_made_transfer_of_founds_from' | translate}}
+                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> {{'allstuff.to' | translate}}
                                         <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
                                     </span>
                                 </a>
@@ -73,7 +73,7 @@
                 </li>
 
                 <div class="parent-no-data" ng-show="transactions.length == 0">
-                    <div class="chield-no-data">there is no data</div>
+                    <div class="chield-no-data" translate="allstuff.there_is_no_data">there is no data</div>
                 </div>
 
             </ul>

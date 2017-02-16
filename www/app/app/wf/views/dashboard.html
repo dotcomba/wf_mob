@@ -1,12 +1,9 @@
 ﻿    
 <div class="row" data-ng-show="authentication.isAuth">
 
-
-
-
     <div class="panel" id="latest-transaction" ng-show="transactions.length > 0 && settings.isLatestTransactionWP">
         <div class="panel-heading">
-            <h3 class="panel-title">Latest transaction</h3>
+            <h3 class="panel-title" translate="dashboard.Latest_transaction">Latest transaction</h3>
             <div class="panel-actions panel-actions-keep">
                 <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a>
             </div>
@@ -50,16 +47,16 @@
                                 </small>
                                 <a class="name">
                                     <span data-ng-show="transaction.transactionCode =='EXP'">
-                                        You had expenses for
-                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category
+                                        {{'dashboard.You_had_expenses_for' | translate}}
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
                                     </span>
                                     <span data-ng-show="transaction.transactionCode =='INC'">
-                                        You are registered income from
+                                        {{'dashboard.You_are_registered_income_from' | translate}}
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong>
                                     </span>
                                     <span data-ng-show="transaction.transactionCode =='TRAN'">
-                                        You made transfer of founds from
-                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> to
+                                        {{'dashboard.You_made_transfer_of_founds_from' | translate}}
+                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> {{'dashboard.to' | translate}}
                                         <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
                                     </span>
                                 </a>
@@ -80,7 +77,7 @@
                     <button type="button" class="btn btn-floating btn-sm btn-warning" ng-click="go('/reportExpensises')">
                         <i class="icon wb-shopping-cart"></i>
                     </button>
-                    <span class="m-l-15 font-weight-400"><a style="color:#76838f" href="#/reportExpensises">EXPENSES</a></span>
+                    <span class="m-l-15 font-weight-400"><a style="color:#76838f" href="#/reportExpensises" translate="dashboard.EXPENSES">EXPENSES</a></span>
                     <div class="content-text text-xs-center m-b-0">
                         <i class="text-danger icon wb-triangle-up font-size-20" ng-show="dashboard.expensisesTrend > 0">
                         </i>
@@ -99,7 +96,7 @@
                          {{ dashboard.expensisesValue | number }}</span>
                         <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.expensisesTrend != 0"> 
                         <span ng-show="dashboard.expensisesTrend > 0">+</span>
-                        {{ dashboard.expensisesTrend }}% from previous month</p>
+                        {{ dashboard.expensisesTrend }}% {{'dashboard.from_previous_month' | translate}}</p>
                     </div>
                 </div>
             </div>
@@ -113,7 +110,7 @@
                     <button type="button" class="btn btn-floating btn-sm btn-success" ng-click="go('/reportIncomes')">
                         <i class="icon fa-dollar"></i>
                     </button>
-                    <span class="m-l-15 font-weight-400"><a style="color:#76838f" href="#/reportIncomes">INCOME</a></span>
+                    <span class="m-l-15 font-weight-400"><a style="color:#76838f" href="#/reportIncomes" translate="dashboard.INCOME">INCOME</a></span>
                     <div class="content-text text-xs-center m-b-0">
                         <i class="text-success icon wb-triangle-up font-size-20" ng-show="dashboard.incomeTrend > 0">
                         </i>
@@ -131,7 +128,7 @@
                          {{ dashboard.incomeValue | number }}</span>
                         <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.incomeTrend != 0">
                         <span ng-show="dashboard.incomeTrend > 0">+</span>
-                        {{ dashboard.incomeTrend }}% from previous month</p>
+                        {{ dashboard.incomeTrend }}% {{'dashboard.from_previous_month' | translate}}</p>
                     </div>
                 </div>
             </div>
@@ -140,13 +137,13 @@
 
     <div class="panel" id="current-balance" ng-show="accounts.length > 0  && settings.isBalanceWP">
         <div class="panel-heading">
-            <h3 class="panel-title">Current balance</h3>
+            <h3 class="panel-title" translate="dashboard.Current_balance">Current balance</h3>
             <div class="panel-actions panel-actions-keep">
                 <div class="dropdown">
                     <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
                     <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
-                        <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> Remove</a>
-                        <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> Settings</a>
+                        <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> <span translate="dashboard.Remove">Remove</span></a>
+                        <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> <span translate="dashboard.Settings">Settings</span></a>
                     </div>
                 </div>
             </div>
@@ -180,9 +177,9 @@
                     <table class="table table-analytics m-b-0 text-nowrap">
                         <thead>
                             <tr>
-                                <th class="language">Account</th>
-                                <th class="vists">Currency</th>
-                                <th class="vists">Amount</th>
+                                <th class="language" translate="dashboard.Account">Account</th>
+                                <th class="vists" translate="dashboard.Currency">Currency</th>
+                                <th class="vists" translate="dashboard.Amount">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -207,14 +204,14 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i><span translate="dashboard.Account">Account</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form role="form">
                                         <div class="form-group form-material row" data-plugin="formMaterial">
                                             <div class="col-md-12 col-xs-12">
                                                 <input type="text" class="form-control" name="account_title" data-ng-model="account.title" />
-                                                <label class="floating-label">Title</label>
+                                                <label class="floating-label" translate="dashboard.Title">Title</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-material row" data-plugin="formMaterial">
@@ -222,40 +219,14 @@
                                                 <select class="form-control" name="currency" data-ng-model="account.currencyCode">
                                                     <option ng-selected="currency.thirdCurencyCode == account.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
                                                 </select>
-                                                <label class="floating-label">Currency</label>
+                                                <label class="floating-label" translate="dashboard.Currency">Currency</label>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == ''" data-ng-click="saveChanges()">Save</button>
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="removeAccountForm" aria-hidden="true" aria-labelledby="removeAccountForm"
-                         role="dialog" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account removing</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form">
-                                        <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-12 col-xs-12">
-                                                We are going to remove <strong>{{account.title}}</strong> account. Are you sure?
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeAccount()">Remove</button>
-
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == ''" data-ng-click="saveChanges()" translate="dashboard.Save">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="dashboard.Cancel">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -268,10 +239,10 @@
                     </div>
 
                     <div class="modal-footer" ng-show="accounts.length <=2">
-                        <p>If you want to add new account, click</p>
+                        <p>{{'dashboard.If_you_want_to_add_new_account_click' | translate}}</p>
                         <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
                             <i class="icon wb-plus" aria-hidden="true"></i>
-                            CREATE ACCOUNT
+                            {{'dashboard.CREATE_ACCOUNT' | translate}}
                         </button>
 
                     </div>
@@ -281,9 +252,9 @@
 
             <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="dashboard.balanceValue <= 0">
                 <blockquote class="blockquote cover-quote">
-                    Your current balance is null. <br />
-                    Try add new income. <br />
-                    Click on <span style="color:#3aa677">big green button</span> right bottom to find button <b><span style="color:#33b6c5">$</span></b> to put new income.
+                    {{'dashboard.Your_current_balance_is_null' | translate}}. <br />
+                    {{'dashboard.Try_add_new_income' | translate}}. <br />
+                    {{'dashboard.Click_on' | translate}} <span style="color:#3aa677">{{'dashboard.big_green_button' | translate}}</span> {{'dashboard.right_bottom_to_find_button' | translate}} <b><span style="color:#33b6c5">$</span></b> {{'dashboard.to_put_new_income' | translate}}.
                 </blockquote>
             </div>
 
@@ -292,15 +263,15 @@
 
     <div class="panel" id="daily-transactions" ng-show="transactions.length > 0 && settings.isTransactionLogWP">
         <div class="panel-heading">
-            <h3 class="panel-title">
+            <h3 class="panel-title" translate="dashboard.Transactions_log">
                 Transactions log
             </h3>
             <div class="panel-actions panel-actions-keep">
                 <div class="dropdown">
                     <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
                     <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
-                        <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> Remove</a>
-                        <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> Settings</a>
+                        <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> <span translate="dashboard.Remove">Remove</span></a>
+                        <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> <span translate="dashboard.Settings">Settings</span></a>
                     </div>
                 </div>
             </div>
@@ -343,12 +314,17 @@
                                     {{ transaction.transactionValue | number:2 }}
                                  </span></small>
                                 <a class="name">
-                                 <span data-ng-show="transaction.transactionCode =='EXP'">You had expenses for 
-                                     <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> category</span>
-                                    <span data-ng-show="transaction.transactionCode =='INC'">You are registered income from 
-                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong></span>
-                                    <span data-ng-show="transaction.transactionCode =='TRAN'">You made transfer of founds from 
-                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> to  
+                                    <span data-ng-show="transaction.transactionCode =='EXP'">
+                                        {{'dashboard.You_had_expenses_for' | translate}}
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
+                                    </span>
+                                    <span data-ng-show="transaction.transactionCode =='INC'">
+                                        {{'dashboard.You_are_registered_income_from' | translate}}
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong>
+                                    </span>
+                                    <span data-ng-show="transaction.transactionCode =='TRAN'">
+                                        {{'dashboard.You_made_transfer_of_founds_from' | translate}}
+                                        <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> {{'dashboard.to' | translate}}
                                         <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
                                     </span>
                                  </a>
@@ -359,8 +335,7 @@
                 </li>
 
                 <a href="#/allstuf" class="btn btn-block btn-primary" ng-show="transactions.length > 4">
-                    <i class="icon wb-chevron-down m-r-5" aria-hidden="true"></i>Show
-                    More
+                    <i class="icon wb-chevron-down m-r-5" aria-hidden="true"></i>{{'dashboard.Show_More' | translate}}
                 </a>
 
             </ul>

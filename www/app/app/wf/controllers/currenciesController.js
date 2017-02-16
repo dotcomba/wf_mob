@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'currenciesService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, currenciesService) {
+app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'currenciesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, currenciesService, settingsService, $translate) {
 
     // Method to Insert
     $scope.createCurrency = function () {
@@ -7,13 +7,14 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
         currenciesService.createCurrency($scope.currency).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Currency has been created!";
+            $scope.message = $scope.translations.currency_has_been_created; //"Currency has been created!";
             startTimer();
             initFields();
         },
          function (response) {
             if (response.status == 400)
-                $scope.message = "Error in process of creating: " + response.data.message;
+                $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
+                    + response.data.message;
             else
             {
                  var errors = [];
@@ -22,12 +23,11 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error in process of creating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
+                     + errors.join(' ');
             }
          });
     };
-
-
 
     var startTimer = function () {
         var timer = $timeout(function () {
@@ -90,13 +90,14 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
         currenciesService.updateCurrency($scope.currency.id, $scope.currency).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Currency info has been updated!";
+            $scope.message = $scope.translations.currency_info_has_been_updated; //"Currency info has been updated!";
             startTimer();
 
         },
          function (response) {
             if (response.status == 400)
-                $scope.message = "Error in process of updating: " + response.data.message;
+                $scope.message = $scope.translations.error_on_currency_updating  //"Error in process of updating: "
+                    + response.data.message;
             else
             {
                  var errors = [];
@@ -105,7 +106,8 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error on category updating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_on_currency_updating //"Error on category updating: "
+                     + errors.join(' ');
             }
          });
     };
@@ -114,11 +116,12 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
     {
       currenciesService.deleteCurrency($scope.currency.id).then(function (response) {
                     $scope.savedSuccessfully = true;
-                    $scope.message = "Currency has been removed!";
+                    $scope.message = $scope.translations.currency_has_been_removed; //"Currency has been removed!";
                     startTimer();
 
                 }, function (err) {
-                    $scope.message = "Error on currency deleting: " + err;
+                    $scope.message = $scope.translations.error_on_currency_deleting //"Error on currency deleting: "
+                        + err;
                 });
     }
 
@@ -130,7 +133,18 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
     $scope.message = "";
     $scope.homeCurrency = '';
 
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
 
+    $translate(['error_on_loading', 'error_in_process_of_creating', 'error_on_currency_deleting',
+    'currency_has_been_removed', 'error_on_currency_updating', 'currency_info_has_been_updated', 'currency_has_been_created']).then(function (translations) {
+        $scope.translations = translations;
+    }, null);
 
     currenciesService.getCurrencies().then(function (results) {
             $scope.currencies = results.data;
@@ -140,15 +154,14 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
             initFields();
 
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
         });
-
 
 
     currenciesService.getCurrencyList().then(function (results) {
             $scope.currencyList = results.data;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
         });
 
 

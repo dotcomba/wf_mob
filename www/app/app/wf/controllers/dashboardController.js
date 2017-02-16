@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService) {
+app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate) {
 
     // initialization and load
     $scope.transactions = [];
@@ -15,6 +15,19 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
     $scope.go = function ( path ) {
       $location.path( path );
     };
+	
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['error_on_loading', 'error_in_process_updating_user_settings',
+	'error_on_settings_updating','error_on_loading_of_categories']).then(function (translations) {
+        $scope.translations = translations;
+    }, null);
 
     currenciesService.getCurrencies().then(function (results) {
             $scope.currencies = results.data;
@@ -27,14 +40,13 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             }
 
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
         });
 
     $scope.settings = {};
 
     settingsService.getUserSettings().then(function (results) {
         $scope.settings = results.data;
-
     }, function (error) {
 
         $scope.settings = {
@@ -44,7 +56,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             isTrendsWP: true,
             isBalanceWP: true,
             isTransactionLogWP: true,
-            avatarNumber: 0
+            avatarNumber: 0,
+            userLang: 'en'
         };
         updateUserSettings();
 
@@ -59,7 +72,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
         },
          function (response) {
              if (response.status == 400)
-                 $scope.message = "Error in process of updating user settings: " + response.data.message;
+                 $scope.message = $scope.translations.error_in_process_updating_user_settings //"Error in process of updating user settings: " 
+									+ response.data.message;
              else {
                  var errors = [];
                  for (var key in response.data.modelState) {
@@ -67,7 +81,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error on settings updating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_on_settings_updating //"Error on settings updating: " 
+									+ errors.join(' ');
              }
          });
     };
@@ -103,7 +118,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             }
 
         }, function (error) {
-            $scope.message = "Error on loading of categories!";
+            $scope.message = $scope.translations.error_on_loading_of_categories; //"Error on loading of categories!";
             startReloadTimer();
         });
 
@@ -120,7 +135,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
         }
 
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
         });
 
@@ -136,7 +151,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             }, $scope.data);
 
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
         });
 
@@ -146,14 +161,14 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             if ($scope.dashboard.balanceValue == 0)
                 introJs().setOptions(Config.get('tour')).start();
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
         });
 
     transactionsService.getTransactions().then(function (results) {
             $scope.transactions = results.data;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
         });
 

@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('reportIncomesController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'transactionsService', 'categoriesService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, transactionsService, categoriesService, currenciesService) {
+app.controller('reportIncomesController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'transactionsService', 'categoriesService', 'currenciesService', 'settingsService', '$translate', function ($scope, $routeParams, $location, $timeout, $route, transactionsService, categoriesService, currenciesService, settingsService, $translate) {
 
     $scope.categories = [];
     $scope.categoriesLookup = {};
@@ -8,7 +8,24 @@ app.controller('reportIncomesController', ['$scope', '$routeParams', '$location'
 
     $scope.periods = [];
     $scope.currentPeriod = '';
-    $scope.monthLookup = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "Octomber", "November", "December"];
+    
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['error_on_loading',
+    'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'octomber', 'november', 'december']).then(function (translations) {
+        $scope.translations = translations;
+
+        $scope.monthLookup = ["", $scope.translations.january, $scope.translations.february, $scope.translations.march,
+    $scope.translations.april, $scope.translations.may, $scope.translations.june, $scope.translations.july,
+    $scope.translations.august, $scope.translations.september, $scope.translations.octomber, $scope.translations.november, $scope.translations.december];
+
+    }, null);
 
     $scope.currencies = [];
     $scope.homeCurrency = '';
@@ -21,14 +38,14 @@ app.controller('reportIncomesController', ['$scope', '$routeParams', '$location'
         }
 
     }, function (error) {
-        $scope.message = "Error on loading of incomes periods!";
+        $scope.message = $scope.translations.error_on_loading; //"Error on loading of incomes periods!";
     });
 
     currenciesService.getCurrencies().then(function (results) {
             $scope.currencies = results.data;
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
         });
 
     categoriesService.getCategories().then(function (results) {
@@ -39,7 +56,7 @@ app.controller('reportIncomesController', ['$scope', '$routeParams', '$location'
         }
 
         }, function (error) {
-            $scope.message = "Error on loading of categories!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of categories!";
         });
 
  $scope.labels =[];
@@ -83,7 +100,7 @@ app.controller('reportIncomesController', ['$scope', '$routeParams', '$location'
                 }, $scope.data);
 
             }, function (error) {
-                $scope.message = "Error on loading of transactions!";
+                $scope.message = $scope.translations.error_on_loading; //"Error on loading of transactions!";
             });
         }
     }

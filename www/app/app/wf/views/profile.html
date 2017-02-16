@@ -13,7 +13,7 @@
 <div class="row" data-ng-show="authentication.isAuth">
     <div class="panel" id="user-settings">
         <div class="panel-heading">
-            <h3 class="panel-title">
+            <h3 class="panel-title" translate="profile.User_profile">
                 User profile
             </h3>
             <div class="panel-actions panel-actions-keep">
@@ -27,7 +27,7 @@
                 <li class="list-group-item">
                     <div class="media">
                         <div class="media-body">
-                            <h4>Avatar</h4>
+                            <h4 translate="profile.Avatar">Avatar</h4>
                             <div class="col-xs-12 col-lg-12 col-xl-12">
                                 <span>&nbsp;</span>
                                 <ul class="list-unstyled list-inline">
@@ -101,22 +101,51 @@
                 <li class="list-group-item">
                     <div class="media">
                         <div class="media-body">
-                            <h4>Subscription</h4>
+                            <h4 translate="profile.Subscription">Subscription</h4>
                             <div class="col-xs-12 col-lg-12 col-xl-12">
                                 <div class="green-600 font-size-20 col-xs-12 col-lg-12 col-xl-12" style="margin:10px;">
                                     <i class="icon wb-globe" aria-hidden="true"></i>
-                                    WORLD
+                                    {{'profile.WORLD' | translate}}
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-12 col-xl-12">We are currently don't allow change subscription type. We are planning upgrade this software and make it available later. Follow <a href="http://www.wealthflowapp.com">updates</a>.</div>
+                            <div class="col-xs-12 col-lg-12 col-xl-12">{{'profile.We_are_currently' | translate}} <a href="http://www.wealthflowapp.com" translate="profile.updates">updates</a>.</div>
                         </div>
                     </div>
                 </li>
+						
+				<li class="list-group-item">
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 translate="profile.Language">Language</h4>
+                            <div class="col-xs-12 col-lg-12 col-xl-12">
+                                <span>&nbsp;</span>
+                                <ul class="list-unstyled list-inline">
+                                    
+									<li class="list-inline-item">
+                                        <a class="avatar avatar-lg m-5" href="javascript:void(0)" ng-click="langClick('en')">
+                                            <img src="app/global/portraits/en.png" alt="">
+                                            <span ng-show="curLang == 'en'"><i class="wb-check-circle"></i></span>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a class="avatar avatar-lg m-5" href="javascript:void(0)" ng-click="langClick('ru')">
+                                            <img src="app/global/portraits/ru.png" alt="">
+                                            <span ng-show="curLang == 'ru'"><i class="wb-check-circle"></i></span>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                                <span>&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+										
                 <li class="list-group-item">
                     <div class="media">
                         <div class="media-body">
-                            <h4>Password</h4>
-                            <div class="col-xs-12 col-lg-12 col-xl-12">To change password, click <a href="#/changePassword">here</a>.</div>
+                            <h4 translate="profile.Password">Password</h4>
+                            <div class="col-xs-12 col-lg-12 col-xl-12">{{'profile.To_change_password_click' | translate}} <a href="#/changePassword" translate="profile.here">here</a>.</div>
                         </div>
                     </div>
                 </li>

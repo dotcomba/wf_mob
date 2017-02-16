@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('changePasswordController', ['$scope', '$location', '$timeout', 'authService', function ($scope, $location, $timeout, authService) {
+app.controller('changePasswordController', ['$scope', '$location', '$timeout', 'authService', 'settingsService', '$translate', function ($scope, $location, $timeout, authService, settingsService, $translate) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
@@ -10,12 +10,24 @@ app.controller('changePasswordController', ['$scope', '$location', '$timeout', '
         confirmPassword: ''
     };
 
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['failed_while_changing_password', 'your_password_has_been_changed']).then(function (translations) {
+        $scope.translations = translations;
+    }, null);
+
     $scope.changePwd = function () {
 
         authService.changePassword($scope.changePassword).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Your password has been changed successfully, you will be redicted to profile page in 2 seconds.";
+            $scope.message = $scope.translations.your_password_has_been_changed; //"Your password has been changed successfully, you will be redicted to profile page in 2 seconds.";
             startTimer();
 
         },
@@ -26,7 +38,8 @@ app.controller('changePasswordController', ['$scope', '$location', '$timeout', '
                      errors.push(response.data.modelState[key][i]);
                  }
              }
-             $scope.message = "Failed while changing password:" + errors.join(' ');
+             $scope.message = $scope.translations.failed_while_changing_password //"Failed while changing password:"
+                 + errors.join(' ');
          });
     };
 
