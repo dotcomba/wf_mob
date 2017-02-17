@@ -10,6 +10,14 @@
         }, 500);
     }
 
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
+    }
+
     var initFields = function () {
         $scope.settings = {
             id: 'null',
@@ -98,6 +106,7 @@
                  $scope.message = $scope.translations.error_on_settings_updating //"Error on settings updating: " 
                      + errors.join(' ');
              }
+             startErrorTimer();
          });
     };
 

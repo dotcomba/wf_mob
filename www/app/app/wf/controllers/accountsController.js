@@ -26,6 +26,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
                  $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
                      + errors.join(' ');
             }
+            startErrorTimer();
          });
     };
 
@@ -37,6 +38,14 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
             $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
         }, 500);
+    }
+
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
     }
 
     var initFields = function () 
@@ -96,6 +105,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
                  $scope.message = $scope.translations.error_on_account_updating //"Error on account updating: "
                      + errors.join(' ');
             }
+            startErrorTimer();
          });
     };
 
@@ -109,6 +119,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
                 }, function (err) {
                     $scope.message = $scope.translations.error_on_account_deleting //"Error on account deleting: " 
                         + err;
+                    startErrorTimer();
                 });
     }
 
@@ -138,13 +149,15 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
     accountsService.getAccounts().then(function (results) {
             $scope.accounts = results.data;
         }, function (error) {
-            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";             
+            startErrorTimer();
         });
 
     accountsService.getAccountsHome().then(function (results) {
             $scope.accountsHome = results.data;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startErrorTimer();
         });
 
     $scope.currencies = [];
@@ -155,6 +168,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startErrorTimer();
         });
 
     // ....

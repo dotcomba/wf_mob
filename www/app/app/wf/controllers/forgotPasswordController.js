@@ -9,12 +9,12 @@ app.controller('forgotPasswordController', ['$scope', '$location', '$timeout', '
     };
 
     $scope.translations = [];
-    settingsService.getUserLang().then(function (results) {
-        if (results.data && results.data.userLang) {
-            $translate.use(results.data.userLang);
-            $translate.preferredLanguage(results.data.userLang);
-        }
-    });
+    //settingsService.getUserLang().then(function (results) {
+    //    if (results.data && results.data.userLang) {
+    //        $translate.use(results.data.userLang);
+    //        $translate.preferredLanguage(results.data.userLang);
+    //    }
+    //});
 
     $translate(['you_will_obtain_email_message', 'user_with_this_e_mail_unregistered']).then(function (translations) {
         $scope.translations = translations;

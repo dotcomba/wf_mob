@@ -1,5 +1,22 @@
 ﻿'use strict';
-app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'currenciesService', '$translate', 'settingsService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, currenciesService, $translate, settingsService) {
+app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'currenciesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, currenciesService, settingsService, $translate) {
+
+    $scope.translations = [];
+
+    var _initTranslations = function () {
+        settingsService.getUserLang().then(function (results) {
+            if (results.data && results.data.userLang) {
+                $translate.use(results.data.userLang);
+                $translate.preferredLanguage(results.data.userLang);
+            }
+        });
+
+        $translate(['transactions_Transaction_has_been_created', 'transactions_Error_in_process_of_creating',
+        'transactions_Lack_of_money', 'transactions_Error_on_loading', 'transactions_Error_on_loading_of_categories',
+        'transactions_Error_on_loading_of_accounts', 'transactions_Error_on_loading_of_transactions']).then(function (translations) {
+            $scope.translations = translations;
+        }, null);
+    }
 
     // Method to Insert
     $scope.createTransaction = function (transactionCode) {
@@ -28,7 +45,8 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
                  }
                  $scope.message = $scope.translations.transactions_Error_in_process_of_creating //"Error in process of creating: " 
 				 + errors.join(' ');
-            }
+             }
+             startErrorTimer();
          });
     };
 
@@ -44,11 +62,20 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
         }, 1000);
     }
 
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
+    }
+
     var startInitTimer = function () {
         var timer = $timeout(function () {
         //
         if ($authService.authentication.isAuth)
         {
+        _initTranslations();
         _transactionsLoad();
         _accountsLoad();
         _categoriesLoad();
@@ -74,20 +101,6 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             transactionCode: 'TRAN'
         };
     }
-	
-    $scope.translations = [];
-    settingsService.getUserLang().then(function (results) {
-        if (results.data && results.data.userLang) {
-            $translate.use(results.data.userLang);
-            $translate.preferredLanguage(results.data.userLang);
-        }
-    });
-		
-    $translate(['transactions_Transaction_has_been_created', 'transactions_Error_in_process_of_creating',
-	'transactions_Lack_of_money','transactions_Error_on_loading', 'transactions_Error_on_loading_of_categories',
-	'transactions_Error_on_loading_of_accounts','transactions_Error_on_loading_of_transactions']).then(function (translations) {
-        $scope.translations = translations;
-    }, null);
 
     $scope.categories = [];
     $scope.categoriesLookup = {};

@@ -5,12 +5,12 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
     $scope.message = "";
 
     $scope.translations = [];
-    settingsService.getUserLang().then(function (results) {
-        if (results.data && results.data.userLang) {
-            $translate.use(results.data.userLang);
-            $translate.preferredLanguage(results.data.userLang);
-        }
-    });
+    //settingsService.getUserLang().then(function (results) {
+    //    if (results.data && results.data.userLang) {
+    //        $translate.use(results.data.userLang);
+    //        $translate.preferredLanguage(results.data.userLang);
+    //    }
+    //});
 
     $translate(['signup_user_has_been_registered', 'signup_failed_to_register_user_due_to']).then(function (translations) {
         $scope.translations = translations;
@@ -47,7 +47,7 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
         var timer = $timeout(function () {
             $timeout.cancel(timer);
             $location.path('/login');
-        }, 2000);
+        }, 8000);
     }
 
 }]);

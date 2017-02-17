@@ -5,12 +5,12 @@ app.controller('resetPasswordController', ['$scope', '$location', '$routeParams'
     $scope.message = "";
 
     $scope.translations = [];
-    settingsService.getUserLang().then(function (results) {
-        if (results.data && results.data.userLang) {
-            $translate.use(results.data.userLang);
-            $translate.preferredLanguage(results.data.userLang);
-        }
-    });
+    //settingsService.getUserLang().then(function (results) {
+    //    if (results.data && results.data.userLang) {
+    //        $translate.use(results.data.userLang);
+    //        $translate.preferredLanguage(results.data.userLang);
+    //    }
+    //});
 
     $translate(['reset_your_password_has_been_changed', 'reset_failed_while_changing_password']).then(function (translations) {
         $scope.translations = translations;

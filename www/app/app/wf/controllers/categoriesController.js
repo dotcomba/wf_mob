@@ -26,6 +26,7 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
                  $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
                      + errors.join(' ');
             }
+            startErrorTimer();
          });
     };
 
@@ -39,6 +40,14 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
             $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
         }, 500);
+    }
+
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
     }
 
     var initFields = function () 
@@ -97,6 +106,7 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
                  $scope.message = $scope.translations.error_on_category_updating //"Error on category updating: "
                      + errors.join(' ');
             }
+            startErrorTimer();
          });
     };
 
@@ -110,6 +120,7 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
                 }, function (err) {
                     $scope.message = $scope.translations.error_on_category_deleting //"Error on category deleting: "
                     + err;
+                    startErrorTimer();
                 });
     }
 
@@ -138,6 +149,7 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
             $scope.categories = results.data;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startErrorTimer();
         });
 
 

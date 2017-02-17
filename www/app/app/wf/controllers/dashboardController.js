@@ -41,6 +41,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startErrorTimer();
         });
 
     $scope.settings = {};
@@ -84,6 +85,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
                  $scope.message = $scope.translations.error_on_settings_updating //"Error on settings updating: " 
 									+ errors.join(' ');
              }
+             startErrorTimer();
          });
     };
 
@@ -182,6 +184,14 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             //$location.path('/dashboard');
             $route.reload();
         }, 2000);
+    }
+
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
     }
 
 
