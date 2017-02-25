@@ -1,6 +1,66 @@
 ﻿    
 <div class="row" data-ng-show="authentication.isAuth">
 
+    <div class="row" data-plugin="matchHeight" data-by-row="true" id="goals" ng-show="settings.subscriptionType == 'BASIC' && settings.isGoalsWP && goalsEvents.length > 0">
+
+        <div data-ng-repeat="goal in goalsEvents">
+            <div data-ng-class="(goalsEvents.length > 1) ? 'col-lg-6 col-xs-12' : 'col-lg-12 col-xs-12'">
+                <div ng-switch on="goal.goalDisplayType">
+
+                    <div ng-switch-when="DONE">
+                        <div class="card card-block p-35 clearfix animation-scale-down animation-duration-1">
+                            <div class="counter counter-md pull-xs-left text-xs-left">
+                                <div class="counter-number-group">
+                                    <span class="counter-number green-600">{{ goal.title }}</span>
+                                    <span class="counter-number-related text-capitalize grey-600" style="font-size:26px">
+                                        <i data-ng-show="goal.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="goal.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="goal.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="goal.currencyCode !='USD'
+                                                         && goal.currencyCode !='EUR'
+                                                         && goal.currencyCode !='RUB'">
+                                            {{ goal.currencyCode }}
+                                        </span> {{ goal.currentAmount | number:2 }}
+                                    </span>
+                                </div>
+                                <div class="counter-label font-size-16"><a href="javascript:void(0)" data-ng-click="updateStateGoal(goal,'DONE')">{{'dashboard.goal_Done' | translate}}</a> {{'dashboard.goal_with_it' | translate}}<br /><br /><br /></div>
+                            </div>
+                            <div class="pull-xs-right white">
+                                <i class="icon icon-circle icon-2x wb-check bg-green-500" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-switch-when="OVERDUE">
+                        <div class="card card-block p-35 clearfix animation-scale-up animation-duration-1">
+                            <div class="pull-xs-left white">
+                                <i class="icon icon-circle icon-2x wb-alert bg-red-400" aria-hidden="true"></i>
+                            </div>
+                            <div class="counter counter-md counter text-xs-right pull-xs-right">
+                                <div class="counter-number-group">
+                                    <span class="counter-number">{{ goal.title }}</span>
+                                    <span class="counter-number-related text-capitalize grey-600" style="font-size:26px">
+                                        <i data-ng-show="goal.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="goal.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="goal.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="goal.currencyCode !='USD'
+                                                         && goal.currencyCode !='EUR'
+                                                         && goal.currencyCode !='RUB'">
+                                            {{ goal.currencyCode }}
+                                        </span> {{ goal.currentAmount | number:2 }}
+                                    </span>
+                                </div>
+                                <div class="counter-label font-size-16">{{'dashboard.goal_overdue' | translate}} {{ goal.goalDate | date }}</div>
+                                <div class="counter-label font-size-16">{{'dashboard.goal_goal_is_not_reached' | translate}}.<br><a href="javascript:void(0)" data-ng-click="updateStateGoal(goal,'PROLONG')" translate="dashboard.goal_Prolong">Prolong</a> {{'dashboard.goal_or' | translate }} <a href="javascript:void(0)" data-ng-click="updateStateGoal(goal,'DECLINE')" translate="dashboard.goal_decline"> decline</a>?</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel" id="latest-transaction" ng-show="transactions.length > 0 && settings.isLatestTransactionWP">
         <div class="panel-heading">
             <h3 class="panel-title" translate="dashboard.Latest_transaction">Latest transaction</h3>
@@ -92,11 +152,13 @@
                                               && homeCurrency !='RUB'">
                                 {{ homeCurrency }}
                             </span>
-                        
-                         {{ dashboard.expensisesValue | number }}</span>
-                        <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.expensisesTrend != 0"> 
-                        <span ng-show="dashboard.expensisesTrend > 0">+</span>
-                        {{ dashboard.expensisesTrend }}% {{'dashboard.from_previous_month' | translate}}</p>
+
+                            {{ dashboard.expensisesValue | number }}
+                        </span>
+                        <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.expensisesTrend != 0">
+                            <span ng-show="dashboard.expensisesTrend > 0">+</span>
+                            {{ dashboard.expensisesTrend }}% {{'dashboard.from_previous_month' | translate}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -125,10 +187,12 @@
                                               && homeCurrency !='RUB'">
                                 {{ homeCurrency }}
                             </span>
-                         {{ dashboard.incomeValue | number }}</span>
+                            {{ dashboard.incomeValue | number }}
+                        </span>
                         <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.incomeTrend != 0">
-                        <span ng-show="dashboard.incomeTrend > 0">+</span>
-                        {{ dashboard.incomeTrend }}% {{'dashboard.from_previous_month' | translate}}</p>
+                            <span ng-show="dashboard.incomeTrend > 0">+</span>
+                            {{ dashboard.incomeTrend }}% {{'dashboard.from_previous_month' | translate}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -150,21 +214,21 @@
         </div>
         <div class="panel-body">
             <!--<div class="pie-progress pie-progress-lg center-block" id="examplePieApi" data-plugin="pieProgress" data-barcolor="#fa7a7a" data-goal="100" data-size="350" data-barsize="10" aria-valuemin="-100" aria-valuemax="250" role="progressbar" aria-valuenow="200">
-            <div class="pie-progress-content">
-                <div class="pie-progress-number">$ {{ dashboard.balanceValue }}</div>
-                <div class="pie-progress-label">Balance</div>
-            </div>
-            <div class="pie-progress-svg">
-                <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350">
-                    <ellipse rx="170" ry="170" cx="175" cy="175" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
-                    <path fill="none" stroke-width="10" stroke="#57c7d4" d="M175,5 A170,170 0 1 1 42.088647980434814,69.00673368401544" style="stroke-dasharray: 915.601, 915.601; stroke-dashoffset: 0;"></path>
-                </svg>
-            </div>
-        </div>-->
+                <div class="pie-progress-content">
+                    <div class="pie-progress-number">$ {{ dashboard.balanceValue }}</div>
+                    <div class="pie-progress-label">Balance</div>
+                </div>
+                <div class="pie-progress-svg">
+                    <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350">
+                        <ellipse rx="170" ry="170" cx="175" cy="175" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
+                        <path fill="none" stroke-width="10" stroke="#57c7d4" d="M175,5 A170,170 0 1 1 42.088647980434814,69.00673368401544" style="stroke-dasharray: 915.601, 915.601; stroke-dashoffset: 0;"></path>
+                    </svg>
+                </div>
+            </div>-->
 
 
             <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="dashboard.balanceValue > 0">
-                <div style="max-width:300px;" >
+                <div style="max-width:300px;">
                     <canvas id="doughnut" class="chart chart-doughnut" chart-options="options1"
                             chart-data="data" chart-labels="labels"></canvas>
 
@@ -190,7 +254,7 @@
                                 </td>
                                 <td style="vertical-align:middle">{{ account.currencyCode }}</td>
                                 <td style="vertical-align:middle">{{ account.ammount | number: 2 }}</td>
-                     
+
                             </tr>
                         </tbody>
                     </table>
@@ -258,7 +322,98 @@
                 </blockquote>
             </div>
 
+        </div>
+    </div>
+
+    <div class="row" data-plugin="matchHeight" data-by-row="true" id="goals" ng-show="settings.subscriptionType == 'BASIC' && settings.isGoalsWP && goalsDefault.length > 0">
+
+        <div data-ng-repeat="goal in goalsDefault">
+            <div data-ng-class="(goalsDefault.length > 1) ? 'col-lg-6 col-xs-12' : 'col-lg-12 col-xs-12'">
+                <div ng-switch on="goal.goalDisplayType">
+
+                    <div ng-switch-when="DEFAULT">
+                        <div class="card card-block p-30">
+                            <div class="counter counter-md text-xs-left">
+                                <div class="counter-label text-uppercase m-b-5">{{ goal.title }} <span style="color:silver">({{ goal.completedPercent }}% {{'dashboard.goal_completed' | translate}})</span></div>
+                                <div class="counter-number-group m-b-10 animation-fade animation-duration-1" style="vertical-align:bottom">
+                                    <span class="counter-number">
+                                        <i data-ng-show="goal.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="goal.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="goal.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="goal.currencyCode !='USD'
+                                                                                  && goal.currencyCode !='EUR'
+                                                                                  && goal.currencyCode !='RUB'">
+                                            {{ goal.currencyCode }}
+                                        </span> {{ goal.currentAmount | number:2 }}
+                                    </span>
+                                    <span style="float:right;color:#e4eaec" data-ng-class="(goal.completedPercent > 80) ? 'green-600' : 'grey-300'">{{ goal.goalAmount | number:0 }}</span>
+                                </div>
+
+                                <div class="counter-label">
+                                    <div class="progress progress-xs m-b-10">
+                                        <div data-ng-class="(goal.trendPercent < 0) ? 'progress-bar progress-bar-info bg-red-600 animation-slide-left animation-duration-2' : 'progress-bar progress-bar-info bg-green-600 animation-slide-left animation-duration-2'" aria-valuenow="{{ goal.completedPercent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ goal.completedPercent }}%" role="progressbar">
+                                            <span class="sr-only">{{ goal.completedPercent }}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="counter counter-sm text-xs-left">
+                                        <div class="counter-number-group animation-fade animation-duration-2">
+                                            <span ng-show="goal.trendPercent > 0" class="counter-icon green-600 m-r-5"><i class="wb-graph-up"></i></span>
+                                            <span ng-show="goal.trendPercent < 0" class="counter-icon red-600 m-r-5"><i class="wb-graph-down"></i></span>
+                                            <span ng-show="goal.trendPercent != 0" class="counter-number">{{ goal.trendPercent }}%</span>
+                                            <span ng-show="goal.trendPercent == 0" class="counter-number grey-300">{{'dashboard.goal_no_trend' | translate}}</span>
+                                            <span ng-show="goal.trendPercent > 0" class="counter-number-related">{{'dashboard.goal_grow_up' | translate}}</span>
+                                            <span ng-show="goal.trendPercent < 0" class="counter-number-related">{{'dashboard.goal_down' | translate}}</span>
+                                            <span class="counter-number" style="float:right;color:#e4eaec" data-ng-class="(goal.completedPercent > 80) ? 'green-600' : 'grey-300'">{{ goal.goalDate | date }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-switch-when="RED">
+                        <div class="card card-block p-30">
+                            <div class="counter counter-md text-xs-left">
+                                <div class="counter-label text-uppercase m-b-5">{{ goal.title }} <span style="color:silver">({{ goal.completedPercent }}% {{'dashboard.goal_completed' | translate}})</span></div>
+                                <div class="counter-number-group m-b-10 animation-fade animation-duration-1">
+                                    <span class="counter-number">
+                                        <i data-ng-show="goal.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="goal.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="goal.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="goal.currencyCode !='USD'
+                                                                                  && goal.currencyCode !='EUR'
+                                                                                  && goal.currencyCode !='RUB'">
+                                            {{ goal.currencyCode }}
+                                        </span> {{ goal.currentAmount | number:2 }}
+                                    </span>
+                                    <span style="float:right;" class="red-600">{{ goal.goalAmount | number:0 }}</span>
+                                </div>
+
+                                <div class="counter-label">
+                                    <div class="progress progress-xs m-b-10">
+                                        <div class="progress-bar progress-bar-info bg-red-600 animation-slide-left animation-duration-2" aria-valuenow="{{ goal.completedPercent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ goal.completedPercent }}%" role="progressbar">
+                                            <span class="sr-only">{{ goal.completedPercent }}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="counter counter-sm text-xs-left">
+                                        <div class="counter-number-group animation-fade animation-duration-2">
+                                            <span ng-show="goal.trendPercent > 0" class="counter-icon green-600 m-r-5"><i class="wb-graph-up"></i></span>
+                                            <span ng-show="goal.trendPercent < 0" class="counter-icon red-600 m-r-5"><i class="wb-graph-down"></i></span>
+                                            <span ng-show="goal.trendPercent != 0" class="counter-number">{{ goal.trendPercent }}%</span>
+                                            <span ng-show="goal.trendPercent == 0" class="counter-number grey-300">{{'dashboard.goal_no_trend' | translate}}</span>
+                                            <span ng-show="goal.trendPercent > 0" class="counter-number-related">{{'dashboard.goal_grow_up' | translate}}</span>
+                                            <span ng-show="goal.trendPercent < 0" class="counter-number-related">{{'dashboard.goal_down' | translate}}</span>
+                                            <span class="counter-number red-600" style="float:right;color:#e4eaec">{{ goal.goalDate | date }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+        </div>
     </div>
 
     <div class="panel" id="daily-transactions" ng-show="transactions.length > 0 && settings.isTransactionLogWP">
@@ -302,17 +457,19 @@
                                         {{ transaction.transactionValue | number:2 }}
                                     </span>
                                 </small>
-                                <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right"><span class="tag-lg grey-600">
-                                    <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
-                                    <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
-                                    <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
-                                    <span data-ng-show="transaction.currencyCode !='USD' 
-                                              && transaction.currencyCode !='EUR' 
+                                <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right">
+                                    <span class="tag-lg grey-600">
+                                        <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
+                                        <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
+                                        <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
+                                        <span data-ng-show="transaction.currencyCode !='USD'
+                                              && transaction.currencyCode !='EUR'
                                               && transaction.currencyCode !='RUB'">
                                             {{ transaction.currencyCode }}
                                         </span>
-                                    {{ transaction.transactionValue | number:2 }}
-                                 </span></small>
+                                        {{ transaction.transactionValue | number:2 }}
+                                    </span>
+                                </small>
                                 <a class="name">
                                     <span data-ng-show="transaction.transactionCode =='EXP'">
                                         {{'dashboard.You_had_expenses_for' | translate}}
@@ -327,7 +484,7 @@
                                         <strong>{{ accountsLookup[transaction.accountSourceId].title }}</strong> {{'dashboard.to' | translate}}
                                         <strong>{{ accountsLookup[transaction.accountDestinationId].title }}</strong>
                                     </span>
-                                 </a>
+                                </a>
                             </h4>
                             <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}</small>
                         </div>
@@ -345,8 +502,5 @@
 
 
 
-
-
 </div>
-
 

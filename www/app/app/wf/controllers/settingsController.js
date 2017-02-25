@@ -26,7 +26,9 @@
             isBalanceWP : true,
             isTransactionLogWP: true,
             avatarNumber: 0,
-            userLang: 'en'
+            userLang: 'en',
+            subscriptionType: 'WORLD',
+            isGoalsWP: false
         };
     }
 
@@ -40,6 +42,8 @@
             $("#chBoxBalance").attr('checked', '');
         if ($scope.settings.isTransactionLogWP)
             $("#chBoxTransactionLog").attr('checked', '');
+        if ($scope.settings.isGoalsWP)
+            $("#chBoxGoals").attr('checked', '');
         //$("#btnFinish").removeAttr('checked');
     }
 
@@ -68,6 +72,7 @@
         if (id == 'chBoxTrends') $scope.settings.isTrendsWP = !$scope.settings.isTrendsWP;
         if (id == 'chBoxBalance') $scope.settings.isBalanceWP = !$scope.settings.isBalanceWP;
         if (id == 'chBoxTransactionLog') $scope.settings.isTransactionLogWP = !$scope.settings.isTransactionLogWP;
+        if (id == 'chBoxGoals') $scope.settings.isGoalsWP = !$scope.settings.isGoalsWP;
 
         $scope.updateUserSettings();
     }

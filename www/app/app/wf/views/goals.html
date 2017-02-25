@@ -1,0 +1,245 @@
+﻿<style>
+    .site-action {
+        display: none !important;
+    }
+</style>
+
+<div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+    <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+    <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+    {{message}}
+</div>
+
+<div class="modal fade" id="editGoalForm" aria-hidden="true" aria-labelledby="editGoalForm"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title"> <i class="site-menu-icon oi-milestone"></i>{{'goals.Goal' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                        <div class="col-md-12 col-xs-12">
+                            <input type="text" class="form-control" name="goal_title" data-ng-model="goal.title" autofocus />
+                            <label class="floating-label" translate="goals.Goal">Goal</label>
+                        </div>
+                    </div>
+                    <div class="form-material floating has-success" data-plugin="formMaterial">
+                        <select class="form-control" name="goal_source" data-ng-model="goal.sourceId">
+                            <option ng-selected="goal.sourceId == account.id" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number:2}})</option>
+                        </select>
+                        <label class="floating-label" translate="goals.Source_for_this_goal">Source for this goal</label>
+                    </div>
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                        <div class="col-md-12 col-xs-12">
+                            <input type="number" min="0" max="100" class="form-control" name="goal_source_percent" data-ng-model="goal.sourcePercent" />
+                            <label class="floating-label" translate="goals.Source_percent">Source percent</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                        <div class="col-md-12 col-xs-12">
+                            <input type="text" class="form-control" name="goal_amount" data-ng-model="goal.goalAmount" />
+                            <label class="floating-label" translate="goals.Amount">Amount</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                        <div class="col-md-12 col-xs-12">
+                            <input type="date" class="form-control" name="goal_goalDate" data-ng-model="goal.goalDate" />
+                            <label class="floating-label" translate="goals.Date_of_ending">Date of ending</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                            <div class="col-md-12 col-xs-12">
+                                 <div class="checkbox-custom checkbox-success">
+                                    <input type="checkbox" id="goal_displayOnDashboard" data-ng-model="goal.displayOnDashboard" />
+                                    <label for="goal_displayOnDashboard" translate="goals.Display_on_dashboard">Display on dashboard</label>
+                                 </div>
+                            </div>
+                    </div>
+
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="checkbox-custom checkbox-success">
+                                <input type="checkbox" id="goal_notifyOverdue" data-ng-model="goal.notifyOverdue" />
+                                <label for="goal_notifyOverdue" translate="goals.Notify_overdue_before">Notify overdue, before</label>
+                                <span>&nbsp;</span>
+                                <input type="number" min="0" class="form-control" style="width:40px;display:inline;" name="goal_notifyOverdueDays" data-ng-model="goal.notifyOverdueDays" />
+                                <span>&nbsp;{{'goals.days' | translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" style="float:left" data-dismiss="modal" type="button" data-ng-show="goal.state == 'NEW' || goal.state == 'PROLONG'" data-ng-click="updateStateGoal(goal,'DONE')">{{'goals.Done' | translate}}</button>
+
+                <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="goal.title == '' || goal.sourceId == '' || goal.sourcePercent == '' || goal.goalAmount == ''" data-ng-click="saveChanges()">{{'goals.Save' | translate}}</button>
+                <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'goals.Cancel' | translate}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeGoalForm" aria-hidden="true" aria-labelledby="removeGoalForm"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title"> <i class="site-menu-icon oi-milestone"></i>{{'goals.Goal_removing' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group form-material row" data-plugin="formMaterial">
+                        <div class="col-md-12 col-xs-12">
+                            {{'goals.We_are_going_to_remove_goal' | translate}} <strong>{{goal.title}}</strong> {{'goals.Are_you_sure' | translate}}?
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeGoal()">{{'goals.Remove' | translate}}</button>
+
+                <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'goals.Cancel' | translate}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" data-ng-show="authentication.isAuth">
+
+    <link href="app/assets/examples/work.css" rel="stylesheet" />
+
+    <div class="panel app-work animation-fade animation-duration-1">
+
+        <div class="app-contacts panel-heading">
+            <h3 class="app-contacts panel-title">{{'goals.Goals' | translate}}</h3>
+
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+        </div>
+
+
+
+
+        <div class="panel-body">
+            <ul class="panel-info">
+                <li>
+                    <div class="num blue-600">
+                        <i data-ng-show="goalsTotals.homeCurrency =='USD'" class="fa-dollar"></i>
+                        <i data-ng-show="goalsTotals.homeCurrency =='EUR'" class="fa-eur"></i>
+                        <i data-ng-show="goalsTotals.homeCurrency =='RUB'" class="fa-rub"></i>
+                        <span data-ng-show="goalsTotals.homeCurrency !='USD'
+                                                 && goalsTotals.homeCurrency !='EUR'
+                                                 && goalsTotals.homeCurrency !='RUB'">
+                            {{ goalsTotals.homeCurrency }}
+
+                        </span> {{ goalsTotals.onGoals | number:0 }}
+                    </div>
+                    <p translate="goals.On_goals">On goals</p>
+                </li>
+                <li>
+                    <div class="num orange-600">{{goalsTotals.failed}}</div>
+                    <p translate="goals.Failed">Failed</p>
+                </li>
+                <li>
+                    <div class="num green-600">{{goalsTotals.completed}}</div>
+                    <p translate="goals.Completed">Completed</p>
+                </li>
+            </ul>
+
+            <table class="table" ng-show="goals.length > 0">
+                <thead>
+                    <tr>
+                        <th translate="goals.Status">Status</th>
+                        <th translate="goals.Goal">Goal</th>
+                        <th translate="goals.Progress">Progress</th>
+                        <th translate="goals.Amount">Amount</th>
+                        <th style="text-align:center" translate="goals.Actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="goal in goals">
+                        <td class="work-status">
+                            <span class="tag tag-outline tag-success" data-ng-show="goal.state == 'DONE'" translate="goals.DONE">DONE</span>
+                            <span class="tag tag-outline tag-warning" data-ng-show="goal.state == 'DECLINE'" translate="goals.DECLINED">DECLINED</span>
+                            <span class="tag tag-outline tag-default blue-600" data-ng-show="goal.state == 'NEW'" translate="goals.ON_GOAL">ON GOAL</span>
+                            <span class="tag bg-red-600" data-ng-show="goal.state == 'PROLONG'" translate="goals.PROLONGED">PROLONGED</span>
+                        </td>
+                        <td class="subject">
+                            <div class="table-content">
+
+                                <p class="grey-500 font-weight-500">{{goal.title}} 
+                                    <span class="tag tag-sm tag-outline tag-default green-600" data-ng-show="goal.state == 'DONE'" translate="goals.DONE">DONE</span>
+                                    <span class="tag tag-sm tag-outline tag-warning" data-ng-show="goal.state == 'DECLINE'" translate="goals.DECLINED">DECLINED</span>
+                                    <span class="tag tag-sm tag-outline tag-default blue-600" data-ng-show="goal.state == 'NEW'">{{'goals.ON_GOAL' | translate}} - {{ goal.completedPercent }}%</span>
+                                    <span class="tag tag-sm bg-red-600" data-ng-show="goal.state == 'PROLONG'">{{'goals.PROLONGED' | translate}} - {{ goal.completedPercent }}%</span>
+                                </p>
+                                <span class="grey-400 font-size-16">
+                                <i data-ng-show="goal.currencyCode =='USD'" class="fa-dollar"></i>
+                                <i data-ng-show="goal.currencyCode =='EUR'" class="fa-eur"></i>
+                                <i data-ng-show="goal.currencyCode =='RUB'" class="fa-rub"></i>
+                                <span data-ng-show="goal.currencyCode !='USD'
+                                                 && goal.currencyCode !='EUR'
+                                                 && goal.currencyCode !='RUB'">
+                                                        {{ goal.currencyCode }}
+                                
+                                </span> {{ goal.goalAmount | number:0 }}</span>
+                                <span class="grey-400 font-weight-100" data-ng-show="goal.state == 'DONE'">{{'goals.completed' | translate}} {{ goal.modified | date }}</span>
+                                <span class="orange-400 font-weight-100" data-ng-show="goal.state == 'DECLINE'">{{'goals.declined' | translate}} {{ goal.modified | date }}</span>
+                                <span class="grey-400 font-weight-100" data-ng-show="goal.state == 'NEW' && goal.goalDate != null">{{'goals.til' | translate}} {{ goal.goalDate | date }}</span>
+                                <span class="red-400 font-weight-100" data-ng-show="goal.state == 'PROLONG' && goal.goalDate != null">{{'goals.prolonged_to' | translate}} {{ goal.goalDate | date }}</span>
+
+                            </div>
+                        </td>
+                        <td class="work-progress">
+                            <div class="progress progress-xs table-content">
+                                <div data-ng-class="(goal.trendPercent < 0 && goal.state != 'DONE') ? 'progress-bar progress-bar-info bg-red-600' : 'progress-bar progress-bar-info bg-green-600'" style="width: {{ goal.completedPercent }}%" role="progressbar">
+                                    <span class="sr-only">{{ goal.completedPercent }}%</span>
+                                </div>
+                            </div>
+                            <span>{{ goal.completedPercent }}%</span>
+                        </td>
+                        <td class="members">
+                            <div class="table-content">
+                                <span data-ng-class="(goal.trendPercent < 0 && goal.state != 'DONE') ? 'red-600':'green-600'">
+                                    <i data-ng-show="goal.currencyCode =='USD'" class="fa-dollar"></i>
+                                    <i data-ng-show="goal.currencyCode =='EUR'" class="fa-eur"></i>
+                                    <i data-ng-show="goal.currencyCode =='RUB'" class="fa-rub"></i>
+                                    <span data-ng-show="goal.currencyCode !='USD'
+                                                 && goal.currencyCode !='EUR'
+                                                 && goal.currencyCode !='RUB'">
+                                        {{ goal.currencyCode }}
+                                    </span> {{ goal.currentAmount | number:2 }}
+                                </span>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="actions">
+             
+                            <a ng-click="showModal(goal)" data-ng-show="goal.state != 'DONE' && goal.state != 'DECLINE'" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
+                            <a ng-click="showRemoveModal(goal)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
+                    
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <div class="modal-footer">
+                <p>{{'goals.to_create_goal_click' | translate}}</p>
+                <button class="btn btn-outline btn-danger  btn-direction btn-up " ng-click="showModal()">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    {{'goals.NEW_GOAL' | translate}}
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

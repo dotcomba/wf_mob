@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate) {
+app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService) {
 
     // initialization and load
     $scope.transactions = [];
@@ -8,6 +8,9 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
     $scope.accountsLookup = {};
     $scope.message = "";
     $scope.dashboard = {};
+    $scope.goals = [];
+    $scope.goalsEvents = [];
+    $scope.goalsDefault = [];
 
     $scope.currencies = [];
     $scope.homeCurrency = '';
@@ -25,7 +28,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
     });
 
     $translate(['error_on_loading', 'error_in_process_updating_user_settings',
-	'error_on_settings_updating','error_on_loading_of_categories']).then(function (translations) {
+	'error_on_settings_updating', 'error_on_loading_of_categories', 'goals_Error_in_process_of_updating_goal_s_state']).then(function (translations) {
         $scope.translations = translations;
     }, null);
 
@@ -58,7 +61,9 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             isBalanceWP: true,
             isTransactionLogWP: true,
             avatarNumber: 0,
-            userLang: 'en'
+            userLang: 'en',
+            subscriptionType: 'WORLD',
+            isGoalsWP: false
         };
         updateUserSettings();
 
@@ -174,7 +179,23 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             startReloadTimer();
         });
 
+    goalsService.getGoals().then(function (results) {
+        $scope.goals = results.data;
 
+        angular.forEach($scope.goals, function (obj) {
+            if (obj.goalDisplayType == 'DONE' || obj.goalDisplayType == 'OVERDUE')
+            this.push(obj);
+        }, $scope.goalsEvents);
+
+        angular.forEach($scope.goals, function (obj) {
+            if (obj.goalDisplayType == 'DEFAULT' || obj.goalDisplayType == 'RED')
+                this.push(obj);
+        }, $scope.goalsDefault);
+
+    }, function (error) {
+        $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+        startReloadTimer();
+    });
 
     var startReloadTimer = function () {
         var timer = $timeout(function () {
@@ -193,6 +214,31 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             $timeout.cancel(timer);
         }, 12000);
     }
+
+    $scope.updateStateGoal = function (goal, state) {
+        goal.state = state;
+        goalsService.updateStateGoal(goal.id, goal).then(function (response) {
+
+            $route.reload();
+
+        },
+         function (response) {
+             if (response.status == 400)
+                 $scope.message = $scope.translations.goals_Error_in_process_of_updating_goal_s_state //"Error in process of updating goal's state: " 
+									+ response.data.message;
+             else {
+                 var errors = [];
+                 for (var key in response.data.modelState) {
+                     for (var i = 0; i < response.data.modelState[key].length; i++) {
+                         errors.push(response.data.modelState[key][i]);
+                     }
+                 }
+                 $scope.message = $scope.translations.goals_Error_in_process_of_updating_goal_s_state  //"Error on goal state updating: " 
+									+ errors.join(' ');
+             }
+             startErrorTimer();
+         });
+    };
 
 
     // ....

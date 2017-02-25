@@ -50,6 +50,7 @@
     <script src="app/wf/services/categoriesService.js?v=2"></script>
     <script src="app/wf/services/currenciesService.js?v=2"></script>
     <script src="app/wf/services/settingsService.js?v=2"></script>
+    <script src="app/wf/services/goalsService.js?v=2"></script>
     <!-- Load controllers -->
     <script src="app/wf/controllers/indexController.js?v=2"></script>
     <script src="app/wf/controllers/transactionsController.js?v=2"></script>
@@ -63,6 +64,7 @@
     <script src="app/wf/controllers/reportIncomesController.js?v=2"></script>
     <script src="app/wf/controllers/reportExpensisesController.js?v=2"></script>
     <script src="app/wf/controllers/reportTrendsController.js?v=2"></script>
+    <script src="app/wf/controllers/goalsController.js?v=2"></script>
     <script src="app/wf/controllers/wizardController.js?v=2"></script>
     <script src="app/wf/controllers/allstufController.js?v=2"></script>
     <script src="app/wf/controllers/settingsController.js?v=2"></script>
@@ -281,6 +283,13 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType == 'BASIC'">
+                            <a class="animsition-link" href="#/goals" onclick="closeU()">
+                                <i class="site-menu-icon oi-milestone" aria-hidden="true"></i>
+                                <span translate="menu.Goals" class="site-menu-title">Goals</span>
+                            </a>
                         </li>
 
                         <li class="site-menu-item">

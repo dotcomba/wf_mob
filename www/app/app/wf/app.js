@@ -108,6 +108,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/reportTrends.html"
     });
 
+    $routeProvider.when("/goals", {
+        controller: "goalsController",
+        templateUrl: "app/wf/views/goals.html"
+    });
+
     $routeProvider.when("/wizard", {
         controller: "wizardController",
         templateUrl: "app/wf/views/wizard.html"

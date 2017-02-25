@@ -27,7 +27,9 @@
             isBalanceWP : true,
             isTransactionLogWP: true,
             avatarNumber: 0,
-            userLang:'en'
+            userLang: 'en',
+            subscriptionType: 'WORLD',
+            isGoalsWP: false
         };
     }
 
