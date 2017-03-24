@@ -132,6 +132,17 @@
                         </div>
                     </div>
                 </li>
+
+                <li class="list-group-item" data-ng-show="settings.subscriptionType == 'BASIC'">
+                    <div class="media">
+                        <div class="media-body" translate="settings.Calendar">
+                            Calendar
+                        </div>
+                        <div class="media-right">
+                            <label class="switch"><input type="checkbox" id="chBoxCalendar" ng-click="checkboxClick('chBoxCalendar')"><div class="slider round"></div></label>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

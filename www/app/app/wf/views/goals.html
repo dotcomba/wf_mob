@@ -4,6 +4,8 @@
     }
 </style>
 
+<link href="app/assets/examples/work.css" rel="stylesheet" />
+
 <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
     <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
     <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
@@ -110,8 +112,6 @@
 </div>
 
 <div class="row" data-ng-show="authentication.isAuth">
-
-    <link href="app/assets/examples/work.css" rel="stylesheet" />
 
     <div class="panel app-work animation-fade animation-duration-1">
 

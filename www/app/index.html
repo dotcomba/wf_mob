@@ -25,6 +25,13 @@
     <link rel="stylesheet" href="app/global/fonts/octicons/octicons.css">
     <link rel="stylesheet" href="app/global/fonts/font-awesome/font-awesome.css">
     <link rel="stylesheet" href="app/global/vendor/intro-js/introjs.css">
+
+    <!-- Calendar -->
+    <link rel="stylesheet" href="app/global/vendor/fullcalendar/fullcalendar.css">
+    <link rel="stylesheet" href="app/global/vendor/jquery-selective/jquery-selective.css">
+    <link rel="stylesheet" href="app/assets/examples/css/apps/calendar.css">  
+    <!-- Calendar -->
+
     <!--[if lt IE 9]>
       <script src="app/global/vendor/html5shiv/html5shiv.min.js"></script>
       <![endif]-->
@@ -51,6 +58,7 @@
     <script src="app/wf/services/currenciesService.js?v=2"></script>
     <script src="app/wf/services/settingsService.js?v=2"></script>
     <script src="app/wf/services/goalsService.js?v=2"></script>
+    <script src="app/wf/services/calendarService.js?v=2"></script>
     <!-- Load controllers -->
     <script src="app/wf/controllers/indexController.js?v=2"></script>
     <script src="app/wf/controllers/transactionsController.js?v=2"></script>
@@ -72,6 +80,7 @@
     <script src="app/wf/controllers/changePasswordController.js?v=2"></script>
     <script src="app/wf/controllers/forgotPasswordController.js?v=2"></script>
     <script src="app/wf/controllers/resetPasswordController.js?v=2"></script>
+    <script src="app/wf/controllers/calendarController.js?v=2"></script>
 
     <script src="app/scripts/translator/translate.js"></script>
     <script src="app/scripts/translator/service/default-interpolation.js"></script>
@@ -289,6 +298,13 @@
                             <a class="animsition-link" href="#/goals" onclick="closeU()">
                                 <i class="site-menu-icon oi-milestone" aria-hidden="true"></i>
                                 <span translate="menu.Goals" class="site-menu-title">Goals</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType == 'BASIC'">
+                            <a class="animsition-link" href="#/calendar" onclick="closeU()">
+                                <i class="site-menu-icon oi-calendar" aria-hidden="true"></i>
+                                <span translate="menu.Calendar" class="site-menu-title">Calendar</span>
                             </a>
                         </li>
 
@@ -581,6 +597,13 @@
                 $('.site-action-toggle').click();
         }
     </script>
+
+    <!-- Calendar scripts -->
+    <script src="app/global/vendor/moment/moment.min.js"></script>
+    <script src="app/global/vendor/fullcalendar/fullcalendar.js"></script>
+    <script src="app/global/vendor/fullcalendar/locale-all.js"></script>
+    <script src="app/global/vendor/jquery-selective/jquery-selective.min.js"></script>
+    <!-- Calendar scripts -->
  
 </body>
 </html>

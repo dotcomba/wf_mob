@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService) {
+app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', 'calendarService', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService, calendarService) {
 
     // initialization and load
     $scope.transactions = [];
@@ -11,6 +11,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
     $scope.goals = [];
     $scope.goalsEvents = [];
     $scope.goalsDefault = [];
+    $scope.calendarEvents = [];
 
     $scope.currencies = [];
     $scope.homeCurrency = '';
@@ -28,7 +29,9 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
     });
 
     $translate(['error_on_loading', 'error_in_process_updating_user_settings',
-	'error_on_settings_updating', 'error_on_loading_of_categories', 'goals_Error_in_process_of_updating_goal_s_state']).then(function (translations) {
+	'error_on_settings_updating', 'error_on_loading_of_categories', 'goals_Error_in_process_of_updating_goal_s_state',
+    'calendar_Event_has_been_rejected', 'calendar_Event_has_been_executed',
+    'calendar_Error_in_process_of_executing_of_payment', 'calendar_Error']).then(function (translations) {
         $scope.translations = translations;
     }, null);
 
@@ -51,6 +54,9 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
     settingsService.getUserSettings().then(function (results) {
         $scope.settings = results.data;
+
+        if ($scope.settings.isGoalsWP) getGoals();
+        if ($scope.settings.isCalendarWP) getDashboardEvents();
     }, function (error) {
 
         $scope.settings = {
@@ -63,7 +69,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             avatarNumber: 0,
             userLang: 'en',
             subscriptionType: 'WORLD',
-            isGoalsWP: false
+            isGoalsWP: false,
+            isCalendarWP: false
         };
         updateUserSettings();
 
@@ -179,23 +186,72 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             startReloadTimer();
         });
 
-    goalsService.getGoals().then(function (results) {
-        $scope.goals = results.data;
+    var getDashboardEvents = function () {
+        calendarService.getDashboardEvents().then(function (results) {
+            $scope.calendarEvents = results.data;
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            //startReloadTimer();
+        });
+    }
 
-        angular.forEach($scope.goals, function (obj) {
-            if (obj.goalDisplayType == 'DONE' || obj.goalDisplayType == 'OVERDUE')
-            this.push(obj);
-        }, $scope.goalsEvents);
+    $scope.executeEvent = function (event)
+    {
+        if (event != null)
+            $scope.ccEvent = event;
 
-        angular.forEach($scope.goals, function (obj) {
-            if (obj.goalDisplayType == 'DEFAULT' || obj.goalDisplayType == 'RED')
-                this.push(obj);
-        }, $scope.goalsDefault);
+        $('#executeEventForm').modal();
+    }
 
-    }, function (error) {
-        $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
-        startReloadTimer();
-    });
+    $scope.invokeEvent = function (obj, operation) {
+        calendarService.invokeEvent(obj.id, obj, operation).then(function (response) {
+
+            if (operation == 'REJECT')
+                $scope.message = $scope.translations.calendar_Event_has_been_rejected; //"Event has been rejected";
+            else $scope.message = $scope.translations.calendar_Event_has_been_executed; //"Event has been executed";
+            $scope.savedSuccessfully = true;
+            startReloadTimer();
+        },
+         function (response) {
+             if (response.status == 500 && response.data.innerException.innerException.exceptionMessage != null)
+                 $scope.message = $scope.translations.calendar_Error //"Error: "
+									+ response.data.innerException.innerException.exceptionMessage;
+             else if (response.status == 400)
+                 $scope.message = $scope.translations.calendar_Error_in_process_of_executing_of_payment //"Error in process of executing of payment: " 
+									+ response.data.message;
+             else {
+                 var errors = [];
+                 for (var key in response.data.modelState) {
+                     for (var i = 0; i < response.data.modelState[key].length; i++) {
+                         errors.push(response.data.modelState[key][i]);
+                     }
+                 }
+                 $scope.message = $scope.translations.calendar_Error_in_process_of_executing_of_payment //"Error in process of executing of payment: "
+									+ errors.join(' ');
+             }
+             startErrorTimer();
+         });
+    };
+
+    var getGoals = function () {
+        goalsService.getGoals().then(function (results) {
+            $scope.goals = results.data;
+
+            angular.forEach($scope.goals, function (obj) {
+                if (obj.goalDisplayType == 'DONE' || obj.goalDisplayType == 'OVERDUE')
+                    this.push(obj);
+            }, $scope.goalsEvents);
+
+            angular.forEach($scope.goals, function (obj) {
+                if (obj.goalDisplayType == 'DEFAULT' || obj.goalDisplayType == 'RED')
+                    this.push(obj);
+            }, $scope.goalsDefault);
+
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startReloadTimer();
+        });
+    }
 
     var startReloadTimer = function () {
         var timer = $timeout(function () {

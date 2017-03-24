@@ -29,7 +29,8 @@
             avatarNumber: 0,
             userLang: 'en',
             subscriptionType: 'WORLD',
-            isGoalsWP: false
+            isGoalsWP: false,
+            isCalendarWP: false
         };
     }
 

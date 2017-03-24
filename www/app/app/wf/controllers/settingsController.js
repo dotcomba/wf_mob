@@ -28,7 +28,8 @@
             avatarNumber: 0,
             userLang: 'en',
             subscriptionType: 'WORLD',
-            isGoalsWP: false
+            isGoalsWP: false,
+            isCalendarWP: false
         };
     }
 
@@ -44,6 +45,8 @@
             $("#chBoxTransactionLog").attr('checked', '');
         if ($scope.settings.isGoalsWP)
             $("#chBoxGoals").attr('checked', '');
+        if ($scope.settings.isCalendarWP)
+            $("#chBoxCalendar").attr('checked', '');
         //$("#btnFinish").removeAttr('checked');
     }
 
@@ -73,6 +76,7 @@
         if (id == 'chBoxBalance') $scope.settings.isBalanceWP = !$scope.settings.isBalanceWP;
         if (id == 'chBoxTransactionLog') $scope.settings.isTransactionLogWP = !$scope.settings.isTransactionLogWP;
         if (id == 'chBoxGoals') $scope.settings.isGoalsWP = !$scope.settings.isGoalsWP;
+        if (id == 'chBoxCalendar') $scope.settings.isCalendarWP = !$scope.settings.isCalendarWP;
 
         $scope.updateUserSettings();
     }
