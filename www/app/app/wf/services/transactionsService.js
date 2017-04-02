@@ -82,6 +82,16 @@ app.factory('transactionsService', ['$http', 'ngAuthSettings', function ($http, 
     };
     transactionsServiceFactory.getReportIncomesByPeriod = _getReportIncomesByPeriod;
 
+    //Update the Record
+    transactionsServiceFactory.cancelTransaction = function (id, transaction) {
+        var result = $http({
+            method: "put",
+            url: serviceBase + "api/transactions/cancel/" + id,
+            data: transaction
+        });
+        return result;
+    }
+
     return transactionsServiceFactory;
 
 }]);

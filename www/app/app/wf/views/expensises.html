@@ -14,19 +14,53 @@
 
         </div>
         <div class="panel-body">
+
+            <div class="modal fade" id="cancelTransactionForm" style="padding-top:60px" aria-hidden="true" aria-labelledby="cancelTransactionForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon wb-reply"></i>{{ 'allstuff.Transaction_canceling' | translate }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        {{ 'allstuff.We_are_going_to_cancel_this_transaction' | translate }}. <br />
+                                        {{ 'allstuff.Are_you_sure' | translate }}?
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-dark" data-dismiss="modal" type="submit" data-ng-click="cancelTransaction()" translate="allstuff.Cancel_transaction">Cancel transaction</button>
+
+                            <a class="btn btn-sm btn-white grey-600" data-dismiss="modal" href="javascript:void(0)" translate="allstuff.Exit">Exit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                {{message}}
+            </div>
+
             <ul class="list-group list-group-dividered list-group-full">
 
                 <li class="list-group-item" data-ng-repeat="transaction in transactions | filter : {transactionCode: 'EXP' }" ng-show="transactions.length > 0">
                     <div class="media">
                         <div class="media-left">
-                            <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
-                            <i data-ng-show="transaction.transactionCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important">&nbsp;</i>
-                            <i data-ng-show="transaction.transactionCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important"></i>
+                            <i data-ng-show="transaction.transactionCode =='EXP'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 ti-shopping-cart' : 'orange-400 ti-shopping-cart'" style="font-size:18pt !important"></i>
+                            <i data-ng-show="transaction.transactionCode =='INC'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 fa-dollar' : 'blue-400 fa-dollar'" style="font-size:18pt !important">&nbsp;</i>
+                            <i data-ng-show="transaction.transactionCode =='TRAN'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 ti-credit-card' : 'green-400 ti-credit-card'" style="font-size:18pt !important"></i>
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">
                                 <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
-                                    <span class="tag-lg" style="color:#77d6e1;">
+                                    <span data-ng-class="(transaction.canceledDate != null) ? 'tag-lg grey-700':'tag-lg blue-400'">
                                         <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
                                         <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
                                         <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
@@ -67,7 +101,9 @@
                                     </span>
                                 </a>
                             </h4>
-                            <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}</small>
+                            <small>
+                                {{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}&nbsp;<small class="tag tag-dark" data-ng-show="transaction.canceledDate != null" translate="allstuff.CANCELED">CANCELED</small><a ng-click="showCancelModal(transaction)" data-ng-show="transaction.canceledDate == null && transaction.transactionCode != 'TRAN'" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Cancel"><i class="icon wb-reply" aria-hidden="true"></i></a>
+                            </small>
                         </div>
                     </div>
                 </li>

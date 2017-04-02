@@ -13,6 +13,16 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/calendar.html"
     });
 
+    $routeProvider.when("/budget", {
+        controller: "budgetController",
+        templateUrl: "app/wf/views/budget.html"
+    });
+
+    $routeProvider.when("/budgetDetails", {
+        controller: "budgetDetailsController",
+        templateUrl: "app/wf/views/budget-details.html"
+    });
+
     $routeProvider.when("/expensises", {
         controller: "allstufController",
         templateUrl: "app/wf/views/expensises.html"

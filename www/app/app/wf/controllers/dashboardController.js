@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', 'calendarService', function ($scope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService, calendarService) {
+app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', 'calendarService', 'budgetService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService, calendarService, budgetService) {
 
     // initialization and load
     $scope.transactions = [];
@@ -57,6 +57,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
 
         if ($scope.settings.isGoalsWP) getGoals();
         if ($scope.settings.isCalendarWP) getDashboardEvents();
+        if ($scope.settings.isBudgetWP) getDashboardBudget();
     }, function (error) {
 
         $scope.settings = {
@@ -70,7 +71,8 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
             userLang: 'en',
             subscriptionType: 'WORLD',
             isGoalsWP: false,
-            isCalendarWP: false
+            isCalendarWP: false,
+            isBudgetWP: false
         };
         updateUserSettings();
 
@@ -210,6 +212,7 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
                 $scope.message = $scope.translations.calendar_Event_has_been_rejected; //"Event has been rejected";
             else $scope.message = $scope.translations.calendar_Event_has_been_executed; //"Event has been executed";
             $scope.savedSuccessfully = true;
+            $rootScope.$broadcast('neadTRANReload', '');
             startReloadTimer();
         },
          function (response) {
@@ -250,6 +253,17 @@ app.controller('dashboardController', ['$scope', '$routeParams', '$location', '$
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
+        });
+    }
+
+    $scope.budgetDashboard = [];
+
+    var getDashboardBudget = function () {
+        budgetService.getBudgetDashboard().then(function (results) {
+            $scope.budgetDashboard = results.data;
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            //startReloadTimer();
         });
     }
 

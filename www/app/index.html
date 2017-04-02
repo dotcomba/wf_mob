@@ -59,6 +59,7 @@
     <script src="app/wf/services/settingsService.js?v=2"></script>
     <script src="app/wf/services/goalsService.js?v=2"></script>
     <script src="app/wf/services/calendarService.js?v=2"></script>
+    <script src="app/wf/services/budgetService.js?v=2"></script>
     <!-- Load controllers -->
     <script src="app/wf/controllers/indexController.js?v=2"></script>
     <script src="app/wf/controllers/transactionsController.js?v=2"></script>
@@ -81,6 +82,8 @@
     <script src="app/wf/controllers/forgotPasswordController.js?v=2"></script>
     <script src="app/wf/controllers/resetPasswordController.js?v=2"></script>
     <script src="app/wf/controllers/calendarController.js?v=2"></script>
+    <script src="app/wf/controllers/budgetController.js?v=2"></script>
+    <script src="app/wf/controllers/budgetDetailsController.js?v=2"></script>
 
     <script src="app/scripts/translator/translate.js"></script>
     <script src="app/scripts/translator/service/default-interpolation.js"></script>
@@ -269,6 +272,42 @@
                             </ul>
                         </li>
 
+                        <li class="site-menu-item has-sub" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon fa-dollar" aria-hidden="true"></i>
+                                <span translate="menu.Budget" class="site-menu-title">Budget</span>
+                                <span class="site-menu-arrow"></span>
+                            </a>
+                            <ul class="site-menu-sub">
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/budgetDetails" onclick="closeU()">
+                                        <i class="site-menu-icon wb-order" aria-hidden="true"></i>
+                                        <span translate="menu.BudgetDetails" class="site-menu-title">Budget details</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/budget" onclick="closeU()">
+                                        <i class="site-menu-icon fa-wrench" aria-hidden="true"></i>
+                                        <span translate="menu.SetupBudget" class="site-menu-title">Setup budget</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                            <a class="animsition-link" href="#/calendar" onclick="closeU()">
+                                <i class="site-menu-icon oi-calendar" aria-hidden="true"></i>
+                                <span translate="menu.Calendar" class="site-menu-title">Calendar</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                            <a class="animsition-link" href="#/goals" onclick="closeU()">
+                                <i class="site-menu-icon oi-milestone" aria-hidden="true"></i>
+                                <span translate="menu.Goals" class="site-menu-title">Goals</span>
+                            </a>
+                        </li>
+
                         <li class="site-menu-item has-sub">
                             <a href="javascript:void(0)">
                                 <i class="site-menu-icon wb-pie-chart" aria-hidden="true"></i>
@@ -292,20 +331,6 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-
-                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType == 'BASIC'">
-                            <a class="animsition-link" href="#/goals" onclick="closeU()">
-                                <i class="site-menu-icon oi-milestone" aria-hidden="true"></i>
-                                <span translate="menu.Goals" class="site-menu-title">Goals</span>
-                            </a>
-                        </li>
-
-                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType == 'BASIC'">
-                            <a class="animsition-link" href="#/calendar" onclick="closeU()">
-                                <i class="site-menu-icon oi-calendar" aria-hidden="true"></i>
-                                <span translate="menu.Calendar" class="site-menu-title">Calendar</span>
-                            </a>
                         </li>
 
                         <li class="site-menu-item">
@@ -368,15 +393,14 @@
                                         </div>
 
                                         <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-2 col-xs-2">
+                                            <div class="col-md-10 col-xs-9">
+                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autocomplete="off" />
+                                                <label class="floating-label" translate="addExpensesForm.Amount">Amount</label>
+                                            </div>
+                                            <div class="col-md-2 col-xs-3">
                                                 <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
                                                     <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-md-10 col-xs-10">
-
-                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autocomplete="off" />
-                                                <label class="floating-label" translate="addExpensesForm.Amount">Amount</label>
                                             </div>
                                         </div>
 
@@ -431,15 +455,15 @@
                                         </div>
 
                                         <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-2 col-xs-2">
-                                                <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
-                                                    <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-10 col-xs-10">
+                                            <div class="col-md-10 col-xs-9">
                                                 <input type="text" class="form-control empty" name="income_ammount"
                                                        data-ng-model="transaction.transactionValue">
                                                 <label class="floating-label" translate="addIncomeForm.Amount">Amount</label>
+                                            </div>
+                                            <div class="col-md-2 col-xs-3">
+                                                <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
+                                                    <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </form>
@@ -485,7 +509,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('TRAN')" translate="makeTransferForm.Save">Save</button>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == '' || transaction.accountSourceId == transaction.accountDestinationId" data-ng-click="createTransaction('TRAN')" translate="makeTransferForm.Save">Save</button>
                                     <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="makeTransferForm.Cancel">Cancel</a>
                                 </div>
                             </div>

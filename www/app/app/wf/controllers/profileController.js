@@ -30,7 +30,8 @@
             userLang: 'en',
             subscriptionType: 'WORLD',
             isGoalsWP: false,
-            isCalendarWP: false
+            isCalendarWP: false,
+            isBudgetWP: false
         };
     }
 

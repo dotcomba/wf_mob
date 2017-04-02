@@ -7,7 +7,7 @@
 
 <div class="row" data-ng-show="authentication.isAuth">
 
-<div class="panel" id="calendar-events" ng-show="settings.subscriptionType == 'BASIC' && settings.isCalendarWP && calendarEvents.length > 0">
+<div class="panel" id="calendar-events" ng-show="settings.subscriptionType != 'BASIC_' && settings.isCalendarWP && calendarEvents.length > 0">
     <style>
         @media (max-width: 768px) {
             .bbb {
@@ -189,7 +189,7 @@
     </div>
 </div>
 
-<div class="row" data-plugin="matchHeight" data-by-row="true" id="goals" ng-show="settings.subscriptionType == 'BASIC' && settings.isGoalsWP && goalsEvents.length > 0">
+<div class="row" data-plugin="matchHeight" data-by-row="true" id="goals" ng-show="settings.subscriptionType != 'BASIC_' && settings.isGoalsWP && goalsEvents.length > 0">
 
     <div data-ng-repeat="goal in goalsEvents">
         <div data-ng-class="(goalsEvents.length > 1) ? 'col-lg-6 col-xs-12' : 'col-lg-12 col-xs-12'">
@@ -514,7 +514,7 @@
     </div>
 </div>
 
-<div class="row" data-plugin="matchHeight" data-by-row="true" id="goals" ng-show="settings.subscriptionType == 'BASIC' && settings.isGoalsWP && goalsDefault.length > 0">
+<div class="row" data-plugin="matchHeight" data-by-row="true" id="goals" ng-show="settings.subscriptionType != 'BASIC_' && settings.isGoalsWP && goalsDefault.length > 0">
 
     <div data-ng-repeat="goal in goalsDefault">
         <div data-ng-class="(goalsDefault.length > 1) ? 'col-lg-6 col-xs-12' : 'col-lg-12 col-xs-12'">
@@ -605,6 +605,77 @@
     </div>
 </div>
 
+
+<div class="panel" id="budget-panel" ng-show="settings.subscriptionType != 'BASIC_' && settings.isBudgetWP && budgetDashboard.length > 0">
+    <div class="panel-heading">
+        <h3 class="panel-title" translate="budget.Your_budget">
+            Your budget
+        </h3>
+        <div class="panel-actions panel-actions-keep">
+            <div class="dropdown">
+                <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
+                <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                    <a class="dropdown-item" data-toggle="panel-close" href="javascript:void(0)" role="menuitem"><i class="icon oi-trashcan" aria-hidden="true"></i> <span translate="dashboard.Remove">Remove</span></a>
+                    <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon oi-gear" aria-hidden="true"></i> <span translate="dashboard.Settings">Settings</span></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#/budgetDetails" role="menuitem"><i class="icon wb-order" aria-hidden="true"></i> <span translate="menu.BudgetDetails">Budget details</span></a>
+                    <a class="dropdown-item" href="#/budget" role="menuitem"><i class="icon fa-wrench" aria-hidden="true"></i> <span translate="menu.SetupBudget">Change budget</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <span data-ng-repeat="budget in budgetDashboard | filter : {budgetType: 'OVERALL' }">
+            <h4 class="animation-fade animation-duration-2">
+                {{ 'budget.Overall' | translate }} <span class="pull-xs-right" style="color:#76838f">
+                    {{ budget.planAmount | number:2 }}
+                    <i data-ng-show="budget.currencyCode =='USD'" class="fa-dollar"></i>
+                    <i data-ng-show="budget.currencyCode =='EUR'" class="fa-eur"></i>
+                    <i data-ng-show="budget.currencyCode =='RUB'" class="fa-rub"></i>
+                    <span data-ng-show="budget.currencyCode !='USD'
+                                            && budget.currencyCode !='EUR'
+                                            && budget.currencyCode !='RUB'">
+                        {{ budget.currencyCode }}
+                    </span>
+                </span>
+            </h4>
+            <div class="progress progress-lg">
+                <div class="progress-bar animation-slide-left animation-duration-2" data-ng-class="(budget.isAlert == 0) ? 'bg-green-500':'bg-red-500'" style="width: {{ budget.progress > 100 ? 100 : budget.progress | number:0 }}%;" role="progressbar">
+                    <span class="progress-label animation-fade animation-duration-4" data-ng-show="budget.progress > 10 && budget.progress <= 100">{{ budget.progress | number:0 }}%</span>
+                    <span class="progress-label animation-fade animation-duration-4" data-ng-show="budget.progress > 100">
+                        {{ budget.currentAmount | number:2 }}
+                        <i data-ng-show="budget.currencyCode =='USD'" class="fa-dollar"></i>
+                        <i data-ng-show="budget.currencyCode =='EUR'" class="fa-eur"></i>
+                        <i data-ng-show="budget.currencyCode =='RUB'" class="fa-rub"></i>
+                        <span data-ng-show="budget.currencyCode !='USD'
+                                                                                && budget.currencyCode !='EUR'
+                                                                                && budget.currencyCode !='RUB'">
+                            {{ budget.currencyCode }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <p>{{ 'budget.Look_at_budget_progress_details' | translate }} <a href="#/budgetDetails" data-ng-class="(budget.isAlert == 0) ? 'green-500':'red-500'" translate="budget.here">here</a></p>
+        </span>
+        <span data-ng-repeat="budget in budgetDashboard | filter : {budgetType: 'REMAINS' }">
+            <h4 class="animation-fade animation-duration-2" data-ng-class="(budget.isAlert == 0) ? 'green-500':'red-500'">
+                {{ 'budget.Remains' | translate }} <span class="pull-xs-right">
+                    {{ budget.currentAmount | number:2 }}
+                    <i data-ng-show="budget.currencyCode =='USD'" class="fa-dollar"></i>
+                    <i data-ng-show="budget.currencyCode =='EUR'" class="fa-eur"></i>
+                    <i data-ng-show="budget.currencyCode =='RUB'" class="fa-rub"></i>
+                    <span data-ng-show="budget.currencyCode !='USD'
+                                            && budget.currencyCode !='EUR'
+                                            && budget.currencyCode !='RUB'">
+                        {{ budget.currencyCode }}
+                    </span>
+                </span>
+            </h4>
+        </span>
+    </div>
+</div>
+
+
 <div class="panel" id="daily-transactions" ng-show="transactions.length > 0 && settings.isTransactionLogWP">
     <div class="panel-heading">
         <h3 class="panel-title" translate="dashboard.Transactions_log">
@@ -689,7 +760,6 @@
         </ul>
     </div>
 </div>
-
 
 </div>
 

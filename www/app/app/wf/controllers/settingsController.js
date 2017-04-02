@@ -29,7 +29,8 @@
             userLang: 'en',
             subscriptionType: 'WORLD',
             isGoalsWP: false,
-            isCalendarWP: false
+            isCalendarWP: false,
+            isBudgetWP: false
         };
     }
 
@@ -47,6 +48,8 @@
             $("#chBoxGoals").attr('checked', '');
         if ($scope.settings.isCalendarWP)
             $("#chBoxCalendar").attr('checked', '');
+        if ($scope.settings.isBudgetWP)
+            $("#chBoxBudget").attr('checked', '');
         //$("#btnFinish").removeAttr('checked');
     }
 
@@ -77,6 +80,7 @@
         if (id == 'chBoxTransactionLog') $scope.settings.isTransactionLogWP = !$scope.settings.isTransactionLogWP;
         if (id == 'chBoxGoals') $scope.settings.isGoalsWP = !$scope.settings.isGoalsWP;
         if (id == 'chBoxCalendar') $scope.settings.isCalendarWP = !$scope.settings.isCalendarWP;
+        if (id == 'chBoxBudget') $scope.settings.isBudgetWP = !$scope.settings.isBudgetWP;
 
         $scope.updateUserSettings();
     }

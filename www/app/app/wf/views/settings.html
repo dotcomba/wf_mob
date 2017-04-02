@@ -122,7 +122,7 @@
                     </div>
                 </li>
 
-                <li class="list-group-item" data-ng-show="settings.subscriptionType == 'BASIC'">
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'BASIC_'">
                     <div class="media">
                         <div class="media-body" translate="settings.Goals">
                             Goals
@@ -133,13 +133,24 @@
                     </div>
                 </li>
 
-                <li class="list-group-item" data-ng-show="settings.subscriptionType == 'BASIC'">
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'BASIC_'">
                     <div class="media">
                         <div class="media-body" translate="settings.Calendar">
                             Calendar
                         </div>
                         <div class="media-right">
                             <label class="switch"><input type="checkbox" id="chBoxCalendar" ng-click="checkboxClick('chBoxCalendar')"><div class="slider round"></div></label>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                    <div class="media">
+                        <div class="media-body" translate="settings.Budget">
+                            Budget
+                        </div>
+                        <div class="media-right">
+                            <label class="switch"><input type="checkbox" id="chBoxBudget" ng-click="checkboxClick('chBoxBudget')"><div class="slider round"></div></label>
                         </div>
                     </div>
                 </li>
