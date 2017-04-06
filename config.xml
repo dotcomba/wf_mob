@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.wealthflow.app" version="2.3.16" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Welto App TEST</name>
+<widget id="io.welto" version="2.3.17" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Welto</name>
     <description>
         Welto is a way to understand your money
     </description>
