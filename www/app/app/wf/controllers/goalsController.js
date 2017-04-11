@@ -57,14 +57,18 @@ app.controller('goalsController', ['$scope', '$rootScope', '$routeParams', '$loc
             currencyCode: 'USD',
             displayOnDashboard:true,
             notifyOverdue: true,
-            notifyOverdueDays:2
+            notifyOverdueDays: 2,
+            goalDate: new Date((new Date()).setHours(0, 0, 0, 0))
         };
     }
 
     $scope.showModal = function (obj)
     {
-        if (obj != null)
-        $scope.goal = obj;
+        if (obj != null) {
+            if (obj.goalDate != null)
+                obj.goalDate = new Date(obj.goalDate);
+            $scope.goal = obj;
+        }
         else initFields();
 
         $('#editGoalForm').modal();
@@ -79,8 +83,11 @@ app.controller('goalsController', ['$scope', '$rootScope', '$routeParams', '$loc
 
     $scope.showRemoveModal = function (obj)
     {
-        if (obj != null)
+        if (obj != null) {
+            if (obj.goalDate != null)
+                obj.goalDate = new Date(obj.goalDate);
             $scope.goal = obj;
+        }
 
         $('#removeGoalForm').modal();
     }

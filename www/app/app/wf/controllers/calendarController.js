@@ -57,7 +57,7 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
                         transactionValue: obj.transactionValue,
                         transactionCode: obj.transactionCode,
                         repeatEachMonth: obj.repeatEachMonth,
-                        start: obj.start,
+                        start: new Date(new Date(obj.start).setHours(24, 0, 0)),
                         status: obj.status,
                         id: obj.id,
                         userId: obj.userId,
@@ -178,45 +178,45 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
                 var obj = $scope.calendarEvents[i];
                 obj.start = obj.start.split('T')[0];
 
-                if ("undefined" === typeof obj.title) break;
+                //if ("undefined" === typeof obj.title) break;
 
                 if (obj.status == 'DONE') {
-                    switch (obj.transactionCode) {
-                        case 'EXP':
-                            obj.title = $scope.translations.calendar_Payment_for + $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
-                            break;
-                        case 'INC':
-                            obj.title = $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
-                            break;
-                        case 'TRAN':
-                            obj.title = $scope.translations.calendar_Transfer + obj.transactionValue + ' ' + obj.currencyCode;
-                            break;
-                        case 'GOAL':
-                            obj.title = 'Savings for ... : ' + obj.transactionValue + ' ' + obj.currencyCode;
-                            break;
-                    }
+                //    switch (obj.transactionCode) {
+                //        case 'EXP':
+                //            obj.title = $scope.translations.calendar_Payment_for + $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
+                //            break;
+                //        case 'INC':
+                //            obj.title = $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
+                //            break;
+                //        case 'TRAN':
+                //            obj.title = $scope.translations.calendar_Transfer + obj.transactionValue + ' ' + obj.currencyCode;
+                //            break;
+                //        case 'GOAL':
+                //            obj.title = 'Savings for ... : ' + obj.transactionValue + ' ' + obj.currencyCode;
+                //            break;
+                //    }
                     //obj.editable = false;
                     obj.backgroundColor = 'DarkGray';
                     obj.borderColor = 'DarkGray';
                 } else {
                     switch (obj.transactionCode) {
                         case 'EXP':
-                            obj.title = $scope.translations.calendar_Payment_for + $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
+                            //obj.title = $scope.translations.calendar_Payment_for + $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
                             obj.backgroundColor = '#f4b066';
                             obj.borderColor = '#f4b066';
                             break;
                         case 'INC':
-                            obj.title = $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
+                            //obj.title = $scope.categoriesLookup[obj.categoryId].title + ': ' + obj.transactionValue + ' ' + obj.currencyCode;
                             obj.backgroundColor = '#89bceb';
                             obj.borderColor = '#89bceb';
                             break;
                         case 'TRAN':
-                            obj.title = $scope.translations.calendar_Transfer + obj.transactionValue + ' ' + obj.currencyCode;
+                            //obj.title = $scope.translations.calendar_Transfer + obj.transactionValue + ' ' + obj.currencyCode;
                             obj.backgroundColor = '#5cd29d';
                             obj.borderColor = '#5cd29d';
                             break;
                         case 'GOAL':
-                            obj.title = 'Savings for ... : ' + obj.transactionValue + ' ' + obj.currencyCode;
+                            //obj.title = 'Savings for ... : ' + obj.transactionValue + ' ' + obj.currencyCode;
                             obj.backgroundColor = '#fa7a7a';
                             obj.borderColor = '#fa7a7a';
                             break;
@@ -254,7 +254,7 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
                 transactionValue: obj.transactionValue,
                 transactionCode: obj.transactionCode,
                 repeatEachMonth: obj.repeatEachMonth,
-                start: obj.start,
+                start: new Date(new Date(obj.start).setHours(24,0,0)),
                 status: obj.status,
                 id: obj.id,
                 userId: obj.userId,

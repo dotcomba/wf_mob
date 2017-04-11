@@ -167,6 +167,7 @@ app.config(function ($translateProvider) {
             })
             .preferredLanguage('en')
             .useSanitizeValueStrategy('escape');
+   
 });
 
 app.run(['authService', function (authService) {

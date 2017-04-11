@@ -119,7 +119,7 @@ app.controller('categoriesController', ['$scope', '$rootScope', '$routeParams', 
 
                 }, function (err) {
                     $scope.message = $scope.translations.error_on_category_deleting //"Error on category deleting: "
-                    + err;
+                    + err.data.message;
                     startErrorTimer();
                 });
     }
