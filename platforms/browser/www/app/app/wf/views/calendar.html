@@ -1,0 +1,365 @@
+﻿<style>
+    #actionBtn {
+        display: none !important;
+    }
+
+    @media (max-width: 767px) {
+
+    body {
+        background:white;
+    }
+
+    .page-content, .page-header, .page {
+        padding: 0px 0px;
+        background:white;
+    }}
+</style>
+
+<div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+    <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+    <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+    {{message}}
+</div>
+
+<div class="row" data-ng-show="authentication.isAuth">
+
+    <div class="app-calendar calendar-container bg-white">
+        <div id="calendar"></div>
+        <div class="modal fade" style="padding-top:100px" id="addNewEvent" aria-hidden="true" aria-labelledby="addNewEvent"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <form class="modal-content form-horizontal" role="form">
+                    <div class="modal-body" style="text-align:center;vertical-align:center;">
+                        <div class="form-group row">
+                            &nbsp;
+                        </div>
+                            <div class="form-group row">
+                                <button class="btn btn-primary" data-ng-click="showModal(null,'TRAN')" data-dismiss="modal" type="button">
+                                    <i class="icon ti-credit-card" aria-hidden="true"></i>&nbsp;{{'calendar.Schedule_transfer' | translate}}
+                                </button>
+                            </div>
+                            <div class="form-group row">
+                                <button class="btn btn-warning" data-ng-click="showModal(null,'EXP')" data-dismiss="modal" type="button">
+                                    <i class="icon ti-shopping-cart" aria-hidden="true"></i>&nbsp;{{'calendar.Schedule_payment' | translate}}
+                                </button>
+                            </div>
+                            <div class="form-group row">
+                                <button class="btn btn-info" data-ng-click="showModal(null,'INC')" data-dismiss="modal" type="button">
+                                    <i class="icon fa-dollar" aria-hidden="true"></i>&nbsp;{{'calendar.Schedule_income' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" style="padding-top:100px" id="formExpense" aria-hidden="true" aria-labelledby="formExpense"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title"> <i class="site-menu-icon oi-calendar"></i><span translate="calendar.Schedule_expense">Schedule expense</span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <select class="form-control" id="expense_category" data-ng-model="calendarEvent.categoryId">
+                                        <option ng-selected="calendarEvent.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
+                                    </select>
+                                    <label class="floating-label" translate="calendar.Category">Category</label>
+                                </div>
+                            </div>
+
+                            <div class="form-material floating has-success" data-plugin="formMaterial">
+                                <select class="form-control" name="expense_account" data-ng-model="calendarEvent.accountSourceId">
+                                    <option ng-selected="calendarEvent.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                </select>
+                                <label class="floating-label" translate="calendar.Account_for_this_expense">Account for this expense</label>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-10 col-xs-10">
+                                    <input type="text" class="form-control" id="expense_ammount" data-ng-model="calendarEvent.transactionValue" autocomplete="off" />
+                                    <label class="floating-label" translate="calendar.Amount">Amount</label>
+                                </div>
+                                <div class="col-md-2 col-xs-2">
+                                    <select class="form-control" name="currency" data-ng-model="calendarEvent.currencyCode">
+                                        <option ng-selected="currency.thirdCurencyCode == calendarEvent.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <input type="date" class="form-control" name="event_start" data-ng-model="calendarEvent.start" />
+                                    <label class="floating-label" translate="calendar.Date">Date</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="checkbox-custom checkbox-success">
+                                        <input type="checkbox" id="event_repeatEachMonth" data-ng-model="calendarEvent.repeatEachMonth" />
+                                        <label for="event_repeatEachMonth" translate="calendar.Repeat_next_month">Repeat next month</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-danger" style="float:left" data-dismiss="modal" type="button" data-ng-show="calendarEvent.id != null" data-ng-click="removeEvent()" translate="calendar.Remove">Remove</button>
+
+                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="calendarEvent.transactionValue == '' || calendarEvent.accountSourceId == '' || calendarEvent.categoryId == 'null'" data-ng-click="saveChanges()" translate="calendar.Schedule">Schedule</button>
+                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'calendar.Cancel' | translate}}</a>
+                     </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" style="padding-top:100px" id="formIncome" aria-hidden="true" aria-labelledby="formIncome"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title"> <i class="site-menu-icon oi-calendar"></i><span translate="calendar.Schedule_income">Schedule income</span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <select class="form-control" name="income_category" data-ng-model="calendarEvent.categoryId">
+                                        <option ng-selected="calendarEvent.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'INC'}" value="{{category.id}}">{{category.title}}</option>
+                                    </select>
+                                    <label class="floating-label" translate="calendar.Category">Category</label>
+                                </div>
+                            </div>
+
+                            <div class="form-material floating has-success" data-plugin="formMaterial">
+                                <select class="form-control" name="income_account" data-ng-model="calendarEvent.accountDestinationId">
+                                    <option ng-selected="calendarEvent.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                </select>
+                                <label class="floating-label" translate="calendar.Add_income_to_account">Add income to account...</label>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-10 col-xs-10">
+                                    <input type="text" class="form-control" name="income_ammount"
+                                           data-ng-model="calendarEvent.transactionValue">
+                                    <label class="floating-label" translate="calendar.Amount">Amount</label>
+                                </div>
+                                <div class="col-md-2 col-xs-2">
+                                    <select class="form-control" name="currency" data-ng-model="calendarEvent.currencyCode">
+                                        <option ng-selected="currency.thirdCurencyCode == calendarEvent.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <input type="date" class="form-control" name="event_start" data-ng-model="calendarEvent.start" />
+                                    <label class="floating-label" translate="calendar.Date">Date</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="checkbox-custom checkbox-success">
+                                        <input type="checkbox" id="event_repeatEachMonth" data-ng-model="calendarEvent.repeatEachMonth" />
+                                        <label for="event_repeatEachMonth" translate="calendar.Repeat_next_month">Repeat next month</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-danger" style="float:left" data-dismiss="modal" type="button" data-ng-show="calendarEvent.id != null" data-ng-click="removeEvent()" translate="calendar.Remove">Remove</button>
+
+                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="calendarEvent.transactionValue == '' || calendarEvent.accountDestinationId == '' || calendarEvent.categoryId == 'null'" data-ng-click="saveChanges()" translate="calendar.Schedule">Schedule</button>
+                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'calendar.Cancel' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" style="padding-top:100px" id="formTransfer" aria-hidden="true" aria-labelledby="formTransfer"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title"> <i class="site-menu-icon oi-calendar"></i><span translate="calendar.Schedule_transfer">Schedule transfer</span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <select class="form-control" name="from_account" data-ng-model="calendarEvent.accountSourceId">
+                                        <option ng-selected="calendarEvent.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number:2}})</option>
+                                    </select>
+                                    <label class="floating-label" translate="calendar.From">From</label>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <select class="form-control" name="to_account" data-ng-model="calendarEvent.accountDestinationId">
+                                        <option ng-selected="calendarEvent.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                    </select>
+                                    <label class="floating-label" translate="calendar.To">To</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <input type="text" class="form-control"
+                                           id="event_amount" data-ng-model="calendarEvent.transactionValue">
+                                    <label class="floating-label" translate="calendar.Amount">Amount</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <input type="date" class="form-control" name="event_start" data-ng-model="calendarEvent.start" />
+                                    <label class="floating-label" translate="calendar.Date">Date</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="checkbox-custom checkbox-success">
+                                        <input type="checkbox" id="event_repeatEachMonth" data-ng-model="calendarEvent.repeatEachMonth" />
+                                        <label for="event_repeatEachMonth" translate="calendar.Repeat_next_month">Repeat next month</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-danger" style="float:left" data-dismiss="modal" type="button" data-ng-show="calendarEvent.id != null" data-ng-click="removeEvent()" translate="calendar.Remove">Remove</button>
+
+                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="calendarEvent.transactionValue == '' || calendarEvent.accountSourceId == '' || calendarEvent.accountDestinationId == ''" data-ng-click="saveChanges()" translate="calendar.Schedule">Schedule</button>
+                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'calendar.Cancel' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" style="padding-top:60px" id="formGoal" aria-hidden="true" aria-labelledby="formGoal"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title"> <i class="site-menu-icon oi-calendar"></i>Goal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="media">
+                                     goal ...
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-default btn-outline" translate="calendar.Cancel">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" style="padding-top:60px" id="lookatEventForm" aria-hidden="true" aria-labelledby="lookatEventForm"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title"> <i class="site-menu-icon oi-calendar"></i>{{'calendar.Executed_payment' | translate}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                <div class="col-md-12 col-xs-12" ng-switch on="calendarEvent.transactionCode">
+
+                                    <div ng-switch-when="TRAN">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h4 class="media-heading">
+                                                    <a class="font-size-14">{{'calendar.We_have_been_executed_transfer_from' | translate}} <strong>{{ accountsLookup[calendarEvent.accountSourceId].title }}</strong> {{'calendar.calendar_to' | translate}} <strong>{{ accountsLookup[calendarEvent.accountDestinationId].title }}</strong></a>
+                                                </h4>
+                                                <small>{{'calendar.it_was_executed_on' | translate}} {{ calendarEvent.statusDate | date }}</small>
+                                            </div>
+                                            <div class="media-right">
+                                                <div class="green-400 bbb" translate="dashboard.Transfer">Transfer</div>
+                                                <div class="green-400" style="font-size:16pt !important" ng-switch on="calendarEvent.currencyCode">
+                                                    <span ng-switch-when="USD">$</span><span ng-switch-when='EUR'>&euro;</span><span ng-switch-when='RUB' class="fa-rub"></span><span ng-switch-default>{{ calendarEvent.currencyCode }}</span>&nbsp;{{ calendarEvent.transactionValue | number }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-switch-when="EXP">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h4 class="media-heading">
+                                                    <a class="font-size-14">{{'calendar.We_have_been_executed_payment_for' | translate}} <strong>{{ categoriesLookup[calendarEvent.categoryId].title }}</strong> {{'dashboard.calendar_category' | translate}}</a>
+                                                </h4>
+                                                <small>{{'calendar.it_was_executed_on' | translate}} {{ calendarEvent.statusDate | date }}</small>
+                                            </div>
+                                            <div class="media-right">
+                                                <div class="orange-400 bbb" translate="dashboard.Bill">Bill</div>
+                                                <div class="orange-400" style="font-size:16pt !important" ng-switch on="calendarEvent.currencyCode">
+                                                    <span ng-switch-when="USD">$</span><span ng-switch-when='EUR'>&euro;</span><span ng-switch-when='RUB' class="fa-rub"></span><span ng-switch-default>{{ calendarEvent.currencyCode }}</span>&nbsp;{{ calendarEvent.transactionValue | number }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-switch-when="INC">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h4 class="media-heading">
+                                                    <a class="font-size-14">{{'calendar.We_have_been_received_income_from' | translate}} <strong>{{ categoriesLookup[calendarEvent.categoryId].title }}</strong></a>
+                                                </h4>
+                                                <small>{{'calendar.it_was_executed_on' | translate}} {{ calendarEvent.statusDate | date }}</small>
+                                            </div>
+                                            <div class="media-right">
+                                                <div class="blue-400 bbb" translate="dashboard.Income">Income</div>
+                                                <div class="blue-400" style="font-size:16pt !important" ng-switch on="calendarEvent.currencyCode">
+                                                    <span ng-switch-when="USD">$</span><span ng-switch-when='EUR'>&euro;</span><span ng-switch-when='RUB' class="fa-rub"></span><span ng-switch-default>{{ calendarEvent.currencyCode }}</span>&nbsp;{{ calendarEvent.transactionValue | number }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-default btn-outline" translate="calendar.Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-action" id="actionCalendarBtn" data-target="#addNewEvent" data-toggle="modal" data-plugin="actionBtn" ng-cloak>
+        <button type="button" class="site-action-toggle btn-raised btn btn-danger btn-floating">
+            <i class="front-icon oi-calendar animation-scale-up" aria-hidden="true"></i>
+            <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
+        </button>
+    </div>
+
+
+ </div>
+
+

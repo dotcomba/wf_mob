@@ -1,0 +1,148 @@
+﻿<div class="row" data-ng-show="authentication.isAuth">
+
+    <div class="panel" id="all-budgets">
+        <div class="panel-heading">
+            <h3 class="panel-title" translate="budget.Setup_your_budget">
+                Setup your budget
+            </h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
+            </div>
+
+        </div>
+        <div class="panel-body">
+
+            <div class="modal fade" id="editBudgetForm" aria-hidden="true" aria-labelledby="editBudgetForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>{{ 'budget.Budget_item' | translate }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <select class="form-control" name="budget_category" data-ng-model="budgetItem.budgetType">
+                                            <option ng-selected="budgetItem.budgetType == budType.id" ng-repeat="budType in budgetTypes" value="{{budType.id}}">{{budType.title}}</option>
+                                        </select>
+                                        <label class="floating-label" translate="budget.Type">Type</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                            <select class="form-control" name="budget_category" data-ng-model="budgetItem.categoryId">
+                                                <option ng-selected="budgetItem.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode: budgetItem.budgetType }" value="{{category.id}}">{{category.title}}</option>
+                                            </select>
+                                            <label class="floating-label" translate="budget.Category">Category</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" name="budget_ammount"
+                                               data-ng-model="budgetItem.ammount">
+                                        <label class="floating-label" translate="budget.Amount">Amount</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control" name="currency" data-ng-model="budgetItem.currencyCode">
+                                            <option ng-selected="currency.thirdCurencyCode == budgetItem.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="checkbox-custom checkbox-success">
+                                            <input type="checkbox" id="budget_isDistribution" data-ng-model="budgetItem.isDistribution" />
+                                            <label for="budget_isDistribution" translate="budget.Distribution_in_time">Distribution in time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="checkbox-custom checkbox-success">
+                                            <input type="checkbox" id="budget_isActive" data-ng-model="budgetItem.isActive" />
+                                            <label for="budget_isActive" translate="budget.Active">Active</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="budgetItem.categoryId == '' || budgetItem.currencyCode == '' || budgetItem.ammount == ''" data-ng-click="saveChanges()" translate="budget.Save">Save</button>
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="budget.Cancel">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="removeBudgetForm" aria-hidden="true" aria-labelledby="removeBudgetForm"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                            <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>{{ 'budget.Budget_item_removing' | translate }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group form-material row" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                       {{ 'budget.We_are_going_to_remove_budget_item' | translate }}?
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" type="submit" data-ng-click="removeBudget()" translate="budget.Remove">Remove</button>
+
+                            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="budget.Cancel">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+                <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+                <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+                {{message}}
+            </div>
+
+            <div class="table-responsive" ng-show="budgets.length > 0">
+                <table class="table table-analytics m-b-0 text-nowrap">
+                    <thead>
+                    <th translate="budget.Type">Type</th>
+                    <th translate="budget.Category">Category</th>
+                    <th translate="budget.Amount">Amount</th>
+                    <th translate="budget.Actions">Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="budget in budgets">
+                            <td style="vertical-align:middle">
+                                <i data-ng-show="budget.budgetType =='EXP'" class="ti-shopping-cart" data-ng-class="budget.isActive ? 'orange-400':'grey-600'" style="font-size:18pt !important"></i>
+                                <i data-ng-show="budget.budgetType =='INC'" class="fa-dollar" data-ng-class="budget.isActive ? 'blue-400':'grey-600'" style="font-size:18pt !important">&nbsp;</i>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <span>{{ categoriesLookup[budget.categoryId].title }}</span>
+                            </td>
+                            <td style="vertical-align:middle"><span>{{ budget.ammount }}&nbsp;{{ budget.currencyCode }}</span></td>
+                            <td style="vertical-align:middle">
+                                <a ng-click="showModal(budget)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
+                                <a ng-click="showRemoveModal(budget)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <p>{{ 'budget.To_add_new_budget_item' | translate }}, {{ 'budget.click' | translate }}</p>
+                <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    {{ 'budget.CREATE_ITEM' | translate }}
+                </button>
+            </div>
+
+            </div>
+        </div>
+</div>
