@@ -56,6 +56,7 @@
         this.setupMenubar();
         this.setupFullScreen();
         this.setupMegaNavbar();
+        this.setupTour();
         this.setupNavbarCollpase();
         // Dropdown menu setup
         // ===================
@@ -200,7 +201,58 @@
           }
         });
       }
-    }, {
+    },
+
+    	{
+    	    key: 'setupTour',
+    	    value: function setupTour(flag) {
+    	        var _this3 = this;
+
+    	        if (typeof this.tour === 'undefined') {
+    	            var _ret2 = function () {
+    	                if (typeof introJs === 'undefined') {
+    	                    return {
+    	                        v: void 0
+    	                    };
+    	                }
+    	                var overflow = (0, _jquery2.default)('body').css('overflow'),
+                            self = _this3,
+                            tourOptions = Config.get('tour');
+
+    	                _this3.tour = introJs();
+
+    	                _this3.tour.onbeforechange(function () {
+    	                    (0, _jquery2.default)('body').css('overflow', 'hidden');
+    	                });
+
+    	                _this3.tour.oncomplete(function () {
+    	                    (0, _jquery2.default)('body').css('overflow', overflow);
+    	                });
+
+    	                _this3.tour.onexit(function () {
+    	                    (0, _jquery2.default)('body').css('overflow', overflow);
+    	                });
+
+    	                _this3.tour.setOptions(tourOptions);
+    	                (0, _jquery2.default)('.site-tour-trigger').on('click', function () {
+    	                    self.tour.start();
+    	                });
+    	            }();
+
+
+    	            if ((typeof _ret2 === 'undefined' ? 'undefined' : babelHelpers.typeof(_ret2)) === "object") return _ret2.v;
+    	        }
+    	        // if (window.localStorage && window.localStorage.getItem('startTour') && (flag !== true)) {
+    	        //   return;
+    	        // } else {
+    	        //   this.tour.start();
+    	        //   window.localStorage.setItem('startTour', true);
+    	        // }
+    	    }
+    	},
+
+
+    {
       key: 'setupMenubar',
       value: function setupMenubar() {
         var _this2 = this;
@@ -246,11 +298,11 @@
         // let loadingType = 'default';
         $BODY.animsition({
           inClass: 'fade-in',
-          inDuration: 200,
+          inDuration: 2000,
           loading: true,
           loadingClass: 'loader-overlay',
           loadingParentElement: 'html',
-          loadingInner: '\n      <div class="loader-content">\n        <img src="' + Config.get('assets') + '/images/logo@2x.png">\n        <h2>Wealthflow</h2>\n        <div class="loader-index">\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>',
+          loadingInner: '\n      <div class="loader-content">\n        <img style="width:128px" src="' + Config.get('assets') + '/images/Animation-grey.gif">\n        <h2>WELTO</h2>\n        <div class="loader-index">\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>',
           onLoadEvent: true
         });
       }

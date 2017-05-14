@@ -9,6 +9,21 @@ app.controller('loginController', ['$scope', '$location', '$route', 'authService
 
     $scope.message = "";
 
+    if (getParameterByName('resetCode') != "") {
+        $location.path('/resetPassword');
+    }
+
+    function getParameterByName(name) {
+        var regexS = "[\\?&]" + name + "=([^&#]*)",
+      regex = new RegExp(regexS),
+      results = regex.exec(window.location.search);
+        if (results == null) {
+            return "";
+        } else {
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    }
+
     $scope.login = function () {
         Site.getInstance().startLoading();
         authService.login($scope.loginData).then(function (response) {

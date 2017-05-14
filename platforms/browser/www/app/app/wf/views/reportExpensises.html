@@ -6,29 +6,51 @@
 
     <div class="panel" id="report-incomes">
         <div class="panel-heading">
-            <h3 class="panel-title">Expensises</h3>
+            <h3 class="panel-title" translate="repExpenses.Expenses">Expenses</h3>
             <div class="panel-actions panel-actions-keep">
                 <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
             </div>
         </div>
         <div class="panel-body">
+  
+                <style>
+                    #periodSelect {
+                        width:150px;
+                        display: inline !important;
+                        margin: 10px 0px 10px 10px;
+                    }
+                </style>
 
-            <div class="col-xl-4 col-md-4 col-xs-12 info-panel">
+            <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="transactions.length > 0">
                 <div style="max-width:300px;">
                     <canvas id="pie" class="chart chart-polar-area"
                             chart-data="data" chart-labels="labels" chart-options="options1"></canvas> 
 
                 </div>
+
+                <div style="text-align:center !important">
+                    <select class="form-control" id="periodSelect" data-ng-model="currentPeriod">
+                        <option ng-selected="currentPeriod == period.periodCode"
+                                ng-repeat="period in periods" value="{{period.periodCode }}">
+                            {{monthLookup[period.month]}} {{period.year}}
+                        </option>
+                    </select>
+
+                    <button type="button" class="btn btn-default" ng-click="updatePeriod()">
+                        <i class="icon icon wb-loop" aria-hidden="true"></i>
+                    </button>
+                </div>
+
             </div>
 
-            <div class="col-xl-8 col-md-8 col-xs-12 info-panel">
+            <div class="col-xl-8 col-md-8 col-xs-12 info-panel" ng-show="transactions.length > 0">
 
                 <div class="table-responsive">
                     <table class="table table-analytics m-b-0 text-nowrap">
                         <thead>
                             <tr>
-                                <th class="language">Category</th>
-                                <th class="vists">Amount, 
+                                <th class="language" translate="repExpenses.Category">Category</th>
+                                <th class="vists">{{'repExpenses.Amount' | translate}}, 
                                     <span data-ng-show="homeCurrency =='USD'">$</span>
                                     <span data-ng-show="homeCurrency =='EUR'">&euro;</span>
                                     <span data-ng-show="homeCurrency =='RUB'" class="fa-rub"></span>
@@ -52,6 +74,9 @@
 
             </div>
 
+            <div class="parent-no-data" ng-show="transactions.length == 0">
+                <div class="chield-no-data" translate="repExpenses.there_is_no_data">there is no data</div>
+            </div>
            
         </div>
     </div>

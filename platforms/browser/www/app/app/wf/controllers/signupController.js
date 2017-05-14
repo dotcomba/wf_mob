@@ -1,8 +1,20 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', function ($scope, $location, $timeout, authService) {
+app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', 'settingsService', '$translate', function ($scope, $location, $timeout, authService, settingsService, $translate) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
+
+    $scope.translations = [];
+    //settingsService.getUserLang().then(function (results) {
+    //    if (results.data && results.data.userLang) {
+    //        $translate.use(results.data.userLang);
+    //        $translate.preferredLanguage(results.data.userLang);
+    //    }
+    //});
+
+    $translate(['signup_user_has_been_registered', 'signup_failed_to_register_user_due_to']).then(function (translations) {
+        $scope.translations = translations;
+    }, null);
 
     $scope.registration = {
         userName: "",
@@ -15,7 +27,7 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
         authService.saveRegistration($scope.registration).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "User has been registered successfully, you will be redicted to login page in 2 seconds.";
+            $scope.message = $scope.translations.signup_user_has_been_registered; //"User has been registered successfully, you will be redicted to login page in 2 seconds.";
             startTimer();
 
         },
@@ -26,7 +38,8 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
                      errors.push(response.data.modelState[key][i]);
                  }
              }
-             $scope.message = "Failed to register user due to:" + errors.join(' ');
+             $scope.message = $scope.translations.signup_failed_to_register_user_due_to //"Failed to register user due to:" 
+                 + errors.join(' ');
          });
     };
 
@@ -34,7 +47,7 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
         var timer = $timeout(function () {
             $timeout.cancel(timer);
             $location.path('/login');
-        }, 2000);
+        }, 8000);
     }
 
 }]);

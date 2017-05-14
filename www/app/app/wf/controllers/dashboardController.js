@@ -52,6 +52,11 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
     $scope.settings = {};
 
+    $scope.setTransactionAccount = function (tp, id) {
+        if (tp == 'EXP') $rootScope.$broadcast('neadTRANAccountSetupExp', id);
+        if (tp == 'INC') $rootScope.$broadcast('neadTRANAccountSetupInc', id);
+    }
+
     settingsService.getUserSettings().then(function (results) {
         $scope.settings = results.data;
 
@@ -104,7 +109,8 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
     };
 
     $scope.labels =[];
-    $scope.data = []; 
+    $scope.data = [];
+    $scope.colors = ['#97bbcd', '#dcdcdc', '#f7464a', '#46bfbd', '#fdb45c', '#949fb1', '#4d5360'];
 
     $scope.options1 = {
         responsive: true,

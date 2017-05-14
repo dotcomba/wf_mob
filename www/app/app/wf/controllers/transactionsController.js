@@ -176,6 +176,17 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
         _currenciesLoad();
     });
 
+    $rootScope.$on('neadTRANAccountSetupExp', function (event, msg) {
+        $scope.transaction.accountSourceId = msg;
+        $scope.transaction.accountDestinationId = '';
+    });
+
+    $rootScope.$on('neadTRANAccountSetupInc', function (event, msg) {
+        $scope.transaction.accountDestinationId = msg;
+        $scope.transaction.accountSourceId = '';
+    });
+    
+
 }]);
 
 

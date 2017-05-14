@@ -10,19 +10,23 @@
         background-color: #5cd29d !important;
     }
 
-    .page-header { display: none;}
+    @media (max-width: 479px) {
+        .page-header {
+            display: none !important;
+        }
 
-    .site-navbar {
-        display: none;
+        .site-navbar {
+            display: none !important;
+        }
+
+        .site-menubar {
+            display: none !important;
+        }
+
+        .page-content {
+            padding: 0px 0px !important;
+        }
     }
-
-    .site-menubar {
-        display: none;
-    }
-
-    .page-content {
-    padding: 0px 0px !important;
-}
 </style>
 
 
@@ -34,29 +38,29 @@
         <div class="panel">
             <div class="panel-body">
                 <div class="brand">
-                    <img class="brand-img" src="app/assets//images/logo-blue.png" alt="...">
-                    <h2 class="brand-text font-size-18">Wealthflow</h2>
+                    <img class="brand-img" src="app/assets/images/logo-blue.png" alt="...">
+                    <h2 class="brand-text font-size-18">WELTO</h2>
                 </div>
-                <form role="form">
+                <form role="form" data-ng-show="message == '' || !savedSuccessfully">
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="email" class="form-control" data-ng-model="registration.userName" autofocus />
-                        <label class="floating-label">Email</label>
+                        <label class="floating-label" translate="signup.Email">Email</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="password" class="form-control" data-ng-model="registration.password" />
-                        <label class="floating-label">Password</label>
+                        <label class="floating-label" translate="signup.Password">Password</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="password" class="form-control" data-ng-model="registration.confirmPassword" />
-                        <label class="floating-label">Re-enter Password</label>
+                        <label class="floating-label" translate="signup.Re-enter_Password">Re-enter Password</label>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-click="signUp()">Sign up</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-disabled="registration.userName == '' || registration.password == '' || registration.confirmPassword == ''" data-ng-click="signUp()" translate="signup.Sign_up">Sign up</button>
                 </form>
                 <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
                     {{message}}
                 </div>
         
-                <p>Have account already? Please go to <a href="#/login">Sign In</a></p>
+                <p>{{'signup.Have_account_already_Please_go_to' | translate}} <a href="#/login" translate="signup.Sign_In">Sign In</a></p>
             </div>
         </div>
         <footer class="page-copyright page-copyright-inverse"></footer>

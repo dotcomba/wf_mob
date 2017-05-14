@@ -17,6 +17,10 @@
             .show-md {
                 display: normal;
             }
+
+            .hide-sm {
+                display: none;
+            }
         }
 
         @media (min-width: 800px) {
@@ -420,7 +424,7 @@
         <div class="col-xl-4 col-md-4 col-xs-12 info-panel" ng-show="dashboard.balanceValue > 0">
             <div style="max-width:300px;">
                 <canvas id="doughnut" class="chart chart-doughnut" chart-options="options1"
-                        chart-data="data" chart-labels="labels"></canvas>
+                        chart-data="data" chart-labels="labels" chart-colors="colors"></canvas>
 
             </div>
         </div>
@@ -434,16 +438,21 @@
                             <th class="language" translate="dashboard.Account">Account</th>
                             <th class="vists" translate="dashboard.Amount">Amount</th>
                             <th class="vists" translate="dashboard.Currency">Currency</th>
+                            <th class="hide-sm"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr data-ng-repeat="account in accounts">
                             <td style="vertical-align:middle">
-                                <i class="green-400 ti-credit-card" style="font-size:18pt !important; vertical-align:middle">&nbsp;</i>
-                                <span class="name">{{ account.title }}</span>
+                                <i class="ti-credit-card" style="font-size:18pt !important; vertical-align:middle;color:{{colors[$index]}}">&nbsp;</i>
+                                <span class="name"><a class="btn btn-flat btn-default" href="#/transactions/byaccount/{{account.id}}">{{ account.title }}</a></span>
                             </td>
                             <td style="vertical-align:middle">{{ account.ammount | number: 2 }}</td>
                             <td style="vertical-align:middle">{{ account.currencyCode }}</td>
+                            <td class="hide-sm">
+                                <button type="button" class="btn btn-icon btn-default btn-outline fa-dollar" data-target="#addIncomeForm" data-toggle="modal" ng-click="setTransactionAccount('INC',account.id)"></button>
+                                <button type="button" class="btn btn-icon btn-default btn-outline ti-shopping-cart" data-target="#addExpensiesForm" data-toggle="modal" ng-click="setTransactionAccount('EXP',account.id)"></button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

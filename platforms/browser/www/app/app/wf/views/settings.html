@@ -68,7 +68,7 @@
 
     <div class="panel" id="user-settings">
         <div class="panel-heading">
-            <h3 class="panel-title">
+            <h3 class="panel-title" translate="settings.Settings">
                 Settings
             </h3>
             <div class="panel-actions panel-actions-keep">
@@ -80,7 +80,7 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="media">
-                        <div class="media-body">
+                        <div class="media-body" translate="settings.Latest_transaction">
                             Latest transaction
                         </div>
                         <div class="media-right">
@@ -91,8 +91,8 @@
 
                 <li class="list-group-item">
                     <div class="media">
-                        <div class="media-body">
-                            Trends (expensises/incomes)
+                        <div class="media-body" translate="settings.Trends">
+                            Trends (expenses/incomes)
                         </div>
                         <div class="media-right">
                             <label class="switch"><input type="checkbox" id="chBoxTrends" ng-click="checkboxClick('chBoxTrends')"><div class="slider round"></div></label>
@@ -102,7 +102,7 @@
 
                 <li class="list-group-item">
                     <div class="media">
-                        <div class="media-body">
+                        <div class="media-body" translate="settings.Balance_information">
                             Balance information
                         </div>
                         <div class="media-right">
@@ -113,11 +113,44 @@
 
                 <li class="list-group-item">
                     <div class="media">
-                        <div class="media-body">
+                        <div class="media-body" translate="settings.Transactions_log">
                             Transactions log
                         </div>
                         <div class="media-right">
                             <label class="switch"><input type="checkbox" id="chBoxTransactionLog" ng-click="checkboxClick('chBoxTransactionLog')"><div class="slider round"></div></label>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                    <div class="media">
+                        <div class="media-body" translate="settings.Goals">
+                            Goals
+                        </div>
+                        <div class="media-right">
+                            <label class="switch"><input type="checkbox" id="chBoxGoals" ng-click="checkboxClick('chBoxGoals')"><div class="slider round"></div></label>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                    <div class="media">
+                        <div class="media-body" translate="settings.Calendar">
+                            Calendar
+                        </div>
+                        <div class="media-right">
+                            <label class="switch"><input type="checkbox" id="chBoxCalendar" ng-click="checkboxClick('chBoxCalendar')"><div class="slider round"></div></label>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                    <div class="media">
+                        <div class="media-body" translate="settings.Budget">
+                            Budget
+                        </div>
+                        <div class="media-right">
+                            <label class="switch"><input type="checkbox" id="chBoxBudget" ng-click="checkboxClick('chBoxBudget')"><div class="slider round"></div></label>
                         </div>
                     </div>
                 </li>

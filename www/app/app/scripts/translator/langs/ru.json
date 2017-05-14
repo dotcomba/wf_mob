@@ -421,5 +421,7 @@
   "budget_Item_has_been_created": "Строка бюджета была создана!",
   "budget_Item_has_been_removed": "Строка бюджета была удалена!",
   "budget_Error_on_item_deleting": "Ошибка в процессе удаления: ",
-  "budget_Item_has_been_updated": "Строка бюджета была обновлена!"
+  "budget_Item_has_been_updated": "Строка бюджета была обновлена!",
+
+  "byaccount.Transactions_for": "Транзакции по счету"
 }

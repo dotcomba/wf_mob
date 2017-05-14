@@ -6,7 +6,7 @@
 
     <div class="panel" id="report-trends">
         <div class="panel-heading">
-            <h3 class="panel-title">Trends</h3>
+            <h3 class="panel-title" translate="repTrends.Trends">Trends</h3>
             <div class="panel-actions panel-actions-keep">
                 <a class="panel-action icon wb-close" href="#/dashboard" aria-hidden="true"></a>
             </div>
@@ -20,7 +20,7 @@
                         <button type="button" class="btn btn-floating btn-sm btn-warning" ng-click="go('/reportExpensises')">
                             <i class="icon wb-shopping-cart"></i>
                         </button>
-                        <span class="m-l-15 font-weight-400">EXPENSISES</span>
+                        <span class="m-l-15 font-weight-400"><a style="color:#76838f" href="#/reportExpensises" translate="repTrends.EXPENSES">EXPENSES</a></span>
                         <div class="content-text text-xs-center m-b-0">
                             <i class="text-danger icon wb-triangle-up font-size-20" ng-show="dashboard.expensisesTrend > 0">
                             </i>
@@ -38,7 +38,7 @@
                                 </span>
 
                              {{ dashboard.expensisesValue | number }}</span>
-                            <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.expensisesTrend != 0"> <span ng-show="dashboard.expensisesTrend > 0">+</span>{{ dashboard.expensisesTrend }}% from previous month</p>
+                            <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.expensisesTrend != 0"> <span ng-show="dashboard.expensisesTrend > 0">+</span>{{ dashboard.expensisesTrend }}% {{'repTrends.from_previous_month' | translate}}</p>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         <button type="button" class="btn btn-floating btn-sm btn-success" ng-click="go('/reportIncomes')">
                             <i class="icon fa-dollar"></i>
                         </button>
-                        <span class="m-l-15 font-weight-400">INCOME</span>
+                        <span class="m-l-15 font-weight-400"><a style="color:#76838f" href="#/reportIncomes" translate="repTrends.INCOME">INCOME</a></span>
                         <div class="content-text text-xs-center m-b-0">
                             <i class="text-success icon wb-triangle-up font-size-20" ng-show="dashboard.incomeTrend > 0">
                             </i>
@@ -72,7 +72,7 @@
                              {{ dashboard.incomeValue | number }}</span>
                             <p class="blue-grey-400 font-weight-100 m-0" ng-show="dashboard.incomeTrend != 0">
                             <span ng-show="dashboard.incomeTrend > 0">+</span>
-                            {{ dashboard.incomeTrend }}% from previous month</p>
+                            {{ dashboard.incomeTrend }}% {{'repTrends.from_previous_month' | translate}}</p>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
 
 
 
-            <div class="col-xl-12 col-md-12 col-xs-12">
+            <div class="col-xl-12 col-md-12 col-xs-12" ng-show="trends.length > 0">
                 <div >
               
 
@@ -98,7 +98,9 @@
             </div>
 
     
-
+            <!--<div class="parent-no-data" ng-show="trends.length == 0">
+                <div class="chield-no-data">there is no data</div>
+            </div>-->
        
 
 

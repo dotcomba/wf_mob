@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Wealthflow is a way to understand your money">
+    <meta name="description" content="WELTO - is a way to understand your money">
     <meta name="author" content="">
     <title>WELTO | Web access</title>
     <link rel="shortcut icon" href="app/assets/images/favicon.ico">
@@ -63,6 +63,7 @@
     <!-- Load controllers -->
     <script src="app/wf/controllers/indexController.js?v=2"></script>
     <script src="app/wf/controllers/transactionsController.js?v=2"></script>
+    <script src="app/wf/controllers/byaccountController.js?v=2"></script>
     <script src="app/wf/controllers/accountsController.js?v=2"></script>
     <script src="app/wf/controllers/categoriesController.js?v=2"></script>
     <script src="app/wf/controllers/currenciesController.js?v=2"></script>
@@ -162,7 +163,7 @@
                 <!-- End Navbar Toolbar Right -->
                 <div class="navbar-brand navbar-brand-center site-gridmenu-toggle">
                     <a href="#/">
-                        <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow">
+                        <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="WELTO">
                     </a>
                 </div>
             </div>
@@ -386,7 +387,7 @@
                                         </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
-                                            <select class="form-control empty" name="expense_account" data-ng-model="transaction.accountSourceId">
+                                            <select class="form-control" name="expense_account" data-ng-model="transaction.accountSourceId">
                                                 <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
                                             <label class="floating-label" translate="addExpensesForm.Account_for_this_expense">Account for this expense</label>
@@ -448,7 +449,7 @@
                                         </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
-                                            <select class="form-control empty" name="income_account" data-ng-model="transaction.accountDestinationId">
+                                            <select class="form-control" name="income_account" data-ng-model="transaction.accountDestinationId">
                                                 <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
                                             <label class="floating-label" translate="addIncomeForm.Add_income_to_account">Add income to account...</label>
@@ -635,7 +636,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-97874979-3', 'auto');
+          ga('create', 'UA-97874979-2', 'auto');
           ga('send', 'pageview');
     </script>
  

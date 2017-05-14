@@ -421,5 +421,7 @@
   "budget_Item_has_been_created": "Item has been created!",
   "budget_Item_has_been_removed": "Item has been removed!",
   "budget_Error_on_item_deleting": "Error on item deleting: ",
-  "budget_Item_has_been_updated": "Item has been updated!"
+  "budget_Item_has_been_updated": "Item has been updated!",
+
+  "byaccount.Transactions_for": "Transactions for"
 }

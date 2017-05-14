@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('accountsController', ['$scope', '$routeParams', '$location', '$timeout', '$route', '$modal',  'accountsService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, $modal, accountsService, currenciesService) {
+app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'accountsService', 'currenciesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, accountsService, currenciesService, settingsService, $translate) {
 
     // Method to Insert
     $scope.createAccount = function () {
@@ -7,13 +7,14 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
         accountsService.createAccount($scope.account).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Account has been created!";
+            $scope.message = $scope.translations.account_has_been_created; //"Account has been created!";
             startTimer();
             initFields();
         },
          function (response) {
             if (response.status == 400)
-                $scope.message = "Error in process of creating: " + response.data.message;
+                $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
+                    + response.data.message;
             else
             {
                  var errors = [];
@@ -22,20 +23,29 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error in process of creating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_in_process_of_creating //"Error in process of creating: "
+                     + errors.join(' ');
             }
+            startErrorTimer();
          });
     };
-
-
 
     var startTimer = function () {
         var timer = $timeout(function () {
         $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
+            $rootScope.$broadcast('neadTRANReload', '');
             $route.reload();
-        }, 2000);
+        }, 500);
+    }
+
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
     }
 
     var initFields = function () 
@@ -76,13 +86,14 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
         accountsService.updateAccount($scope.account.id, $scope.account).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Account info has been updated!";
+            $scope.message = $scope.translations.account_info_has_been_updated; //"Account info has been updated!";
             startTimer();
 
         },
          function (response) {
             if (response.status == 400)
-                $scope.message = "Error in process of updating: " + response.data.message;
+                $scope.message = $scope.translations.error_in_process_of_updating //"Error in process of updating: " 
+                    + response.data.message;
             else
             {
                  var errors = [];
@@ -91,8 +102,10 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error on account updating: " + errors.join(' ');
+                 $scope.message = $scope.translations.error_on_account_updating //"Error on account updating: "
+                     + errors.join(' ');
             }
+            startErrorTimer();
          });
     };
 
@@ -100,11 +113,13 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
     {
       accountsService.deleteAccount($scope.account.id).then(function (response) {
                     $scope.savedSuccessfully = true;
-                    $scope.message = "Account has been removed!";
+                    $scope.message = $scope.translations.account_has_been_removed; //"Account has been removed!";
                     startTimer();
 
                 }, function (err) {
-                    $scope.message = "Error on account deleting: " + err;
+                    $scope.message = $scope.translations.error_on_account_deleting //"Error on account deleting: " 
+                        + err;
+                    startErrorTimer();
                 });
     }
 
@@ -117,16 +132,32 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
 
     initFields();
 
+    $scope.translations = [];
+    settingsService.getUserLang().then(function (results) {
+        if (results.data && results.data.userLang) {
+            $translate.use(results.data.userLang);
+            $translate.preferredLanguage(results.data.userLang);
+        }
+    });
+
+    $translate(['error_on_loading', 'Error_on_account_deleting',
+'account_has_been_removed', 'error_on_account_updating', 'error_in_process_of_updating',
+    'account_info_has_been_updated','error_in_process_of_creating','account_has_been_created']).then(function (translations) {
+    $scope.translations = translations;
+}, null);
+
     accountsService.getAccounts().then(function (results) {
             $scope.accounts = results.data;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";             
+            startErrorTimer();
         });
 
     accountsService.getAccountsHome().then(function (results) {
             $scope.accountsHome = results.data;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startErrorTimer();
         });
 
     $scope.currencies = [];
@@ -136,7 +167,8 @@ app.controller('accountsController', ['$scope', '$routeParams', '$location', '$t
             $scope.currencies = results.data;
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startErrorTimer();
         });
 
     // ....

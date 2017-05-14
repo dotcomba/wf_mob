@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="description" content="Wealthflow is a way to understand your money">
     <meta name="author" content="">
-    <title>Wealthflow</title>
+    <title>WELTO | Web access</title>
     <link rel="shortcut icon" href="app/assets/images/favicon.ico">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="app/global/css/bootstrap.min.css">
@@ -24,6 +24,14 @@
     <link rel="stylesheet" href="app/global/fonts/themify/themify.css">
     <link rel="stylesheet" href="app/global/fonts/octicons/octicons.css">
     <link rel="stylesheet" href="app/global/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="app/global/vendor/intro-js/introjs.css">
+
+    <!-- Calendar -->
+    <link rel="stylesheet" href="app/global/vendor/fullcalendar/fullcalendar.css">
+    <link rel="stylesheet" href="app/global/vendor/jquery-selective/jquery-selective.css">
+    <link rel="stylesheet" href="app/assets/examples/css/apps/calendar.css">  
+    <!-- Calendar -->
+
     <!--[if lt IE 9]>
       <script src="app/global/vendor/html5shiv/html5shiv.min.js"></script>
       <![endif]-->
@@ -49,6 +57,9 @@
     <script src="app/wf/services/categoriesService.js?v=2"></script>
     <script src="app/wf/services/currenciesService.js?v=2"></script>
     <script src="app/wf/services/settingsService.js?v=2"></script>
+    <script src="app/wf/services/goalsService.js?v=2"></script>
+    <script src="app/wf/services/calendarService.js?v=2"></script>
+    <script src="app/wf/services/budgetService.js?v=2"></script>
     <!-- Load controllers -->
     <script src="app/wf/controllers/indexController.js?v=2"></script>
     <script src="app/wf/controllers/transactionsController.js?v=2"></script>
@@ -62,9 +73,28 @@
     <script src="app/wf/controllers/reportIncomesController.js?v=2"></script>
     <script src="app/wf/controllers/reportExpensisesController.js?v=2"></script>
     <script src="app/wf/controllers/reportTrendsController.js?v=2"></script>
+    <script src="app/wf/controllers/goalsController.js?v=2"></script>
     <script src="app/wf/controllers/wizardController.js?v=2"></script>
     <script src="app/wf/controllers/allstufController.js?v=2"></script>
     <script src="app/wf/controllers/settingsController.js?v=2"></script>
+    <script src="app/wf/controllers/profileController.js?v=2"></script>
+    <script src="app/wf/controllers/changePasswordController.js?v=2"></script>
+    <script src="app/wf/controllers/forgotPasswordController.js?v=2"></script>
+    <script src="app/wf/controllers/resetPasswordController.js?v=2"></script>
+    <script src="app/wf/controllers/calendarController.js?v=2"></script>
+    <script src="app/wf/controllers/budgetController.js?v=2"></script>
+    <script src="app/wf/controllers/budgetDetailsController.js?v=2"></script>
+
+    <script src="app/scripts/translator/translate.js"></script>
+    <script src="app/scripts/translator/service/default-interpolation.js"></script>
+    <script src="app/scripts/translator/service/loader-static-files.js"></script>
+    <script src="app/scripts/translator/service/storage-key.js"></script>
+    <script src="app/scripts/translator/service/storage-local.js"></script>
+    <script src="app/scripts/translator/service/storage-cookie.js"></script>
+    <script src="app/scripts/translator/service/sanitization.js"></script>
+    <script src="app/scripts/translator/service/translate.js"></script>
+    <script src="app/scripts/translator/directive/translate.js"></script>
+    <script src="app/scripts/translator/filter/translate.js"></script>
 
     <style type="text/css">
         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -76,11 +106,11 @@
 <body class="animsition app-contacts page-aside-left" data-ng-controller="indexController">
 
     <nav class="site-navbar navbar navbar-default navbar-inverse navbar-fixed-top navbar-mega"
-         role="navigation" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+         role="navigation" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak onmousemove="closeU('wm')">
         
-        <div class="navbar-header">
+        <!--<div class="navbar-header">
             <button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided"
-                    data-toggle="menubar">
+                    data-toggle="menubar" id="toggleMenubar2">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="hamburger-bar"></span>
             </button>
@@ -89,17 +119,17 @@
                 <i class="icon wb-more-horizontal" aria-hidden="true"></i>
             </button>
             <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
-                <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow"> Wealtflow
+                <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow"> 
             </div>
-        </div>
-
+        </div>-->
+     
         <div class="navbar-container container-fluid">
             <!-- Navbar Collapse -->
-            <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+            <!--<div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">-->
                 <!-- Navbar Toolbar -->
                 <ul class="nav navbar-toolbar">
-                    <li class="nav-item hidden-float" id="toggleMenubar">
-                        <a class="nav-link" data-toggle="menubar" role="button">
+                    <li class="nav-item" id="toggleMenubar">
+                        <a class="nav-link" id="tooglemenubar3" data-toggle="menubar" role="button">
                             <i class="icon hamburger hamburger-arrow-left">
                                 <span class="sr-only">Toggle menubar</span>
                                 <span class="hamburger-bar"></span>
@@ -113,29 +143,31 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link navbar-avatar" data-toggle="dropdown" href="" aria-expanded="false"
-                           data-animation="scale-up" role="button">
+                           data-animation="scale-up" role="button" onclick="closeU()"   >
                             <span class="avatar avatar-online">
-                                <img src="app/global/portraits/5.jpg" alt="...">
+                                <img ng-controller="settingsController" ng-cloak src="app/global/portraits/{{settings.avatarNumber}}.png" alt="...">
                                 <i></i>
                             </span>
                         </a>
                         <div class="dropdown-menu" role="menu">
-                            <a class="dropdown-item" href="#/settings" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+                            <a class="dropdown-item site-tour-trigger" onclick="closeU('rm')" role="menuitem"><i class="icon oi-versions" aria-hidden="true"></i> <span translate="menu.Tour">Tour</span></a>
+                            <a class="dropdown-item" onclick="closeU('rm')" href="#/profile" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> <span translate="menu.Profile">Profile</span></a>
+                            <a class="dropdown-item" href="#/settings" onclick="closeU('rm')" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> <span translate="menu.Settings">Settings</span></a>
                             <div class="dropdown-divider" role="presentation"></div>
-                            <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+                            <a class="dropdown-item" ng-click="logOut()" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> <span translate="menu.Logout">Logout</span></a>
                         </div>
                     </li>
 
                 </ul>
                 <!-- End Navbar Toolbar Right -->
-                <div class="navbar-brand navbar-brand-center">
+                <div class="navbar-brand navbar-brand-center site-gridmenu-toggle">
                     <a href="#/">
                         <img class="navbar-brand-logo" src="app/assets/images/logo.png" title="Wealthflow">
                     </a>
                 </div>
             </div>
             <!-- End Navbar Collapse -->
-        </div>
+        <!--</div>-->
     </nav>
 
 
@@ -145,9 +177,9 @@
                 <div>
                     <ul class="site-menu" data-plugin="menu">
                         <li class="site-menu-item has-sub">
-                            <a href="javascript:void(0)">
+                            <a href="">
                                 <i class="site-menu-icon wb-grid-4" aria-hidden="true"></i>
-                                <span class="site-menu-title">Accounts</span>
+                                <span translate="menu.accounts" class="site-menu-title">Accounts</span>
                                 <!--<div class="site-menu-badge">
                                     <span data-ng-controller="dashboardController" class="tag tag-pill tag-info">$ {{ dashboard.balanceValue | number:2 }}</span>
                                 </div>-->
@@ -158,7 +190,7 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="JavaScript:$('#makeTransferForm').modal()">
                                         <i class="site-menu-icon ti-credit-card"></i>
-                                        <span class="site-menu-title">Make transfer</span>
+                                        <span translate="menu.Make_transfer" class="site-menu-title">Make transfer</span>
                                     </a>
                                 </li>
 
@@ -174,9 +206,9 @@
 
                                 <div class="dropdown-divider"></div>
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="#/accounts">
+                                    <a class="animsition-link" href="#/accounts" onclick="closeU()">
                                         <i class="site-menu-icon fa-gear"></i>
-                                        <span class="site-menu-title">Manage accounts</span>
+                                        <span translate="menu.Manage_accounts" class="site-menu-title">Manage accounts</span>
                                     </a>
                                 </li>
 
@@ -186,7 +218,7 @@
                         <li class="site-menu-item has-sub">
                             <a href="javascript:void(0)">
                                 <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
-                                <span class="site-menu-title">Transactions</span>
+                                <span translate="menu.Transactions" class="site-menu-title">Transactions</span>
                                 <span class="site-menu-arrow"></span>
                             </a>
                             <ul class="site-menu-sub">
@@ -194,29 +226,29 @@
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="JavaScript:$('#addExpensiesForm').modal()">
                                         <i class="site-menu-icon ti-shopping-cart"></i>
-                                        <span class="site-menu-title">Add expensises</span>
+                                        <span translate="menu.Add_expense" class="site-menu-title">Add expense</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
                                     <a class="animsition-link" href="Javascript:$('#addIncomeForm').modal()">
                                         <i class="site-menu-icon fa-dollar"></i>
-                                        <span class="site-menu-title">Add income</span>
+                                        <span translate="menu.Add_income" class="site-menu-title">Add income</span>
                                     </a>
                                 </li>
 
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="#/expensises">
-                                        <span class="site-menu-title">Expensises</span>
+                                    <a class="animsition-link" href="#/expensises" onclick="closeU()">
+                                        <span translate="menu.Expenses" class="site-menu-title">Expenses</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="#/incomes">
-                                        <span class="site-menu-title">Incomes</span>
+                                    <a class="animsition-link" href="#/incomes" onclick="closeU()">
+                                        <span translate="menu.Incomes" class="site-menu-title">Incomes</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="#/allstuf">
-                                        <span class="site-menu-title">All stuf</span>
+                                    <a class="animsition-link" href="#/allstuf" onclick="closeU()">
+                                        <span translate="menu.All_stuff" class="site-menu-title">All stuff</span>
                                     </a>
                                 </li>
 
@@ -224,51 +256,87 @@
                                 <div class="dropdown-divider"></div>
 
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="#/currencies">
+                                    <a class="animsition-link" href="#/currencies" onclick="closeU()">
                                         <i class="site-menu-icon oi-globe"></i>
-                                        <span class="site-menu-title">Currencies</span>
+                                        <span translate="menu.Currencies" class="site-menu-title">Currencies</span>
                                     </a>
                                 </li>
 
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="#/categories">
+                                    <a class="animsition-link" href="index.html#/categories" onclick="closeU()">
                                         <i class="site-menu-icon fa-gear"></i>
-                                        <span class="site-menu-title">Manage categories</span>
+                                        <span translate="menu.Manage_categories" class="site-menu-title">Manage categories</span>
                                     </a>
                                 </li>
 
                             </ul>
                         </li>
 
-                        <li class="site-menu-item has-sub">
+                        <li class="site-menu-item has-sub" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
                             <a href="javascript:void(0)">
-                                <i class="site-menu-icon wb-pie-chart" aria-hidden="true"></i>
-                                <span class="site-menu-title">Reports</span>
+                                <i class="site-menu-icon fa-dollar" aria-hidden="true"></i>
+                                <span translate="menu.Budget" class="site-menu-title">Budget</span>
                                 <span class="site-menu-arrow"></span>
                             </a>
                             <ul class="site-menu-sub">
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="index.html#/reportExpensises">
-                                        <span class="site-menu-title">Expensises</span>
+                                    <a class="animsition-link" href="index.html#/budgetDetails" onclick="closeU()">
+                                        <i class="site-menu-icon wb-order" aria-hidden="true"></i>
+                                        <span translate="menu.BudgetDetails" class="site-menu-title">Budget details</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="index.html#/reportIncomes">
-                                        <span class="site-menu-title">Incomes</span>
+                                    <a class="animsition-link" href="index.html#/budget" onclick="closeU()">
+                                        <i class="site-menu-icon fa-wrench" aria-hidden="true"></i>
+                                        <span translate="menu.SetupBudget" class="site-menu-title">Setup budget</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                            <a class="animsition-link" href="#/calendar" onclick="closeU()">
+                                <i class="site-menu-icon oi-calendar" aria-hidden="true"></i>
+                                <span translate="menu.Calendar" class="site-menu-title">Calendar</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                            <a class="animsition-link" href="#/goals" onclick="closeU()">
+                                <i class="site-menu-icon oi-milestone" aria-hidden="true"></i>
+                                <span translate="menu.Goals" class="site-menu-title">Goals</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon wb-pie-chart" aria-hidden="true"></i>
+                                <span translate="menu.Reports" class="site-menu-title">Reports</span>
+                                <span class="site-menu-arrow"></span>
+                            </a>
+                            <ul class="site-menu-sub">
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/reportExpensises" onclick="closeU()">
+                                        <span translate="menu.RExpenses" class="site-menu-title">Expenses</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="index.html#/reportTrends">
-                                        <span class="site-menu-title">Trends</span>
+                                    <a class="animsition-link" href="index.html#/reportIncomes" onclick="closeU()">
+                                        <span translate="menu.RIncomes" class="site-menu-title">Incomes</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="index.html#/reportTrends" onclick="closeU()">
+                                        <span translate="menu.RTrends" class="site-menu-title">Trends</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="site-menu-item">
-                            <a class="animsition-link" href="#/settings">
+                            <a class="animsition-link" href="#/settings" onclick="closeU()">
                                 <i class="site-menu-icon oi-gear" aria-hidden="true"></i>
-                                <span class="site-menu-title">Settings</span>
+                                <span translate="menu.Settings" class="site-menu-title">Settings</span>
                             </a>
                         </li>
 
@@ -277,7 +345,7 @@
                         <li class="site-menu-item">
                             <a class="animsition-link" href="" ng-click="logOut()">
                                 <i class="site-menu-icon wb-power" aria-hidden="true"></i>
-                                <span class="site-menu-title">Logout</span>
+                                <span translate="menu.Logout" class="site-menu-title">Logout</span>
                             </a>
                         </li>
 
@@ -288,8 +356,8 @@
         </div>
     </div>
 
-    <div class="page">
-        <div class="page-header">
+    <div class="page" onmousemove="closeU()">
+        <div class="page-header" >
         </div>
         <div class="page-content">
             <div data-ng-show="authentication.isAuth && authentication.isSetup">
@@ -300,20 +368,20 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i>Expensies</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon ti-shopping-cart"></i><span translate="addExpensesForm.Expenses">Expenses</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form role="form">
                                         <div class="form-group form-material row" data-plugin="formMaterial">
                                             <div class="col-md-3 col-xs-6">
-                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId">
+                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId" >
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
-                                                <label class="floating-label">Category</label>
+                                                <label class="floating-label" translate="addExpensesForm.Category">Category</label>
                                             </div>
                                             <div class="col-md-9 col-xs-6">
-                                                <input type="text" class="form-control empty" name="expense_description">
-                                                <label class="floating-label">Description</label>
+                                                <input type="text" class="form-control empty" name="expense_description" data-ng-model="transaction.newCategoryTitle">
+                                                <label class="floating-label" translate="addExpensesForm.New_category">New category</label>
                                             </div>
                                         </div>
 
@@ -321,28 +389,27 @@
                                             <select class="form-control empty" name="expense_account" data-ng-model="transaction.accountSourceId">
                                                 <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
-                                            <label class="floating-label">Account for this expense</label>
+                                            <label class="floating-label" translate="addExpensesForm.Account_for_this_expense">Account for this expense</label>
                                         </div>
 
                                         <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-2 col-xs-2">
+                                            <div class="col-md-10 col-xs-9">
+                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autocomplete="off" />
+                                                <label class="floating-label" translate="addExpensesForm.Amount">Amount</label>
+                                            </div>
+                                            <div class="col-md-2 col-xs-3">
                                                 <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
                                                     <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-md-10 col-xs-10">
-
-                                                <input type="text" class="form-control empty" id="expense_ammount" data-ng-model="transaction.transactionValue" autofocus />
-                                                <label class="floating-label">Ammont</label>
                                             </div>
                                         </div>
 
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == ''" data-ng-click="createTransaction('EXP')">Save</button>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || (transaction.categoryId == 'null' && transaction.newCategoryTitle == '')" data-ng-click="createTransaction('EXP')" translate="addExpensesForm.Save">Save</button>
 
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="addExpensesForm.Cancel">Cancel</a>
                                 </div>
 
                             </div>
@@ -362,7 +429,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i>Income</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon fa-dollar"></i><span translate="addIncomeForm.Income">Income</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form>
@@ -372,11 +439,11 @@
                                                 <select class="form-control empty" name="income_category" data-ng-model="transaction.categoryId">
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'INC'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
-                                                <label class="floating-label">Category</label>
+                                                <label class="floating-label" translate="addIncomeForm.Category">Category</label>
                                             </div>
                                             <div class="col-md-9 col-xs-6">
-                                                <input type="text" class="form-control empty" name="income_description">
-                                                <label class="floating-label">Description</label>
+                                                <input type="text" class="form-control empty" name="income_description" data-ng-model="transaction.newCategoryTitle">
+                                                <label class="floating-label" translate="addIncomeForm.New_category">New category</label>
                                             </div>
                                         </div>
 
@@ -384,26 +451,26 @@
                                             <select class="form-control empty" name="income_account" data-ng-model="transaction.accountDestinationId">
                                                 <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
-                                            <label class="floating-label">Add income to account...</label>
+                                            <label class="floating-label" translate="addIncomeForm.Add_income_to_account">Add income to account...</label>
                                         </div>
 
                                         <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-2 col-xs-2">
+                                            <div class="col-md-10 col-xs-9">
+                                                <input type="text" class="form-control empty" name="income_ammount"
+                                                       data-ng-model="transaction.transactionValue">
+                                                <label class="floating-label" translate="addIncomeForm.Amount">Amount</label>
+                                            </div>
+                                            <div class="col-md-2 col-xs-3">
                                                 <select class="form-control" name="currency" data-ng-model="transaction.currencyCode">
                                                     <option ng-selected="currency.thirdCurencyCode == transaction.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-md-10 col-xs-10">
-                                                <input type="text" class="form-control empty" name="income_ammount"
-                                                       data-ng-model="transaction.transactionValue">
-                                                <label class="floating-label">Ammont</label>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('INC')">Save</button>
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountDestinationId == '' || (transaction.categoryId == 'null' && transaction.newCategoryTitle == '')" data-ng-click="createTransaction('INC')" translate="addIncomeForm.Save">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="addIncomeForm.Cancel">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -416,7 +483,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                    <h4 class="modal-title"> <i class="site-menu-icon ti-credit-card"></i>Transfer</h4>
+                                    <h4 class="modal-title"> <i class="site-menu-icon ti-credit-card"></i><span translate="makeTransferForm.Transfer">Transfer</span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <form>
@@ -424,26 +491,26 @@
                                             <select class="form-control empty" name="from_account" data-ng-model="transaction.accountSourceId">
                                                 <option ng-selected="transaction.accountSourceId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number:2}})</option>
                                             </select>
-                                            <label class="floating-label">From</label>
+                                            <label class="floating-label" translate="makeTransferForm.From">From</label>
                                         </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
                                             <select class="form-control empty" name="to_account" data-ng-model="transaction.accountDestinationId">
                                                 <option ng-selected="transaction.accountDestinationId == account.Value" ng-repeat="account in accounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                             </select>
-                                            <label class="floating-label">To</label>
+                                            <label class="floating-label" translate="makeTransferForm.To">To</label>
                                         </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
                                             <input type="text" class="form-control empty"
                                                    name="transfer_ammount" data-ng-model="transaction.transactionValue">
-                                            <label class="floating-label">Ammont</label>
+                                            <label class="floating-label" translate="makeTransferForm.Amount">Amount</label>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == ''" data-ng-click="createTransaction('TRAN')">Save</button>
-                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="transaction.transactionValue == '' || transaction.accountSourceId == '' || transaction.accountDestinationId == '' || transaction.accountSourceId == transaction.accountDestinationId" data-ng-click="createTransaction('TRAN')" translate="makeTransferForm.Save">Save</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)" translate="makeTransferForm.Cancel">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -453,6 +520,7 @@
             </div>
             
             <section class="content">
+              
                 <div data-ng-view="">
 
                 </div>
@@ -460,7 +528,7 @@
         </div>
     </div>
 
-    <div class="site-action" data-plugin="actionBtn" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
+    <div class="site-action" id="actionBtn" onclick="closeU('sa')" data-plugin="actionBtn" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating">
             <i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
             <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
@@ -470,7 +538,7 @@
                 <i class="icon ti-credit-card" aria-hidden="true"></i>
             </button>
 
-            <button type="button" data-target="#addExpensiesForm" data-toggle="modal" onclick="Javascript:CloseButtons();" class="btn-raised btn btn-warning btn-floating animation-slide-bottom">
+            <button type="button" data-target="#addExpensiesForm" data-toggle="modal" onclick="Javascript: CloseButtons()" class="btn-raised btn btn-warning btn-floating animation-slide-bottom">
                 <i class="icon ti-shopping-cart" aria-hidden="true"></i>
             </button>
             <button type="button" data-target="#addIncomeForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-info btn-floating animation-slide-bottom">
@@ -480,10 +548,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="site-footer" data-ng-show="authentication.isAuth && authentication.isSetup" ng-cloak>
-        <div class="site-footer-legal">© 2017 <a href="http://www.wealthflowapp.com">Wealthflow</a></div>
+    <footer class="site-footer" data-ng-show="authentication.isAuth && authentication.isSetup">
+        <div class="site-footer-legal">© 2017 <a href="http://welto.io">WELTO</a></div>
         <div class="site-footer-right">
-            we will encounte <i class="green-600 wb wb-eye"></i> what <a href="https://my-wealthflow.azurewebsites.net/#/dashboard"> matters for you</a>
+            {{'index.we_will_count' | translate}} <i class="green-600 wb wb-eye"></i> {{'index.what' | translate}} <a href="https://my.welto.io/#/dashboard"> {{'index.matters_for_you' | translate}}</a>
         </div>
     </footer>
 
@@ -519,6 +587,9 @@
     <script src="app/global/js/Plugin/matchheight.js"></script>
     <script src="app/global/js/Plugin/panel.js"></script>
 
+    <script src="app/global/vendor/intro-js/intro.js"></script>
+    <script src="app/assets/js/config/tour.js"></script>
+
     <script>
         function CloseButtons()
         {
@@ -535,6 +606,37 @@
     $(document).ready(function() {
     AppContacts.run();
     });
+    </script>
+
+    <script>
+        function closeU(mode)
+        {
+            if (mode != 'wm' && $('body').hasClass('site-menubar-open'))
+                $('#tooglemenubar3').click();
+
+            if (mode == 'rm')
+                $('.navbar-avatar').click();
+
+            if (mode != 'sa' && $('.site-action').hasClass('active'))
+                $('.site-action-toggle').click();
+        }
+    </script>
+
+    <!-- Calendar scripts -->
+    <script src="app/global/vendor/moment/moment.min.js"></script>
+    <script src="app/global/vendor/fullcalendar/fullcalendar.js"></script>
+    <script src="app/global/vendor/fullcalendar/locale-all.js"></script>
+    <script src="app/global/vendor/jquery-selective/jquery-selective.min.js"></script>
+    <!-- Calendar scripts -->
+
+    <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-97874979-3', 'auto');
+          ga('send', 'pageview');
     </script>
  
 </body>

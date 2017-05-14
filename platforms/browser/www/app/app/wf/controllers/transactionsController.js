@@ -1,5 +1,22 @@
 ﻿'use strict';
-app.controller('transactionsController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'currenciesService', function ($scope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, currenciesService) {
+app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'accountsService', 'categoriesService', 'currenciesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $authService, transactionsService, accountsService, categoriesService, currenciesService, settingsService, $translate) {
+
+    $scope.translations = [];
+
+    var _initTranslations = function () {
+        settingsService.getUserLang().then(function (results) {
+            if (results.data && results.data.userLang) {
+                $translate.use(results.data.userLang);
+                $translate.preferredLanguage(results.data.userLang);
+            }
+        });
+
+        $translate(['transactions_Transaction_has_been_created', 'transactions_Error_in_process_of_creating',
+        'transactions_Lack_of_money', 'transactions_Error_on_loading', 'transactions_Error_on_loading_of_categories',
+        'transactions_Error_on_loading_of_accounts', 'transactions_Error_on_loading_of_transactions']).then(function (translations) {
+            $scope.translations = translations;
+        }, null);
+    }
 
     // Method to Insert
     $scope.createTransaction = function (transactionCode) {
@@ -7,13 +24,17 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
         transactionsService.createTransaction($scope.transaction).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "Transaction has been created!";
+            $scope.message = $scope.translations.transactions_Transaction_has_been_created; //"Transaction has been created!";
             startTimer();
             initFields();
         },
          function (response) {
-            if (response.status == 400)
-                $scope.message = "Error in process of creating: " + response.data.message;
+             if (response.status == 400)
+                 if (response.data.message.indexOf('Lack of money') != -1)
+                     $scope.message = $scope.translations.transactions_Lack_of_money;//'Lack of money to make this transaction. Check amount and try again';
+                 else
+                     $scope.message = $scope.translations.transactions_Error_in_process_of_creating //"Error in process of creating: " 
+				 + response.data.message;
             else
             {
                  var errors = [];
@@ -22,20 +43,31 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
                          errors.push(response.data.modelState[key][i]);
                      }
                  }
-                 $scope.message = "Error in process of creating: " + errors.join(' ');
-            }
+                 $scope.message = $scope.translations.transactions_Error_in_process_of_creating //"Error in process of creating: " 
+				 + errors.join(' ');
+             }
+             startErrorTimer();
          });
     };
 
     var startTimer = function () {
         var timer = $timeout(function () {
-        _accountsLoad();
+            _accountsLoad();
+            _categoriesLoad();
         $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
             //$location.path('/dashboard');
             $route.reload();
-        }, 2000);
+        }, 1000);
+    }
+
+    var startErrorTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+        }, 12000);
     }
 
     var startInitTimer = function () {
@@ -43,14 +75,18 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
         //
         if ($authService.authentication.isAuth)
         {
+        _initTranslations();
         _transactionsLoad();
         _accountsLoad();
         _categoriesLoad();
         _currenciesLoad();
+        $scope.savedSuccessfully = false;
+        $scope.message = "";
+        $timeout.cancel(timer);
         }
         else startInitTimer();
 
-        }, 100);
+        }, 1000);
     }
 
     var initFields = function () 
@@ -59,12 +95,12 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
             accountSourceId: '',
             accountDestinationId: '',
             categoryId: 'null',
+            newCategoryTitle: '',
             currencyCode: $scope.homeCurrency,
             transactionValue: '',
             transactionCode: 'TRAN'
         };
     }
-
 
     $scope.categories = [];
     $scope.categoriesLookup = {};
@@ -82,7 +118,8 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
             initFields();
 
         }, function (error) {
-            $scope.message = "Error on loading!";
+            $scope.message = $scope.translations.transactions_Error_on_loading; //"Error on loading!";
+            startInitTimer();
         });
     }
 
@@ -108,7 +145,8 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
         }
 
         }, function (error) {
-            $scope.message = "Error on loading of categories!";
+            $scope.message = $scope.translations.transactions_Error_on_loading_of_categories; //"Error on loading of categories!";
+            startInitTimer();
         });
     }
 
@@ -117,7 +155,8 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
             accountsService.getAccounts().then(function (results) {
             $scope.accounts = results.data;
         }, function (error) {
-            $scope.message = "Error on loading of accounts!";
+            $scope.message = $scope.translations.transactions_Error_on_loading_of_accounts; //"Error on loading of accounts!";
+            startInitTimer();
         });
     }
 
@@ -126,10 +165,17 @@ app.controller('transactionsController', ['$scope', '$routeParams', '$location',
          transactionsService.getTransactions().then(function (results) {
             $scope.transactions = results.data;
         }, function (error) {
-            $scope.message = "Error on loading of transactions!";
+            $scope.message = $scope.translations.transactions_Error_on_loading_of_transactions; //"Error on loading of transactions!";
+            startInitTimer();
         });
     }
     // ....
+    $rootScope.$on('neadTRANReload', function (event, msg) {
+        _accountsLoad();
+        _categoriesLoad();
+        _currenciesLoad();
+    });
+
 }]);
 
 

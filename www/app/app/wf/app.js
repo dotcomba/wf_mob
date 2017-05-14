@@ -8,6 +8,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/allstuf.html"
     });
 
+    $routeProvider.when("/transactions/byaccount/:id", {
+        controller: "byaccountController",
+        templateUrl: "app/wf/views/byaccount.html"
+    });
+
     $routeProvider.when("/calendar", {
         controller: "calendarController",
         templateUrl: "app/wf/views/calendar.html"

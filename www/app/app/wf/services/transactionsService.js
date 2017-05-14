@@ -22,6 +22,14 @@ app.factory('transactionsService', ['$http', 'ngAuthSettings', function ($http, 
     };
     transactionsServiceFactory.getAllTransactions = _getAllTransactions;
 
+    var _getTransactionsByAccount = function (id) {
+
+        return $http.get(serviceBase + 'api/transactions/byaccount/' + id).then(function (results) {
+            return results;
+        });
+    };
+    transactionsServiceFactory.getTransactionsByAccount = _getTransactionsByAccount;
+
     //Create new record
     transactionsServiceFactory.createTransaction = function (transaction) {
         var result = $http({

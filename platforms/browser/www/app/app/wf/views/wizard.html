@@ -171,23 +171,37 @@
                             </table>
                         </div>
 
-                        <div class="modal-footer" ng-show="currencies.length == 0">
-                            <p>First of all, choose your home currency</p>
-                            <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="homeCurrencyModal()">
-                                <i class="icon wb-plus" aria-hidden="true"></i>
-                                CHOOSE HOME CURRENCY
-                            </button>
+                        <div ng-show="currencies.length == 0">
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12" >
+                                &nbsp;
+                            </div>
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                <blockquote class="blockquote cover-quote">
+                                    Before you begin you should choose at least <br /><b>Home currency.</b> <br />
+                                </blockquote>
+                            </div>
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                &nbsp;
+                            </div>
                         </div>
 
-                        <div class="modal-footer" ng-show="currencies.length > 0">
-                            <p>to put additional currency, click</p>
-                            <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="showModal()">
-                                <i class="icon wb-plus" aria-hidden="true"></i>
-                                INSERT CURRENCY
-                            </button>
-                        </div>
+                            <div class="modal-footer" ng-show="currencies.length == 0">
+                                <p>First of all, choose your home currency</p>
+                                <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="homeCurrencyModal()">
+                                    <i class="icon wb-plus" aria-hidden="true"></i>
+                                    CHOOSE HOME CURRENCY
+                                </button>
+                            </div>
 
-                    </div>
+                            <div class="modal-footer" ng-show="currencies.length > 0">
+                                <p>to put additional currency, click</p>
+                                <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="showModal()">
+                                    <i class="icon wb-plus" aria-hidden="true"></i>
+                                    INSERT CURRENCY
+                                </button>
+                            </div>
+
+                        </div>
                 </div>
                 <div class="wizard-pane" role="tabpanel" id="wp2">
                     <div class="form-group" ng-controller="categoriesController">
@@ -212,7 +226,7 @@
                                                 <div class="col-md-12 col-xs-12">
                                                     <select class="form-control" name="currency" data-ng-model="category.typeCode">
                                                         <option value="INC">Income</option>
-                                                        <option value="EXP">Expensise</option>
+                                                        <option value="EXP">Expense</option>
                                                     </select>
                                                     <label class="floating-label">Type</label>
                                                 </div>
@@ -286,6 +300,22 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div ng-show="categories.length == 0">
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                &nbsp;
+                            </div>
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                <blockquote class="blockquote cover-quote">
+                                    You have to have categories of <br />
+                                    <b>Expenses</b> and <b>Incomes</b> <br />
+                                    to manipulate with your transactions
+                                </blockquote>
+                            </div>
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                &nbsp;
+                            </div>
                         </div>
 
                         <div class="modal-footer">
@@ -389,6 +419,23 @@
                             </table>
                         </div>
 
+                        <div ng-show="accounts.length == 0">
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                &nbsp;
+                            </div>
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                <blockquote class="blockquote cover-quote">
+                                    You should have at least <br />one 
+                                    <b>Account</b> to be able <br />
+                                    put your expenses and incomes. <br/>
+                                    You can create for example <b>"Cash"</b>
+                                </blockquote>
+                            </div>
+                            <div class="info-panel col-xl-4 col-md-4 col-xs-12">
+                                &nbsp;
+                            </div>
+                        </div>
+
                         <div class="modal-footer">
                             <p>to add new account, click</p>
                             <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
@@ -402,15 +449,15 @@
                 <div class="wizard-pane" role="tabpanel" id="wp4">
                     <div class="form-group">
                         <div class="page-header text-xs-center">
-                            <h6 class="page-title">Congradulation!</h6>
+                            <h6 class="page-title">Congratulations!</h6>
                             <p class="page-description">
                                 Now you are ready to start. </p>
                             <div class="page-title">
-                                <img src="app/assets/images/logo@2x.png">
+                                <img src="app/assets/images/logo32.png">
                             </div>
                             <p class="page-description">
                                 <br/>
-                                click button <strong>"Finish"</strong> to start <br />your Wealthflow-experience here.
+                                click button <strong>"Finish"</strong> to start <br />your Welto-experience here.
                             </p>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('wizardController', ['$scope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', function ($scope, $routeParams, $location, $timeout, $route, $authService, transactionsService) {
+app.controller('wizardController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'transactionsService', 'ngAuthSettings', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $authService, transactionsService, ngAuthSettings) {
 
     $scope.wzs = [];
 
@@ -35,7 +35,10 @@ app.controller('wizardController', ['$scope', '$routeParams', '$location', '$tim
     };
 
     $scope.btnFinish = function () {
-        $location.path('/dashboard'); // change to dashboard
+        $rootScope.$broadcast('neadTRANReload', '');
+        $location.path('/dashboard'); 
+        //window.location = '/index.html';
+
         $authService.authentication.isSetup = true;
     };
 

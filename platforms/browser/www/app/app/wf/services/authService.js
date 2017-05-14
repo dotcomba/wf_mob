@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '$rootScope', 'ngAuthSettings', function ($http, $q, localStorageService, $location, $rootScope, ngAuthSettings) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
@@ -27,6 +27,30 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     };
 
+    var _changePassword = function (cp) {
+
+        return $http.post(serviceBase + 'api/account/changePassword', cp).then(function (response) {
+            return response;
+        });
+
+    };
+
+    var _forgotPassword = function (cp) {
+
+        return $http.post(serviceBase + 'api/account/forgotPassword', cp).then(function (response) {
+            return response;
+        });
+
+    };
+
+    var _resetPassword = function (cp) {
+
+        return $http.post(serviceBase + 'api/account/resetPassword', cp).then(function (response) {
+            return response;
+        });
+
+    };
+
     var _login = function (loginData) {
 
         var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
@@ -45,11 +69,19 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             else {
                 localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
             }
+            // alx
+            if (getParameterByName('state')) {
+                window.location = ngAuthSettings.apiAlxUri +
+                getParameterByName('state') + "&access_token=" + response.access_token + '|' + loginData.userName + "&token_type=Bearer";
+            }
             _authentication.isAuth = true;
             _authentication.userName = loginData.userName;
             _authentication.useRefreshTokens = loginData.useRefreshTokens;
             /// если нотификации доступні то мы узнаем об этом в момент аутентификации или уже после нее. подумать потом где ????
             _authentication.isNotification = false;
+
+            $rootScope.$broadcast('neadTRANReload', '');
+            $rootScope.$broadcast('neadSETTINGSReload', '');
 
             deferred.resolve(response);
 
@@ -76,12 +108,31 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         var authData = localStorageService.get('authorizationData');
         if (authData) {
+
+            // alx
+            if (getParameterByName('state'))
+            {
+                window.location = ngAuthSettings.apiAlxUri +
+                getParameterByName('state') + "&access_token=" + authData.token + '|' + authData.userName + "&token_type=Bearer";
+            }
+
             _authentication.isAuth = true;
             _authentication.userName = authData.userName;
             _authentication.useRefreshTokens = authData.useRefreshTokens;
         }
 
     };
+
+    function getParameterByName(name) {
+        var regexS = "[\\?&]" + name + "=([^&#]*)",
+      regex = new RegExp(regexS),
+      results = regex.exec(window.location.search);
+        if (results == null) {
+            return "";
+        } else {
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    }
 
     var _refreshToken = function () {
         var deferred = $q.defer();
@@ -159,6 +210,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     authServiceFactory.saveRegistration = _saveRegistration;
+    authServiceFactory.changePassword = _changePassword;
+    authServiceFactory.resetPassword = _resetPassword;
+    authServiceFactory.forgotPassword = _forgotPassword;
     authServiceFactory.login = _login;
     authServiceFactory.logOut = _logOut;
     authServiceFactory.fillAuthData = _fillAuthData;

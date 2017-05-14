@@ -419,5 +419,7 @@
   "budget_Item_has_been_created": "linea presupuestaria fue creado!",
   "budget_Item_has_been_removed": "linea presupuestaria se ha eliminado!",
   "budget_Error_on_item_deleting": "Error durante el borrado:",
-  "budget_Item_has_been_updated": "linea presupuestaria se ha actualizado!"
+  "budget_Item_has_been_updated": "linea presupuestaria se ha actualizado!",
+
+  "byaccount.Transactions_for": "Transacciones para"
 }

@@ -1,11 +1,26 @@
 ﻿
-var app = angular.module('WFApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'ui.bootstrap', 'chart.js']);
+var app = angular.module('WFApp', ['pascalprecht.translate', 'ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'ui.bootstrap', 'chart.js']);
 
 app.config(function ($routeProvider) {
 
     $routeProvider.when("/allstuf", {
         controller: "allstufController",
         templateUrl: "app/wf/views/allstuf.html"
+    });
+
+    $routeProvider.when("/calendar", {
+        controller: "calendarController",
+        templateUrl: "app/wf/views/calendar.html"
+    });
+
+    $routeProvider.when("/budget", {
+        controller: "budgetController",
+        templateUrl: "app/wf/views/budget.html"
+    });
+
+    $routeProvider.when("/budgetDetails", {
+        controller: "budgetDetailsController",
+        templateUrl: "app/wf/views/budget-details.html"
     });
 
     $routeProvider.when("/expensises", {
@@ -24,13 +39,23 @@ app.config(function ($routeProvider) {
     });
 
     $routeProvider.when("/forgot", {
-        controller: "forgotController",
+        controller: "forgotPasswordController",
         templateUrl: "app/wf/views/forgot-password.html"
     });
 
     $routeProvider.when("/signup", {
         controller: "signupController",
         templateUrl: "app/wf/views/signup.html"
+    });
+
+    $routeProvider.when("/changePassword", {
+        controller: "changePasswordController",
+        templateUrl: "app/wf/views/change-password.html"
+    });
+
+    $routeProvider.when("/resetPassword", {
+        controller: "resetPasswordController",
+        templateUrl: "app/wf/views/reset-password.html"
     });
 
     $routeProvider.when("/refresh", {
@@ -73,6 +98,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/settings.html"
     });
 
+    $routeProvider.when("/profile", {
+        controller: "profileController",
+        templateUrl: "app/wf/views/profile.html"
+    });
+
     $routeProvider.when("/currencies", {
         controller: "currenciesController",
         templateUrl: "app/wf/views/currencies.html"
@@ -93,6 +123,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/reportTrends.html"
     });
 
+    $routeProvider.when("/goals", {
+        controller: "goalsController",
+        templateUrl: "app/wf/views/goals.html"
+    });
+
     $routeProvider.when("/wizard", {
         controller: "wizardController",
         templateUrl: "app/wf/views/wizard.html"
@@ -108,17 +143,31 @@ app.config(function ($routeProvider) {
 });
 
 //var serviceBase = 'http://localhost:49213/';
-var serviceBase = 'https://server-wealthflow.azurewebsites.net/';
+var serviceBase = 'https://server-welto.azurewebsites.net/';
+var alxUri = 'https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M301DP3LUKK6ND#state=';
 
 //var serviceBase = 'http://dev-m5.cloudapp.net/';
 
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
+    apiAlxUri: alxUri,
     clientId: 'ngAuthApp'
 });
 
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
+});
+
+app.config(function ($translateProvider) {
+    $translateProvider
+
+            .useStaticFilesLoader({
+                prefix: 'app\\scripts\\translator\\langs\\',
+                suffix: '.json'
+            })
+            .preferredLanguage('en')
+            .useSanitizeValueStrategy('escape');
+   
 });
 
 app.run(['authService', function (authService) {
