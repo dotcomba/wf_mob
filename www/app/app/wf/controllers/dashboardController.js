@@ -180,8 +180,9 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
     dashboardService.getDashboard().then(function (results) {
             $scope.dashboard = results.data;
             $scope.options1.title.text = $scope.homeCurrency + ' ' + $scope.dashboard.balanceValue;
-            if ($scope.dashboard.balanceValue == 0)
-                introJs().setOptions(Config.get('tour')).start();
+            // TEMPORARY DISABLE TOUR !!!!
+            //if ($scope.dashboard.balanceValue == 0)
+            //    introJs().setOptions(Config.get('tour')).start();
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();

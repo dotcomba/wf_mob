@@ -374,14 +374,14 @@
                                 <div class="modal-body">
                                     <form role="form">
                                         <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-3 col-xs-6">
-                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId" >
+                                            <div class="col-md-3 col-xs-6" id="divCategoryLookupExp">
+                                                <select class="form-control empty" name="expense_category" data-ng-model="transaction.categoryId" onchange="selectCheck(this.value,'Exp')">
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
                                                 <label class="floating-label" translate="addExpensesForm.Category">Category</label>
                                             </div>
-                                            <div class="col-md-9 col-xs-6">
-                                                <input type="text" class="form-control empty" name="expense_description" data-ng-model="transaction.newCategoryTitle">
+                                            <div class="col-md-9 col-xs-6" id="divCategoryTextExp">
+                                                <input type="text" class="form-control empty" name="expense_description" data-ng-model="transaction.newCategoryTitle" onkeyup="categoryCheck(this.value, 'Exp')">
                                                 <label class="floating-label" translate="addExpensesForm.New_category">New category</label>
                                             </div>
                                         </div>
@@ -423,6 +423,37 @@
                         {{message}}
                     </div>
 
+                    <script>
+                        function categoryCheck(th, partPref)
+                        {
+                            //if (th != "") {
+                            //    $('#divCategoryLookup' + partPref).hide();
+                            //    $('#divCategoryText' + partPref).removeClass("col-md-9 col-xs-6");
+                            //    $('#divCategoryText' + partPref).addClass("col-md-12");
+                            //}
+                            //else {
+                            //    $('#divCategoryLookup' + partPref).show();
+                            //    $('#divCategoryText' + partPref).addClass("col-md-9 col-xs-6");
+                            //    $('#divCategoryText' + partPref).removeClass("col-md-12");
+                            //}
+                        }
+
+                        function selectCheck(th, partPref)
+                        {
+                            //if (th != "") {
+                            //    $('#divCategoryText' + partPref).hide();
+                            //    $('#divCategoryLookup' + partPref).removeClass("col-md-3 col-xs-6");
+                            //    $('#divCategoryLookup' + partPref).addClass("col-md-12");
+                            //}
+                            //else {
+                            //    $('#divCategoryText' + partPref).show();
+                            //    $('#divCategoryLookup' + partPref).addClass("col-md-3 col-xs-6");
+                            //    $('#divCategoryLookup' + partPref).removeClass("col-md-12");
+                            //}
+                         
+                        }
+                    </script>
+
                     <!-- Add Income Form -->
                     <div class="modal fade" id="addIncomeForm" aria-hidden="true" aria-labelledby="addIncomeForm"
                          role="dialog" tabindex="-1">
@@ -434,19 +465,19 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-
                                         <div class="form-group form-material row" data-plugin="formMaterial">
-                                            <div class="col-md-3 col-xs-6">
-                                                <select class="form-control empty" name="income_category" data-ng-model="transaction.categoryId">
+                                            <div class="col-md-3 col-xs-6" id="divCategoryLookupInc">
+                                                <select class="form-control empty" name="income_category" data-ng-model="transaction.categoryId" onchange="selectCheck(this.value,'Inc')">
                                                     <option ng-selected="transaction.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'INC'}" value="{{category.id}}">{{category.title}}</option>
                                                 </select>
                                                 <label class="floating-label" translate="addIncomeForm.Category">Category</label>
+                                               
                                             </div>
-                                            <div class="col-md-9 col-xs-6">
-                                                <input type="text" class="form-control empty" name="income_description" data-ng-model="transaction.newCategoryTitle">
+                                            <div class="col-md-9 col-xs-6" id="divCategoryTextInc">
+                                                <input type="text" class="form-control empty" name="income_description" data-ng-model="transaction.newCategoryTitle" onkeyup="categoryCheck(this.value,'Inc')">
                                                 <label class="floating-label" translate="addIncomeForm.New_category">New category</label>
                                             </div>
-                                        </div>
+                                            </div>
 
                                         <div class="form-material floating has-success" data-plugin="formMaterial">
                                             <select class="form-control" name="income_account" data-ng-model="transaction.accountDestinationId">
@@ -542,7 +573,7 @@
             <button type="button" data-target="#addExpensiesForm" data-toggle="modal" onclick="Javascript: CloseButtons()" class="btn-raised btn btn-warning btn-floating animation-slide-bottom">
                 <i class="icon ti-shopping-cart" aria-hidden="true"></i>
             </button>
-            <button type="button" data-target="#addIncomeForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-info btn-floating animation-slide-bottom">
+            <button type="button" data-target="#addIncomeForm" data-toggle="modal" onclick="Javascript: CloseButtons()" class="btn-raised btn btn-info btn-floating animation-slide-bottom">
                 <i class="icon fa-dollar" aria-hidden="true"></i>
             </button>
         </div>

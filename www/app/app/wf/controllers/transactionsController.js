@@ -100,6 +100,10 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             transactionValue: '',
             transactionCode: 'TRAN'
         };
+
+        //categoryCheck('', 'Inc'); categoryCheck('', 'Exp');
+        //selectCheck('', 'Inc'); selectCheck('', 'Exp');
+
     }
 
     $scope.categories = [];
