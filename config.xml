@@ -9,8 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-	<icon src="logo.png" platform="ios"/>
-  <icon src="logo.png" platform="android"/>
+	<icon src="logo.png" />
 
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait" />
@@ -68,10 +67,12 @@
   <allow-intent href="geo:*"/>
   <platform name="android">
     <allow-intent href="market:*"/>
+    <icon src="logo.png" />
   </platform>
   <platform name="ios">
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
+    <icon src="logo.png" />
   </platform>
   
 </widget>
