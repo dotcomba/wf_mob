@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.welto" version="2.3.26" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="io.welto" version="2.3.27" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Welto</name>
     <description>
         Welto is a way to understand your money
@@ -9,7 +9,8 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-	<icon src="logo.png"/>
+	<icon src="logo.png" platform="ios"/>
+  <icon src="logo.png" platform="android"/>
 
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait" />
