@@ -189,7 +189,7 @@
                             <ul class="site-menu-sub" data-ng-controller="accountsController">
 
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="JavaScript:$('#makeTransferForm').modal()">
+                                    <a class="animsition-link" href="JavaScript:$('#makeTransferForm').modal();closeU()">
                                         <i class="site-menu-icon ti-credit-card"></i>
                                         <span translate="menu.Make_transfer" class="site-menu-title">Make transfer</span>
                                     </a>
@@ -225,13 +225,13 @@
                             <ul class="site-menu-sub">
 
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="JavaScript:$('#addExpensiesForm').modal()">
+                                    <a class="animsition-link" href="JavaScript:$('#addExpensiesForm').modal();closeU()">
                                         <i class="site-menu-icon ti-shopping-cart"></i>
                                         <span translate="menu.Add_expense" class="site-menu-title">Add expense</span>
                                     </a>
                                 </li>
                                 <li class="site-menu-item">
-                                    <a class="animsition-link" href="Javascript:$('#addIncomeForm').modal()">
+                                    <a class="animsition-link" href="Javascript:$('#addIncomeForm').modal();closeU()">
                                         <i class="site-menu-icon fa-dollar"></i>
                                         <span translate="menu.Add_income" class="site-menu-title">Add income</span>
                                     </a>
@@ -363,7 +363,7 @@
         <div class="page-content">
             <div data-ng-show="authentication.isAuth && authentication.isSetup">
                 <div data-ng-controller="transactionsController">
-                    <div class="modal fade" id="addExpensiesForm" aria-hidden="true" aria-labelledby="addExpensiesForm"
+                    <div class="modal fade" style="padding-top:70px" id="addExpensiesForm" aria-hidden="true" aria-labelledby="addExpensiesForm"
                          role="dialog" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -455,7 +455,7 @@
                     </script>
 
                     <!-- Add Income Form -->
-                    <div class="modal fade" id="addIncomeForm" aria-hidden="true" aria-labelledby="addIncomeForm"
+                    <div class="modal fade" style="padding-top:70px" id="addIncomeForm" aria-hidden="true" aria-labelledby="addIncomeForm"
                          role="dialog" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -509,7 +509,7 @@
                     </div>
                     <!-- End Add Income Form -->
                     <!-- Add Make trasfer Form -->
-                    <div class="modal fade" id="makeTransferForm" aria-hidden="true" aria-labelledby="makeTransferForm"
+                    <div class="modal fade" style="padding-top:70px" id="makeTransferForm" aria-hidden="true" aria-labelledby="makeTransferForm"
                          role="dialog" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
