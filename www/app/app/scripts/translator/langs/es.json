@@ -181,7 +181,7 @@
   "profile.Avatar": "Avatar",
   "profile.Subscription": "suscripcion",
   "profile.WORLD": "MUNDO",
-  "profile.We_are_currently": "En la actualidad no ofrecemos la posibilidad de cambiar el tipo de suscripcion Se planea agregar funcionalidad y proporcionar en el futuro, asi que estad atentos ..",
+  "profile.We_are_currently": "Actualmente puede cambiar su suscripcion ",
   "profile.updates": "aqui",
   "profile.Password": "contrasena",
   "profile.To_change_password_click": "Para cambiar la contrasena, haga clic en",
@@ -421,5 +421,10 @@
   "budget_Error_on_item_deleting": "Error durante el borrado:",
   "budget_Item_has_been_updated": "linea presupuestaria se ha actualizado!",
 
-  "byaccount.Transactions_for": "Transacciones para"
+  "byaccount.Transactions_for": "Transacciones para",
+
+  "accounts.Type": "Tipo",
+  "accounts.Blockchain_address": "Direccion Blockchain",
+  "currencies.Automatic_update_currency": "Cambio automatico de la moneda",
+  "dashboard.updated": "Actualizado"
 }

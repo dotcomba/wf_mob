@@ -160,7 +160,12 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
     });
 
     accountsService.getAccounts().then(function (results) {
-        $scope.accounts = results.data;
+        //$scope.accounts = results.data;
+
+        angular.forEach(results.data, function (obj) {
+            if (obj.accountType == null) this.push(obj);
+        }, $scope.accounts);
+
         for (var i = 0, len = $scope.accounts.length; i < len; i++) {
             $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
         }

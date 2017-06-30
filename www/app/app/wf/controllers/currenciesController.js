@@ -145,7 +145,9 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
     $scope.homeCurrency = '';
 
     $scope.translations = [];
+    $scope.settings = {};
     settingsService.getUserLang().then(function (results) {
+        if (results.data) { $scope.settings = results.data }
         if (results.data && results.data.userLang) {
             $translate.use(results.data.userLang);
             $translate.preferredLanguage(results.data.userLang);

@@ -44,6 +44,17 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group form-material row" data-ng-show="settings.subscriptionType != 'WORLD' && settings.subscriptionConfirmed == true" data-plugin="formMaterial">
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="checkbox-custom checkbox-success">
+                                            <input type="checkbox" id="currency_needToUpdate" data-ng-model="currency.needToUpdate" />
+                                            <label for="currency_needToUpdate" translate="currencies.Automatic_update_currency">Automatic update currency</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+
                             </form>
                         </div>
                         <div class="modal-footer">

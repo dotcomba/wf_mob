@@ -181,8 +181,8 @@
   "profile.Avatar": "Avatar",
   "profile.Subscription": "Subscription",
   "profile.WORLD": "WORLD",
-  "profile.We_are_currently": "We are currently don't allow change subscription type. We are planning upgrade this software and make it available later. Follow",
-  "profile.updates": "updates",
+  "profile.We_are_currently": "You are currently can change your subscription ",
+  "profile.updates": "here",
   "profile.Password": "Password",
   "profile.To_change_password_click": "To change password, click",
   "profile.here": "here",
@@ -423,5 +423,10 @@
   "budget_Error_on_item_deleting": "Error on item deleting: ",
   "budget_Item_has_been_updated": "Item has been updated!",
 
-  "byaccount.Transactions_for": "Transactions for"
+  "byaccount.Transactions_for": "Transactions for",
+
+  "accounts.Type": "Type",
+  "accounts.Blockchain_address": "Blockchain address",
+  "currencies.Automatic_update_currency": "Automatic update currency",
+  "dashboard.updated": "Updated"
 }

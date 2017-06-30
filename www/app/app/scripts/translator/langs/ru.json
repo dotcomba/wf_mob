@@ -182,7 +182,7 @@
   "profile.Avatar": "Аватар",
   "profile.Subscription": "Подписка",
   "profile.WORLD": "WORLD",
-  "profile.We_are_currently": "В настоящее время мы не предоставляем возможности сменить тип подписки. Мы планируем добавить функционал и предоставить это в будущем. Следите за обновлениями",
+  "profile.We_are_currently": "В настоящее время вы можете изменить Вашу подписку, обратившись к нам ",
   "profile.updates": "здесь",
   "profile.Password": "Пароль",
   "profile.To_change_password_click": "Чтобы изменить пароль, нажмите",
@@ -423,5 +423,10 @@
   "budget_Error_on_item_deleting": "Ошибка в процессе удаления: ",
   "budget_Item_has_been_updated": "Строка бюджета была обновлена!",
 
-  "byaccount.Transactions_for": "Транзакции по счету"
+  "byaccount.Transactions_for": "Транзакции по счету",
+
+  "accounts.Type": "Тип счета",
+  "accounts.Blockchain_address": "Блокчейн адресс",
+  "currencies.Automatic_update_currency": "Автоматически обновлять",
+  "dashboard.updated": "Обновлено"
 }

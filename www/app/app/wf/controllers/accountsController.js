@@ -1,6 +1,8 @@
 ﻿'use strict';
 app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'accountsService', 'currenciesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, accountsService, currenciesService, settingsService, $translate) {
 
+    $scope.accountTypes = [{ code: null, title: 'Virtual' }, { code: 'BCH', title: 'Blockchain' }];
+
     // Method to Insert
     $scope.createAccount = function () {
 
@@ -51,11 +53,14 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
     var initFields = function () 
     {
         $scope.account = {
+            accountType:null,
             title: '',
             currencyCode: 'USD',
             ammount: 0
         };
     }
+
+
 
     $scope.showModal = function (obj)
     {
@@ -134,6 +139,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
 
     $scope.translations = [];
     settingsService.getUserLang().then(function (results) {
+        if (results.data) { $scope.settings = results.data }
         if (results.data && results.data.userLang) {
             $translate.use(results.data.userLang);
             $translate.preferredLanguage(results.data.userLang);

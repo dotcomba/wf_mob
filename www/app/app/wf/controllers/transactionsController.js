@@ -157,7 +157,12 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
     var _accountsLoad = function()
     {
             accountsService.getAccounts().then(function (results) {
-            $scope.accounts = results.data;
+                //$scope.accounts = results.data;
+
+                angular.forEach(results.data, function (obj) {
+                    if (obj.accountType == null) this.push(obj);
+                }, $scope.accounts);
+
         }, function (error) {
             $scope.message = $scope.translations.transactions_Error_on_loading_of_accounts; //"Error on loading of accounts!";
             startInitTimer();
