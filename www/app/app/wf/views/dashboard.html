@@ -454,7 +454,8 @@
                             <td class="hide-sm" style="vertical-align:middle">
                                 <button type="button" data-ng-show="account.accountType == null" class="btn btn-icon btn-default btn-outline fa-dollar" data-target="#addIncomeForm" data-toggle="modal" ng-click="setTransactionAccount('INC',account.id)"></button>
                                 <button type="button" data-ng-show="account.accountType == null" class="btn btn-icon btn-default btn-outline ti-shopping-cart" data-target="#addExpensiesForm" data-toggle="modal" ng-click="setTransactionAccount('EXP',account.id)"></button>
-                                <span class="small" data-ng-show="account.accountType != null">{{'dashboard.updated' | translate}}:<br/>{{ account.modified | date:"MMMM dd, yyyy HH:mm" }}</span>
+                                <button id="upBtn{{ account.id }}" type="button" data-ng-show="account.accountType != null" class="btn btn-icon btn-default btn-outline ti-reload" ng-click="refreshBlockchainBalance(account)"></button>
+                                <span id="upSpan{{ account.id }}" class="small updateLabel" data-ng-show="account.accountType != null">&nbsp;&nbsp; {{ account.modified | date:"MMMM dd, yyyy HH:mm" }} </span>
                             </td>
                         </tr>
                     </tbody>

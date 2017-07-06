@@ -40,7 +40,7 @@ app.factory('accountsService', ['$http', 'ngAuthSettings', function ($http, ngAu
             data: account
         });
         return result;
-    }
+    }   
 
     //Delete the Record
     accountsServiceFactory.deleteAccount = function (id) {

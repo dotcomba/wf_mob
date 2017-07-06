@@ -159,6 +159,8 @@ app.controller('transactionsController', ['$scope', '$rootScope', '$routeParams'
             accountsService.getAccounts().then(function (results) {
                 //$scope.accounts = results.data;
 
+                $scope.accounts = [];
+
                 angular.forEach(results.data, function (obj) {
                     if (obj.accountType == null) this.push(obj);
                 }, $scope.accounts);

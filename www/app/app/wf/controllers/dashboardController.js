@@ -144,38 +144,44 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
             startReloadTimer();
         });
 
-    accountsService.getAccounts().then(function (results) {
+    var initAccounts = function () {
+        accountsService.getAccounts().then(function (results) {
             $scope.accounts = results.data;
 
-            if ($scope.accounts.length == 0)
-            {
+            if ($scope.accounts.length == 0) {
                 $location.path('/wizard/page/1');
             }
 
-    for (var i = 0, len = $scope.accounts.length; i < len; i++) {
-        $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
-        }
+            for (var i = 0, len = $scope.accounts.length; i < len; i++) {
+                $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
+            }
 
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
         });
 
-    accountsService.getAccountsHome().then(function (results) {
+        accountsService.getAccountsHome().then(function (results) {
             $scope.accountsHome = results.data;
 
-            angular.forEach($scope.accountsHome, function(obj) {
-              this.push(obj.title.substring(0,15));
+            $scope.labels = [];
+            $scope.data = [];
+
+            angular.forEach($scope.accountsHome, function (obj) {
+                this.push(obj.title.substring(0, 15));
             }, $scope.labels);
 
-            angular.forEach($scope.accountsHome, function(obj) {
-              this.push(obj.ammount);
+            angular.forEach($scope.accountsHome, function (obj) {
+                this.push(obj.ammount);
             }, $scope.data);
 
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startReloadTimer();
         });
+    };
+
+    initAccounts();
 
     dashboardService.getDashboard().then(function (results) {
             $scope.dashboard = results.data;
@@ -316,6 +322,36 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
              startErrorTimer();
          });
     };
+
+    $scope.refreshBlockchainBalance = function (account)
+    {
+        $('#upBtn' + account.id).attr('disabled', 'disabled');
+        $('#upSpan' + account.id).html('Loading...');
+        // request
+        updateAccountBalance(account);
+        startUpdateTimer();
+
+    }
+
+    var updateAccountBalance = function (account)
+    {
+        accountsService.updateAccount(account.id, account).then(function (results) {
+            ;
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+            startReloadTimer();
+        });
+    }
+
+    var startUpdateTimer = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+            initAccounts();
+        }, 35000);
+    }
+
 
 
     // ....
