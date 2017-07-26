@@ -108,6 +108,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/profile.html"
     });
 
+    $routeProvider.when("/profile/subscription/:id", {
+        controller: "profileController",
+        templateUrl: "app/wf/views/profile.html"
+    });
+
     $routeProvider.when("/currencies", {
         controller: "currenciesController",
         templateUrl: "app/wf/views/currencies.html"

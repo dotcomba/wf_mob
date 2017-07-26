@@ -428,5 +428,11 @@
   "accounts.Type": "Type",
   "accounts.Blockchain_address": "Blockchain address",
   "currencies.Automatic_update_currency": "Automatic update currency",
-  "dashboard.updated": "Updated"
+  "dashboard.updated": "Updated",
+
+  "profile.Payments": "Payments",
+  "profile.PaymentDate": "Payment date",
+  "profile.SubscriptionType": "Subscription",
+  "profile.Period": "Period",
+  "profile.if_you_just_paid": "ATTANTION: If you just paid for your new subscription and subscription has not been confirmed yet, don't worry, we will confirm and activate your new subscription ASAP"
 }

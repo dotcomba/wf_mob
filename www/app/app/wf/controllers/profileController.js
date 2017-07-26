@@ -1,4 +1,48 @@
-﻿app.controller('profileController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', '$translate', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService, $translate) {
+﻿app.controller('profileController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', '$translate', 'paymentsService', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService, $translate, paymentsService) {
+
+    var idParam = $routeParams.id;
+    if (idParam != undefined) {
+        if (idParam == 'WORLDPLUS')
+        {
+            var payment = {
+                subscription: 'WORLD+',
+                paymentCurrency: 'USD',
+                paymentAmmount: 12
+            };
+            paymentsService.createPayment(payment).then(
+                function (response) {
+                    startTimerSubs();
+                },
+                 function (response) {
+                     if (response.status == 400)
+                         $scope.message = $scope.translations.error_in_process_updating_user_settings //"Error in process of updating: "
+                             + response.data.message;
+                     else {
+                         var errors = [];
+                         for (var key in response.data.modelState) {
+                             for (var i = 0; i < response.data.modelState[key].length; i++) {
+                                 errors.push(response.data.modelState[key][i]);
+                             }
+                         }
+                         $scope.message = $scope.translations.error_on_settings_updating //"Error on settings updating: " 
+                             + errors.join(' ');
+                     }
+                     startErrorTimer();
+                 });
+
+        }
+        
+    }
+
+    var startTimerSubs = function () {
+        var timer = $timeout(function () {
+            $scope.savedSuccessfully = false;
+            $scope.message = "";
+            $timeout.cancel(timer);
+            $rootScope.$broadcast('neadSETTINGSReload', '');
+            $location.path('/profile');
+        }, 500);
+    }
 
     var startTimer = function () {
         var timer = $timeout(function () {
@@ -86,6 +130,14 @@
     settingsService.getUserSettings().then(function (results) {
         $scope.settings = results.data;
         initControls();
+    }, function (error) {
+        $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+    });
+
+    $scope.payments = [];
+
+    paymentsService.getPayments().then(function (results) {
+        $scope.payments = results.data;
     }, function (error) {
         $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
     });

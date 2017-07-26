@@ -426,5 +426,11 @@
   "accounts.Type": "Tipo",
   "accounts.Blockchain_address": "Direccion Blockchain",
   "currencies.Automatic_update_currency": "Cambio automatico de la moneda",
-  "dashboard.updated": "Actualizado"
+  "dashboard.updated": "Actualizado",
+
+  "profile.Payments": "Pago",
+  "profile.PaymentDate": "Fecha de pago",
+  "profile.SubscriptionType": "Suscripcion",
+  "profile.Period": "Periodo",
+  "profile.if_you_just_paid": "ATENCION: Si acaba de pagar por su nueva suscripcion y suscripcion no se ha confirmado, todavia no se preocupe, vamos a confirmar y activar su nuevo suscripcion lo antes posible"
 }

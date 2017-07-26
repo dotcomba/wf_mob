@@ -110,7 +110,41 @@
                                     <span class="name small green-500 font-size-16" data-ng-show="settings.subscriptionConfirmed == true"> confirmed </span>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-12 col-xl-12">{{'profile.We_are_currently' | translate}} <a href="http://www.welto.io/#contact" target="_blank" translate="profile.updates">here</a>.</div>
+                            <div ng-show="payments.length == 0" class="col-xs-12 col-lg-12 col-xl-12">
+                                <form action="https://bitpay.com/checkout" method="post">
+                                    <input type="hidden" name="action" value="checkout" />
+                                    <input type="hidden" name="posData" value="" />
+                                    <input type="hidden" name="data" value="LD1F9/9BP6+Ln3sbDjZi+vdomMy4BUdWYq1y7LGoxChAYx8hJaB4qFSkoQNlgCkukzcUm3v9SjpnKGlkTy1Z4V9wtnHsqPHQuHtn/H+JL6ZVOPFGfa4IZhi3VwRAUseYfSGMXhFBkhe41cYK7+PI/nMKghI19+S3eBb14/VVhV9AIWG6i/7lKfklwaMtnMwYtYF/CwJvZ3gZy3ukTc9PJY4oFls8fa2VywyQTuKMqwcSd8/dAovVEtNE06s5hstAVn4N1WLtBt7v2vLJFLZcjIOaI2/mU5pm1jNZ2clovRFHuEPm6eZ5XC0+Fz/v2Fui1iSLvX+WbyFyo5KTaSYKlA==" />
+                                    <input type="image" src="https://bitpay.com/img/button-small.png" border="0" name="submit" alt="BitPay, the easy way to pay with bitcoins.">
+                                </form>
+                            {{'profile.We_are_currently' | translate}} to WORLD+ for 12 USD per year
+                            </div>
+                            <div ng-show="payments.length > 0" class="col-xs-12 col-lg-12 col-xl-12 orange-400">{{'profile.if_you_just_paid' | translate}} </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item" ng-show="payments.length > 0">
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 translate="profile.Payments">Payments</h4>
+                            <table class="table table-analytics m-b-0 text-nowrap">
+                                <thead>
+                                <th translate="profile.SubscriptionType">Subscription</th>
+                                <th translate="profile.Period" ng-show="payments[0].confirmed">Period</th>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="payment in payments">
+                                        <td style="vertical-align:middle">
+                                            <span>{{ payment.subscription }}</span>
+                                            <span>({{ payment.paymentAmmount }} {{ payment.paymentCurrency }})</span>
+                                        <span><br/>{{ payment.paymentDate | date }}</span></td>
+                                        <td style="vertical-align:middle" ng-show="payment.confirmed">
+                                            <span ng-show="payment.confirmed">{{ payment.subscriptionStartDate | date }} -<br/> {{ payment.subscriptionEndDate | date }}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </li>

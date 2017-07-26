@@ -428,5 +428,11 @@
   "accounts.Type": "Тип счета",
   "accounts.Blockchain_address": "Блокчейн адресс",
   "currencies.Automatic_update_currency": "Автоматически обновлять",
-  "dashboard.updated": "Обновлено"
+  "dashboard.updated": "Обновлено",
+
+  "profile.Payments": "Оплаты",
+  "profile.PaymentDate": "Дата платежа",
+  "profile.SubscriptionType": "Подписка",
+  "profile.Period": "Период",
+  "profile.if_you_just_paid": "ВНИМАНИЕ: Если вы только что заплатили за свою новую подписку и подписка еще не подтверждена, не волнуйтесь, мы подтвердим и активируем вашу новую подписку как можно скорее"
 }
