@@ -67,15 +67,16 @@
             id: 'null',
             userId: $authService.authentication.userName,
             isLatestTransactionWP : true,
-            isTrendsWP : true,
+            isTrendsWP : false,
             isBalanceWP : true,
-            isTransactionLogWP: true,
+            isTransactionLogWP: false,
             avatarNumber: 0,
             userLang: 'en',
-            subscriptionType: 'WORLD',
+            subscriptionType: 'WORLD+',
             isGoalsWP: false,
-            isCalendarWP: false,
-            isBudgetWP: false
+            isCalendarWP: true,
+            isBudgetWP: false,
+            isCryptobillWP: true
         };
     }
 

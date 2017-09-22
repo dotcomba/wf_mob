@@ -1,6 +1,30 @@
 ﻿'use strict';
 app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', 'authService', 'calendarService', 'accountsService', 'categoriesService', 'settingsService', 'currenciesService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $authService, calendarService, accountsService, categoriesService, settingsService, currenciesService, $translate) {
 
+    $scope.settings = {};
+
+    settingsService.getUserSettings().then(function (results) {
+        $scope.settings = results.data;
+
+    }, function (error) {
+
+        $scope.settings = {
+            id: 'null',
+            userId: $authService.authentication.userName,
+            isLatestTransactionWP: true,
+            isTrendsWP: false,
+            isBalanceWP: true,
+            isTransactionLogWP: false,
+            avatarNumber: 0,
+            userLang: 'en',
+            subscriptionType: 'WORLD+',
+            isGoalsWP: false,
+            isCalendarWP: true,
+            isBudgetWP: false,
+            isCryptobillWP: true
+        };
+    });
+
     $scope.calendarEvents = [];
 
     var initCalendar = function () {
@@ -61,7 +85,10 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
                         status: obj.status,
                         id: obj.id,
                         userId: obj.userId,
-                        statusDate: obj.statusDate
+                        statusDate: obj.statusDate,
+                        payerName: obj.payerName,
+                        accountNumber: obj.accountNumber,
+                        payeeNameAndAddress: obj.payeeNameAndAddress
                     };
                     $scope.$apply();
 
@@ -93,6 +120,7 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
     $scope.categories = [];
     $scope.categoriesLookup = {};
     $scope.accountsLookup = {};
+    $scope.cryptoAccounts = [];
     $scope.accounts = [];
     $scope.savedSuccessfully = false;
     $scope.message = "";
@@ -166,6 +194,10 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
             if (obj.accountType == null) this.push(obj);
         }, $scope.accounts);
 
+        angular.forEach(results.data, function (obj) {
+            if (obj.accountType == 'BCH') this.push(obj);
+        }, $scope.cryptoAccounts);
+
         for (var i = 0, len = $scope.accounts.length; i < len; i++) {
             $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
         }
@@ -175,7 +207,14 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
 
     var getEvents = function () {
         calendarService.getEvents().then(function (results) {
-            $scope.calendarEvents = results.data;
+            //$scope.calendarEvents = results.data;
+
+            if ($scope.settings.isCryptobillWP == false) {
+                angular.forEach(results.data, function (obj) {
+                    if (obj.transactionCode != 'BILL')
+                        this.push(obj);
+                }, $scope.calendarEvents);
+            } else $scope.calendarEvents = results.data;
 
             reTranslate();
 
@@ -225,6 +264,10 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
                             obj.backgroundColor = '#fa7a7a';
                             obj.borderColor = '#fa7a7a';
                             break;
+                        case 'BILL':
+                            obj.backgroundColor = '#f96868';
+                            obj.borderColor = '#f96868';
+                            break;
                     }
                 }
 
@@ -249,6 +292,14 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
         else $scope.updateEvent();
     }
 
+    $scope.saveBillEvent = function () {
+        $scope.calendarEvent.transactionCode = 'BILL';
+        if ($scope.calendarEvent.id == null)
+            $scope.createEvent();
+        else $scope.updateEvent();
+    }
+    
+
     $scope.showModal = function (obj, type) {
         if (obj != null) {
             $scope.calendarEvent = {
@@ -263,7 +314,10 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
                 status: obj.status,
                 id: obj.id,
                 userId: obj.userId,
-                statusDate: obj.statusDate
+                statusDate: obj.statusDate,
+                payerName:  obj.payerName,
+                accountNumber:  obj.accountNumber,
+                payeeNameAndAddress:    obj.payeeNameAndAddress
             };
 
         }
@@ -275,7 +329,8 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
         if (type == 'INC') $('#formIncome').modal();
         if (type == 'TRAN') $('#formTransfer').modal();
         if (type == 'DONE') $('#lookatEventForm').modal();
-        if (type == 'GOAL') $('#formGoal').modal(); 
+        if (type == 'GOAL') $('#formGoal').modal();
+        if (type == 'BILL') $('#formBill').modal();
     }
 
     $scope.showRemoveModal = function (obj) {
@@ -327,7 +382,9 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
             $scope.savedSuccessfully = false;
             $scope.message = "";
             $timeout.cancel(timer);
-            reTranslate(); getEvents();
+            if ($authService.authentication.isAuth) {
+                reTranslate(); getEvents();
+            }
         }, 5000);
     }
 

@@ -22,15 +22,16 @@
             id: 'null',
             userId: $authService.authentication.userName,
             isLatestTransactionWP : true,
-            isTrendsWP : true,
+            isTrendsWP : false,
             isBalanceWP : true,
-            isTransactionLogWP: true,
+            isTransactionLogWP: false,
             avatarNumber: 0,
             userLang: 'en',
-            subscriptionType: 'WORLD',
+            subscriptionType: 'WORLD+',
             isGoalsWP: false,
-            isCalendarWP: false,
-            isBudgetWP: false
+            isCalendarWP: true,
+            isBudgetWP: false,
+            isCryptobillWP:true
         };
     }
 
@@ -50,6 +51,8 @@
             $("#chBoxCalendar").attr('checked', '');
         if ($scope.settings.isBudgetWP)
             $("#chBoxBudget").attr('checked', '');
+        if ($scope.settings.isCryptobillWP)
+            $("#chBoxCryptobill").attr('checked', '');
         //$("#btnFinish").removeAttr('checked');
     }
 
@@ -81,6 +84,7 @@
         if (id == 'chBoxGoals') $scope.settings.isGoalsWP = !$scope.settings.isGoalsWP;
         if (id == 'chBoxCalendar') $scope.settings.isCalendarWP = !$scope.settings.isCalendarWP;
         if (id == 'chBoxBudget') $scope.settings.isBudgetWP = !$scope.settings.isBudgetWP;
+        if (id == 'chBoxCryptobill') $scope.settings.isCryptobillWP = !$scope.settings.isCryptobillWP;
 
         $scope.updateUserSettings();
     }
@@ -100,7 +104,7 @@
     $scope.updateUserSettings = function () {
         settingsService.updateUserSettings($scope.settings.id, $scope.settings).then(function (response) {
 
-            ;
+            $rootScope.$broadcast('neadSETTINGSReload', '');
 
         },
          function (response) {

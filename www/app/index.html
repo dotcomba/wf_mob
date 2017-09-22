@@ -61,8 +61,10 @@
     <script src="app/wf/services/calendarService.js?v=2"></script>
     <script src="app/wf/services/budgetService.js?v=2"></script>
     <script src="app/wf/services/paymentsService.js?v=2"></script>
+    <script src="app/wf/services/billsService.js?v=2"></script>
     <!-- Load controllers -->
     <script src="app/wf/controllers/indexController.js?v=2"></script>
+    <script src="app/wf/controllers/billsController.js?v=2"></script>
     <script src="app/wf/controllers/transactionsController.js?v=2"></script>
     <script src="app/wf/controllers/byaccountController.js?v=2"></script>
     <script src="app/wf/controllers/accountsController.js?v=2"></script>
@@ -274,7 +276,39 @@
                             </ul>
                         </li>
 
-                        <li class="site-menu-item has-sub" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                        <li class="site-menu-item has-sub" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'WORLD' && settings.subscriptionConfirmed == true && settings.isCryptobillWP">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon fa-leaf" aria-hidden="true"></i>
+                                <span translate="menu.Bills" class="site-menu-title">Bills</span>
+                                <span class="site-menu-arrow"></span>
+                            </a>
+                            <ul class="site-menu-sub">
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="JavaScript:$('#makePaymentForm').modal();closeU()">
+                                        <i class="site-menu-icon fa-share"></i>
+                                        <span translate="menu.Make_payment" class="site-menu-title">Make payment</span>
+                                    </a>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="Javascript:$('#schedulePaymentForm').modal();closeU()">
+                                        <i class="site-menu-icon fa-calendar-o"></i>
+                                        <span translate="menu.Schedule_payment" class="site-menu-title">Schedule payment</span>
+                                    </a>
+                                </li>
+
+                                <div class="dropdown-divider"></div>
+
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#/bills" onclick="closeU()">
+                                        <span translate="menu.All_bills" class="site-menu-title">All bills</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="site-menu-item has-sub" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_' && settings.isBudgetWP">
                             <a href="javascript:void(0)">
                                 <i class="site-menu-icon fa-dollar" aria-hidden="true"></i>
                                 <span translate="menu.Budget" class="site-menu-title">Budget</span>
@@ -296,14 +330,14 @@
                             </ul>
                         </li>
 
-                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_' && settings.isCalendarWP">
                             <a class="animsition-link" href="#/calendar" onclick="closeU()">
                                 <i class="site-menu-icon oi-calendar" aria-hidden="true"></i>
                                 <span translate="menu.Calendar" class="site-menu-title">Calendar</span>
                             </a>
                         </li>
 
-                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_'">
+                        <li class="site-menu-item" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'BASIC_' && settings.isGoalsWP">
                             <a class="animsition-link" href="#/goals" onclick="closeU()">
                                 <i class="site-menu-icon oi-milestone" aria-hidden="true"></i>
                                 <span translate="menu.Goals" class="site-menu-title">Goals</span>
@@ -550,6 +584,164 @@
                     </div>
                     <!-- End Make Transfer Form -->
                 </div>
+
+                <div data-ng-controller="billsController">
+
+                    <div class="modal fade" style="padding-top:100px" id="makePaymentForm" aria-hidden="true" aria-labelledby="makePaymentForm"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title"> <i class="site-menu-icon fa-share"></i><span translate="bill.Make_payment">Make payment</span></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-12 col-xs-12">
+                                                <select class="form-control" id="bill_category" data-ng-model="bill.categoryId">
+                                                    <option ng-selected="bill.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
+                                                </select>
+                                                <label class="floating-label" translate="bill.Category">Category</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-material floating has-success" data-plugin="formMaterial">
+                                            <select class="form-control" name="bill_account" data-ng-model="bill.accountSourceId">
+                                                <option ng-selected="bill.accountSourceId == account.Value" ng-repeat="account in accounts | filter: {currencyCode:'BTC'}" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                            </select>
+                                            <label class="floating-label" translate="bill.Account">Account</label>
+                                        </div>
+
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-10 col-xs-10">
+                                                <input type="text" class="form-control" id="bill_ammount" data-ng-model="bill.billValue" autocomplete="off" />
+                                                <label class="floating-label" translate="bill.Amount">Amount</label>
+                                            </div>
+                                            <div class="col-md-2 col-xs-2">
+                                                <select class="form-control" name="bill_currency" data-ng-model="bill.currencyCode">
+                                                    <option ng-selected="currency.thirdCurencyCode == bill.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-6 col-xs-6">
+                                                <input type="text" class="form-control" id="bill_Payer_name" data-ng-model="bill.payerName" autocomplete="off" />
+                                                <label class="floating-label" translate="bill.Payer">Payer name (on bill)</label>
+                                            </div>
+                                            <div class="col-md-6 col-xs-6">
+                                                <input type="text" class="form-control" id="bill_Account_number" data-ng-model="bill.accountNumber" autocomplete="off" />
+                                                <label class="floating-label" translate="bill.Service_account">Service account (on bill)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group form-material row" data-plugin="formMaterial">
+                                            <div class="col-md-12 col-xs-12">
+                                                <textarea class="form-control" id="bill_payeeaddress" name="textarea" rows="3" data-ng-model="bill.payeeNameAndAddress"></textarea>
+                                                <label class="floating-label" translate="bill.Payee_name_and_address">Payee name and address</label>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-outline-secondary" style="float:left" data-dismiss="modal" type="button" data-ng-disabled="bill.payerName == '' || bill.accountNumber == '' || bill.payeeNameAndAddress == '' || bill.billValue == '0' || bill.billValue > 300 || bill.billValue == '' || bill.accountSourceId == '' || bill.categoryId == 'null' || bill.categoryId == ''" data-ng-click="saveChanges()" translate="bill.Save">Save</button>
+
+                                    <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="bill.payerName == '' || bill.accountNumber == '' || bill.payeeNameAndAddress == '' || bill.billValue == '0' || bill.billValue > 300 || bill.billValue == '' || bill.accountSourceId == '' || bill.categoryId == 'null' || bill.categoryId == ''" data-ng-click="makePayment()" translate="bill.Make_payment">Make payment</button>
+                                    <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'bill.Cancel' | translate}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div data-ng-controller="calendarController">
+
+                        <div class="modal fade" style="padding-top:100px" id="schedulePaymentForm" aria-hidden="true" aria-labelledby="makePaymentForm"
+                             role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title"> <i class="site-menu-icon fa-calendar-o"></i><span translate="bill.Schedule_payment">Schedule payment</span></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <select class="form-control" id="bill_category" data-ng-model="calendarEvent.categoryId">
+                                                        <option ng-selected="calendarEvent.categoryId == category.id" ng-repeat="category in categories | filter: {typeCode:'EXP'}" value="{{category.id}}">{{category.title}}</option>
+                                                    </select>
+                                                    <label class="floating-label" translate="bill.Category">Category</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-material floating has-success" data-plugin="formMaterial">
+                                                <select class="form-control" name="bill_account" data-ng-model="calendarEvent.accountSourceId">
+                                                    <option ng-selected="calendarEvent.accountSourceId == account.Value" ng-repeat="account in cryptoAccounts | filter: {currencyCode:'BTC'}" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                                </select>
+                                                <label class="floating-label" translate="bill.Account">Account</label>
+                                            </div>
+
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-10 col-xs-10">
+                                                    <input type="text" class="form-control" id="bill_ammount" data-ng-model="calendarEvent.transactionValue" autocomplete="off" />
+                                                    <label class="floating-label" translate="bill.Amount">Amount</label>
+                                                </div>
+                                                <div class="col-md-2 col-xs-2">
+                                                    <select class="form-control" name="bill_currency" data-ng-model="calendarEvent.currencyCode">
+                                                        <option ng-selected="currency.thirdCurencyCode == calendarEvent.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-6 col-xs-6">
+                                                    <input type="text" class="form-control" id="bill_Payer_name" data-ng-model="calendarEvent.payerName" autocomplete="off" />
+                                                    <label class="floating-label" translate="bill.Payer">Payer name (on bill)</label>
+                                                </div>
+                                                <div class="col-md-6 col-xs-6">
+                                                    <input type="text" class="form-control" id="bill_Account_number" data-ng-model="calendarEvent.accountNumber" autocomplete="off" />
+                                                    <label class="floating-label" translate="bill.Service_account">Service account (on bill)</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <textarea class="form-control" id="bill_payeeaddress" name="textarea" rows="3" data-ng-model="calendarEvent.payeeNameAndAddress"></textarea>
+                                                    <label class="floating-label" translate="bill.Payee_name_and_address">Payee name and address</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <input type="date" class="form-control" name="event_start" data-ng-model="calendarEvent.start" />
+                                                    <label class="floating-label" translate="bill.Date">Date</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <div class="checkbox-custom checkbox-success">
+                                                        <input type="checkbox" id="event_repeatEachMonth" data-ng-model="calendarEvent.repeatEachMonth" />
+                                                        <label for="event_repeatEachMonth" translate="bill.Repeat_next_month">Repeat next month</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="calendarEvent.transactionValue == '' || calendarEvent.transactionValue > 300 || calendarEvent.transactionValue == '0' || calendarEvent.accountSourceId == '' || calendarEvent.categoryId == 'null' || calendarEvent.payerName == '' || calendarEvent.accountNumber == '' || calendarEvent.payeeNameAndAddress == ''" data-ng-click="saveBillEvent()" translate="bill.Schedule">Schedule</button>
+                                        <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">{{'bill.Cancel' | translate}}</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
             </div>
             
             <section class="content">
@@ -567,7 +759,10 @@
             <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
         </button>
         <div class="site-action-buttons">
-            <button type="button" data-target="#makeTransferForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-primary btn-floating animation-slide-bottom">
+            <button type="button" data-ng-controller="settingsController" data-ng-show="settings.subscriptionType != 'WORLD' && settings.subscriptionConfirmed == true && settings.isCryptobillWP" data-target="#makePaymentForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-primary btn-floating animation-slide-bottom">
+                <i class="icon fa-bitcoin" aria-hidden="true"></i>
+            </button>
+            <button type="button" data-ng-controller="settingsController" data-ng-show="settings.isCryptobillWP != true" data-target="#makeTransferForm" data-toggle="modal" onclick="Javascript:CloseButtons()" class="btn-raised btn btn-primary btn-floating animation-slide-bottom">
                 <i class="icon ti-credit-card" aria-hidden="true"></i>
             </button>
 

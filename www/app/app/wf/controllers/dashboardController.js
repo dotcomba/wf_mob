@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', 'calendarService', 'budgetService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService, calendarService, budgetService) {
+app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'settingsService', 'dashboardService', 'transactionsService', 'accountsService', 'categoriesService', 'authService', 'currenciesService', '$translate', 'goalsService', 'calendarService', 'budgetService', 'billsService', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, settingsService, dashboardService, transactionsService, accountsService, categoriesService, $authService, currenciesService, $translate, goalsService, calendarService, budgetService, billsService) {
 
     // initialization and load
     $scope.transactions = [];
@@ -69,15 +69,16 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
             id: 'null',
             userId: $authService.authentication.userName,
             isLatestTransactionWP: true,
-            isTrendsWP: true,
+            isTrendsWP: false,
             isBalanceWP: true,
-            isTransactionLogWP: true,
+            isTransactionLogWP: false,
             avatarNumber: 0,
             userLang: 'en',
-            subscriptionType: 'WORLD',
+            subscriptionType: 'WORLD+',
             isGoalsWP: false,
-            isCalendarWP: false,
-            isBudgetWP: false
+            isCalendarWP: true,
+            isBudgetWP: false,
+            isCryptobillWP:true
         };
         updateUserSettings();
 
@@ -203,7 +204,13 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
     var getDashboardEvents = function () {
         calendarService.getDashboardEvents().then(function (results) {
-            $scope.calendarEvents = results.data;
+            if ($scope.settings.isCryptobillWP == false || $scope.settings.subscriptionType == 'WORLD' || $scope.settings.subscriptionConfirmed == false) {
+                angular.forEach(results.data, function (obj) {
+                    if (obj.transactionCode != 'BILL')
+                        this.push(obj);
+                }, $scope.calendarEvents);
+            } else $scope.calendarEvents = results.data;
+            
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             //startReloadTimer();
@@ -223,7 +230,19 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
             if (operation == 'REJECT')
                 $scope.message = $scope.translations.calendar_Event_has_been_rejected; //"Event has been rejected";
+            else if (operation == 'BILL')
+            {
+                if (response.status == 200) {
+                    if (response.data != '')
+                        if (response.data.indexOf('Processing error') !== -1) {
+                            $scope.message = response.data;
+                            startErrorTimer();
+                        }
+                        else window.location = response.data;
+                }
+            }
             else $scope.message = $scope.translations.calendar_Event_has_been_executed; //"Event has been executed";
+
             $scope.savedSuccessfully = true;
             $rootScope.$broadcast('neadTRANReload', '');
             startReloadTimer();
@@ -352,7 +371,13 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
         }, 35000);
     }
 
+    $scope.bills = [];
 
+    billsService.getBills().then(function (results) {
+        $scope.bills = results.data;
+    }, function (error) {
+        $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+    });
 
     // ....
 }]);

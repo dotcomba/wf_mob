@@ -110,7 +110,7 @@
                                     <span class="name small green-500 font-size-16" data-ng-show="settings.subscriptionConfirmed == true"> confirmed </span>
                                 </div>
                             </div>
-                            <div ng-show="payments.length == 0" class="col-xs-12 col-lg-12 col-xl-12">
+                            <div ng-show="payments.length == 0 && settings.subscriptionConfirmed != true" class="col-xs-12 col-lg-12 col-xl-12">
                                 <form action="https://bitpay.com/checkout" method="post">
                                     <input type="hidden" name="action" value="checkout" />
                                     <input type="hidden" name="posData" value="" />

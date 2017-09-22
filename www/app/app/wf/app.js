@@ -138,6 +138,16 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/goals.html"
     });
 
+    $routeProvider.when("/bills", {
+        controller: "billsController",
+        templateUrl: "app/wf/views/bills.html"
+    });
+
+    $routeProvider.when("/bills/callback/:result", {
+        controller: "billsController",
+        templateUrl: "app/wf/views/bills.html"
+    });
+
     $routeProvider.when("/wizard", {
         controller: "wizardController",
         templateUrl: "app/wf/views/wizard.html"
@@ -154,6 +164,7 @@ app.config(function ($routeProvider) {
 
 //var serviceBase = 'http://localhost:49213/';
 var serviceBase = 'https://server-welto.azurewebsites.net/';
+//var serviceBase = 'https://server-wealthflow.azurewebsites.net/';
 var alxUri = 'https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M301DP3LUKK6ND#state=';
 
 //var serviceBase = 'http://dev-m5.cloudapp.net/';

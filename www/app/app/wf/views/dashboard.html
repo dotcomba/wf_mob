@@ -7,6 +7,31 @@
 
 <div class="row" data-ng-show="authentication.isAuth">
 
+    <div class="panel" id="bills-feature" ng-show="bills.length == 0 && settings.isCryptobillWP">
+        <div class="panel-heading">
+            <h3 class="panel-title" translate="dashboard.Blockchain">Blockchain</h3>
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="media">
+                <div class="media-left">
+                    <i class="fa-bitcoin font-size-24 green-600"></i>
+                </div>
+                <div class="media-body" style="padding-top:5px">
+                    <h4 class="media-heading">
+                        <span class="font-size-14 blue-grey-600">{{'dashboard.Try_blockchain' | translate}} </span>
+                    </h4>
+                    <small class="pull-xs-right">
+                        <button type="button" class="btn btn-outline btn-success" data-target="#makePaymentForm" data-toggle="modal">{{'dashboard.Try_crypto_payment' | translate}}</button>
+                    </small>
+                    <small>{{'dashboard.new_feature' | translate}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div class="panel" id="calendar-events" ng-show="settings.subscriptionType != 'BASIC_' && settings.isCalendarWP && calendarEvents.length > 0">
     <style>
         @media (max-width: 768px) {
@@ -77,6 +102,23 @@
                                         </div>
                                     </div>
 
+                                    <div ng-switch-when="BILL">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h4 class="media-heading">
+                                                    <a class="font-size-14">{{'dashboard.We_need_to_make_bill_for' | translate}} <strong>{{ categoriesLookup[ccEvent.categoryId].title }}</strong> {{'dashboard.calendar_category' | translate}}</a>
+                                                </h4>
+                                                <small>{{'dashboard.it_was_planed_on' | translate}} {{ ccEvent.start | date }}</small>
+                                            </div>
+                                            <div class="media-right">
+                                                <div class="red-400 bbb" translate="dashboard.Cryptobill">Cryptobill</div>
+                                                <div class="red-400" style="font-size:16pt !important; white-space: nowrap;" ng-switch on="ccEvent.currencyCode">
+                                                    <span ng-switch-when="USD">$</span><span ng-switch-when='EUR'>&euro;</span><span ng-switch-when='RUB' class="fa-rub"></span><span ng-switch-default>{{ ccEvent.currencyCode }}</span> &nbsp;<input type="text" data-ng-model="ccEvent.transactionValue" autocomplete="off" class="form-control bg-green-100" style="display: initial"   />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div ng-switch-when="INC">
                                         <div class="media">
                                             <div class="media-body">
@@ -103,6 +145,7 @@
                     <button type="button" data-dismiss="modal" class="btn btn-outline btn-success" data-ng-show="ccEvent.transactionCode =='TRAN'" data-ng-click="invokeEvent(ccEvent,'INVOKE')" translate="dashboard.Transfer">Transfer</button>
                     <button type="button" data-dismiss="modal" class="btn btn-outline btn-warning" data-ng-show="ccEvent.transactionCode =='EXP'" data-ng-click="invokeEvent(ccEvent,'INVOKE')" translate="dashboard.Pay">Pay</button>
                     <button type="button" data-dismiss="modal" class="btn btn-outline btn-info" data-ng-show="ccEvent.transactionCode =='INC'" data-ng-click="invokeEvent(ccEvent,'INVOKE')" translate="dashboard.Receive">Receive</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-outline btn-danger" data-ng-show="ccEvent.transactionCode =='BILL'" data-ng-disabled="ccEvent.transactionValue == ''" data-ng-click="invokeEvent(ccEvent,'BILL')" translate="dashboard.Pay_now">Pay now</button>
                 </div>
             </div>
         </div>
@@ -162,6 +205,26 @@
                                 </h4>
                                 <small class="pull-xs-right">
                                     <button type="button" class="btn btn-outline btn-warning" data-ng-click="executeEvent(calendar)" translate="dashboard.Pay">Pay</button>
+                                </small>
+                                <small>{{ calendar.start | date }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-switch-when="BILL">
+                        <div class="media">
+                            <div class="media-left">
+                                <div class="red-400 bbb" translate="dashboard.Cryptobill">Cryptobill</div>
+                                <div class="red-400" style="font-size:16pt !important" ng-switch on="calendar.currencyCode">
+                                    <span ng-switch-when="USD">$</span><span ng-switch-when='EUR'>&euro;</span><span ng-switch-when='RUB' class="fa-rub"></span><span ng-switch-default>{{ calendar.currencyCode }}</span>&nbsp;{{ calendar.transactionValue | number }}
+                                </div>
+                            </div>
+                            <div class="media-body" style="padding-top:5px">
+                                <h4 class="media-heading">
+                                    <a class="name">{{'dashboard.Do_you_want_to_make_payment_for' | translate}} <strong>{{ categoriesLookup[calendar.categoryId].title }}</strong> {{'dashboard.calendar_category' | translate}}?</a>
+                                </h4>
+                                <small class="pull-xs-right">
+                                    <button type="button" class="btn btn-outline btn-danger" data-ng-click="executeEvent(calendar)" translate="dashboard.Pay_now">Pay now</button>
                                 </small>
                                 <small>{{ calendar.start | date }}</small>
                             </div>
@@ -266,13 +329,14 @@
                 <div class="media">
                     <div class="media-left">
                         <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
-                        <i data-ng-show="transaction.transactionCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important">&nbsp;</i>
+                        <i data-ng-show="transaction.transactionCode =='INC'" class="green-400 fa-dollar" sstyle="font-size:18pt !important"></i>
                         <i data-ng-show="transaction.transactionCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important"></i>
+                        <i data-ng-show="transaction.transactionCode =='BILL'" class="blue-400 fa-bitcoin" style="font-size:18pt !important"></i>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
-                                <span class="tag-lg" style="color:#77d6e1;">
+                            <small data-ng-show="transaction.transactionCode =='BILL'" class="pull-xs-right">
+                                <span class="tag-lg blue-400">
                                     <span data-ng-show="transaction.currencyCode =='USD'">$</span>
                                     <span data-ng-show="transaction.currencyCode =='EUR'">&euro;</span>
                                     <span data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></span>
@@ -284,7 +348,7 @@
                                     {{ transaction.transactionValue | number:2 }}
                                 </span>
                             </small>
-                            <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right">
+                            <small data-ng-show="transaction.transactionCode !='BILL'" class="pull-xs-right">
                                 <span class="tag-lg grey-600">
                                     <span data-ng-show="transaction.currencyCode =='USD'">$</span>
                                     <span data-ng-show="transaction.currencyCode =='EUR'">&euro;</span>
@@ -300,6 +364,10 @@
                             <a class="name">
                                 <span data-ng-show="transaction.transactionCode =='EXP'">
                                     {{'dashboard.You_had_expenses_for' | translate}}
+                                    <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
+                                </span>
+                                <span data-ng-show="transaction.transactionCode =='BILL'">
+                                    {{'dashboard.You_had_been_paid_bill_for' | translate}}
                                     <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
                                 </span>
                                 <span data-ng-show="transaction.transactionCode =='INC'">
@@ -535,7 +603,8 @@
             <blockquote class="blockquote cover-quote">
                 {{'dashboard.Your_current_balance_is_null' | translate}}. <br />
                 {{'dashboard.Try_add_new_income' | translate}}. <br />
-                {{'dashboard.Click_on' | translate}} <span style="color:#3aa677">{{'dashboard.big_green_button' | translate}}</span> {{'dashboard.right_bottom_to_find_button' | translate}} <b><span style="color:#33b6c5">$</span></b> {{'dashboard.to_put_new_income' | translate}}.
+                {{'dashboard.Click_on' | translate}} <span style="color:#3aa677">{{'dashboard.big_green_button' | translate}}</span> {{'dashboard.right_bottom_to_find_button' | translate}} <b><span style="color:#33b6c5">$</span></b> {{'dashboard.to_put_new_income' | translate}}.<br />
+                {{'dashboard.Or_you_can_setup_one_of_the_blockchain_addressess' | translate}} <a href="#/accounts" class="red-400">{{'dashboard.here' | translate}} <i class="fa-bitcoin"></i> </a> {{'dashboard.to_allow_automatically_update_your_crypto_balance' | translate}}
             </blockquote>
         </div>
 
@@ -729,13 +798,14 @@
                 <div class="media">
                     <div class="media-left">
                         <i data-ng-show="transaction.transactionCode =='EXP'" class="orange-400  ti-shopping-cart" style="font-size:18pt !important"></i>
-                        <i data-ng-show="transaction.transactionCode =='INC'" class="fa-dollar" style="color: #77d6e1; font-size:18pt !important">&nbsp;</i>
+                        <i data-ng-show="transaction.transactionCode =='INC'" class="green-400 fa-dollar" style="font-size:18pt !important">&nbsp;</i>
                         <i data-ng-show="transaction.transactionCode =='TRAN'" class="green-400 ti-credit-card" style="font-size:18pt !important"></i>
+                        <i data-ng-show="transaction.transactionCode =='BILL'" class="blue-400 fa-bitcoin" style="font-size:18pt !important"></i>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
-                                <span class="tag-lg" style="color:#77d6e1;">
+                            <small data-ng-show="transaction.transactionCode =='BILL'" class="pull-xs-right">
+                                <span class="tag-lg blue-400">
                                     <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
                                     <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
                                     <i data-ng-show="transaction.currencyCode =='RUB'" class="fa-rub"></i>
@@ -747,7 +817,7 @@
                                     {{ transaction.transactionValue | number:2 }}
                                 </span>
                             </small>
-                            <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right">
+                            <small data-ng-show="transaction.transactionCode !='BILL'" class="pull-xs-right">
                                 <span class="tag-lg grey-600">
                                     <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
                                     <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
@@ -763,6 +833,10 @@
                             <a class="name">
                                 <span data-ng-show="transaction.transactionCode =='EXP'">
                                     {{'dashboard.You_had_expenses_for' | translate}}
+                                    <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
+                                </span>
+                                <span data-ng-show="transaction.transactionCode =='BILL'">
+                                    {{'dashboard.You_had_been_paid_bill_for' | translate}}
                                     <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
                                 </span>
                                 <span data-ng-show="transaction.transactionCode =='INC'">

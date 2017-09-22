@@ -171,9 +171,17 @@ app.controller('currenciesController', ['$scope', '$rootScope', '$routeParams', 
             startErrorTimer();
         });
 
+    $scope.currencyWizardList = [];
 
     currenciesService.getCurrencyList().then(function (results) {
-            $scope.currencyList = results.data;
+        $scope.currencyList = results.data;
+
+        $scope.currencyWizardList = [];
+        angular.forEach(results.data, function (obj) {
+            if (obj.code != 'BTC' && obj.code != 'ETH')
+                this.push(obj);
+        }, $scope.currencyWizardList);
+
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startErrorTimer();

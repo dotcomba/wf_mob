@@ -154,6 +154,17 @@
                         </div>
                     </div>
                 </li>
+
+                <li class="list-group-item" data-ng-show="settings.subscriptionType != 'WORLD' && settings.subscriptionConfirmed == true">
+                    <div class="media">
+                        <div class="media-body" translate="settings.Cryptobill">
+                            Cryptobill
+                        </div>
+                        <div class="media-right">
+                            <label class="switch"><input type="checkbox" id="chBoxCryptobill" ng-click="checkboxClick('chBoxCryptobill')"><div class="slider round"></div></label>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

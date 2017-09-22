@@ -52,12 +52,13 @@
                     <div class="media">
                         <div class="media-left">
                             <i data-ng-show="transaction.transactionCode =='EXP'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 ti-shopping-cart' : 'orange-400 ti-shopping-cart'" style="font-size:18pt !important"></i>
-                            <i data-ng-show="transaction.transactionCode =='INC'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 fa-dollar' : 'blue-400 fa-dollar'" style="font-size:18pt !important">&nbsp;</i>
+                            <i data-ng-show="transaction.transactionCode =='INC'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 fa-dollar' : 'green-400 fa-dollar'" style="font-size:18pt !important">&nbsp;</i>
                             <i data-ng-show="transaction.transactionCode =='TRAN'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 ti-credit-card' : 'green-400 ti-credit-card'" style="font-size:18pt !important"></i>
+                            <i data-ng-show="transaction.transactionCode =='BILL'" data-ng-class="(transaction.canceledDate != null) ? 'grey-600 ti-credit-card' : 'blue-400 fa-bitcoin'" style="font-size:18pt !important"></i>
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">
-                                <small data-ng-show="transaction.transactionCode =='INC'" class="pull-xs-right">
+                                <small data-ng-show="transaction.transactionCode =='BILL'" class="pull-xs-right">
                                     <span data-ng-class="(transaction.canceledDate != null) ? 'tag-lg grey-700':'tag-lg blue-400'">
                                         <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
                                         <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
@@ -70,7 +71,7 @@
                                         {{ transaction.transactionValue | number:2 }}
                                     </span>
                                 </small>
-                                <small data-ng-show="transaction.transactionCode !='INC'" class="pull-xs-right">
+                                <small data-ng-show="transaction.transactionCode !='BILL'" class="pull-xs-right">
                                     <span class="tag-lg grey-600">
                                         <i data-ng-show="transaction.currencyCode =='USD'" class="fa-dollar"></i>
                                         <i data-ng-show="transaction.currencyCode =='EUR'" class="fa-eur"></i>
@@ -88,6 +89,10 @@
                                         {{'allstuff.You_had_expenses_for' | translate}}
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'allstuff.category' | translate}}
                                     </span>
+                                    <span data-ng-show="transaction.transactionCode =='BILL'">
+                                        {{'dashboard.You_had_been_paid_bill_for' | translate}}
+                                        <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong> {{'dashboard.category' | translate}}
+                                    </span>
                                     <span data-ng-show="transaction.transactionCode =='INC'">
                                         {{'allstuff.You_are_registered_income_from' | translate}}
                                         <strong>{{ categoriesLookup[transaction.categoryId].title }}</strong>
@@ -99,7 +104,7 @@
                                     </span>
                                 </a>
                             </h4>
-                            <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}&nbsp;<small class="tag tag-dark" data-ng-show="transaction.canceledDate != null" translate="allstuff.CANCELED">CANCELED</small><a ng-click="showCancelModal(transaction)" data-ng-show="transaction.canceledDate == null && transaction.transactionCode != 'TRAN'" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Cancel"><i class="icon wb-reply" aria-hidden="true"></i></a>
+                            <small>{{ transaction.transactionDate | date:"EEEE HH:mm - MMMM dd, yyyy"}}&nbsp;<small class="tag tag-dark" data-ng-show="transaction.canceledDate != null" translate="allstuff.CANCELED">CANCELED</small><a ng-click="showCancelModal(transaction)" data-ng-show="transaction.canceledDate == null && transaction.transactionCode != 'TRAN' && transaction.transactionCode != 'BILL'" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Cancel"><i class="icon wb-reply" aria-hidden="true"></i></a>
                             </small>
                         </div>
                     </div>
