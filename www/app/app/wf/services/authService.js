@@ -81,6 +81,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '
             _authentication.isNotification = false;
 
             $rootScope.$broadcast('neadTRANReload', '');
+            $rootScope.$broadcast('neadBILLReload', '');
+            $rootScope.$broadcast('neadCALENDARReload', '');
             $rootScope.$broadcast('neadSETTINGSReload', '');
 
             deferred.resolve(response);

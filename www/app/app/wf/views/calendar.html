@@ -394,7 +394,7 @@
 
                             <div class="form-material floating has-success" data-plugin="formMaterial">
                                 <select class="form-control" name="bill_account" data-ng-model="calendarEvent.accountSourceId">
-                                    <option ng-selected="calendarEvent.accountSourceId == account.Value" ng-repeat="account in cryptoAccounts | filter: {currencyCode:'BTC'}" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                                    <option ng-selected="calendarEvent.accountSourceId == account.Value" ng-repeat="account in cryptoAccounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                                 </select>
                                 <label class="floating-label" translate="bill.Account">Account</label>
                             </div>

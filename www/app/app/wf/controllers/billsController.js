@@ -4,29 +4,48 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
     $scope.categories = [];
     $scope.categoriesLookup = {};
     $scope.accounts = [];
+    $scope.cryptoAccounts = [];
     $scope.accountsLookup = {};
 
-    categoriesService.getCategories().then(function (results) {
-        $scope.categories = results.data;
+    var _categoriesLoad = function () {
+        categoriesService.getCategories().then(function (results) {
+            $scope.categories = results.data;
 
-        for (var i = 0, len = $scope.categories.length; i < len; i++) {
-            $scope.categoriesLookup[$scope.categories[i].id] = $scope.categories[i];
-        }
+            for (var i = 0, len = $scope.categories.length; i < len; i++) {
+                $scope.categoriesLookup[$scope.categories[i].id] = $scope.categories[i];
+            }
 
-    }, function (error) {
-        $scope.message = $scope.translations.error_on_loading; //"Error on loading of categories!";
-    });
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of categories!";
+        });
+    }
 
-    accountsService.getAccounts().then(function (results) {
-        $scope.accounts = results.data;
+    _categoriesLoad();
 
-        for (var i = 0, len = $scope.accounts.length; i < len; i++) {
-            $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
-        }
+    var _accountsLoad = function () {
+        accountsService.getAccounts().then(function (results) {
+            //$scope.accounts = results.data;
+            $scope.accounts = [];
+            $scope.cryptoAccounts = [];
 
-    }, function (error) {
-        $scope.message = $scope.translations.error_on_loading; //"Error on loading of accounts!";
-    });
+            angular.forEach(results.data, function (obj) {
+                if (obj.accountType == null) this.push(obj);
+            }, $scope.accounts);
+
+            angular.forEach(results.data, function (obj) {
+                if (obj.accountType == 'BCH') this.push(obj);
+            }, $scope.cryptoAccounts);
+
+            for (var i = 0, len = $scope.accounts.length; i < len; i++) {
+                $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
+            }
+
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of accounts!";
+        });
+    }
+
+    _accountsLoad();
 
     // Method to Insert
     $scope.createBill = function () {
@@ -39,7 +58,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
                         $scope.message = response.data;
                         startErrorTimer();
                     }
-                    else window.location = response.data;
+                    else $scope.open_url(response.data);
                 else {
                     $scope.savedSuccessfully = true;
                     $scope.message = $scope.translations.bill_has_been_created; //"Bill has been created!";
@@ -93,6 +112,13 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
             $timeout.cancel(timer);
             $location.path('/bills');
         }, 10000);
+    }
+
+    $scope.open_url = function (processingUrl)
+    {
+        if (processingUrl.indexOf("http") == -1)
+            $location.path(processingUrl);
+        else window.location = processingUrl;
     }
 
     var initFields = function () 
@@ -157,7 +183,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
                         $scope.message = response.data;
                         startErrorTimer();
                     }
-                    else window.location = response.data;
+                    else $scope.open_url(response.data);
                 else
                 {
                     $scope.savedSuccessfully = true;
@@ -221,24 +247,44 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
     $scope.translations = translations;
 }, null);
 
-    billsService.getBills().then(function (results) {
+    var _getBills = function () {
+        billsService.getBills().then(function (results) {
             $scope.bills = results.data;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";             
             startErrorTimer();
         });
+    }
+
+    _getBills();
 
     $scope.currencies = [];
     $scope.homeCurrency = '';
 
-    currenciesService.getCurrencies().then(function (results) {
+    var _currenciesLoad = function () {
+        currenciesService.getCurrencies().then(function (results) {
             $scope.currencies = results.data;
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startErrorTimer();
         });
+    }
 
+    _currenciesLoad();
+
+    $scope.billsTotals = { onPayment: 0, failed: 0, confirmed: 0, homeCurrency: 'USD' };
+
+    var _getBillsTotals = function () {
+        billsService.getBillsTotals().then(function (results) {
+            $scope.billsTotals = results.data;
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading!";             
+            startErrorTimer();
+        });
+    }
+
+     _getBillsTotals();
 
     var resParam = $routeParams.result;
     if (resParam != undefined) {
@@ -251,16 +297,17 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
             $scope.savedSuccessfully = false;
             $scope.message = "We encountered error in process of paying your bill"; //$scope.translations.we_encountered_error_in_process_of_paying_your_bill;
             startTimerResult();
+        } else if (resParam == 'return') {
+            $scope.savedSuccessfully = true;
+            $scope.message = "Your bill has been paid"; //$scope.translations.your_bill_has_been_paid_successfully;
+            startTimerResult();
         }
     }
 
-    $scope.billsTotals = { onPayment: 0, failed: 0, confirmed: 0, homeCurrency: 'USD' };
-
-    billsService.getBillsTotals().then(function (results) {
-        $scope.billsTotals = results.data;
-    }, function (error) {
-        $scope.message = $scope.translations.error_on_loading; //"Error on loading!";             
-        startErrorTimer();
+    $rootScope.$on('neadBILLReload', function (event, msg) {
+        _accountsLoad();
+        _categoriesLoad();
+        _currenciesLoad();
     });
 
     // ....

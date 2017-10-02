@@ -148,6 +148,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/bills.html"
     });
 
+    $routeProvider.when("/invoice/:billId", {
+        controller: "invoiceController",
+        templateUrl: "app/wf/views/invoice.html"
+    });
+
     $routeProvider.when("/wizard", {
         controller: "wizardController",
         templateUrl: "app/wf/views/wizard.html"

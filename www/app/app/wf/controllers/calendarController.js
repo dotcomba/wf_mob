@@ -167,43 +167,56 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
 
     initFields('TRAN');
 
-    currenciesService.getCurrencies().then(function (results) {
-        $scope.currencies = results.data;
-        if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
-        $scope.calendarEvent.currencyCode = $scope.homeCurrency;
-    }, function (error) {
-        $scope.message = $scope.translations.transactions_Error_on_loading; //"Error on loading!";
-        startInitTimer();
-    });
+    var _currenciesLoad = function () {
+        currenciesService.getCurrencies().then(function (results) {
+            $scope.currencies = results.data;
+            if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
+            $scope.calendarEvent.currencyCode = $scope.homeCurrency;
+        }, function (error) {
+            $scope.message = $scope.translations.transactions_Error_on_loading; //"Error on loading!";
+        });
+    }
 
-    categoriesService.getCategories().then(function (results) {
-        $scope.categories = results.data;
+    _currenciesLoad();
 
-        for (var i = 0, len = $scope.categories.length; i < len; i++) {
-            $scope.categoriesLookup[$scope.categories[i].id] = $scope.categories[i];
-        }
+    var _categoriesLoad = function () {
+        categoriesService.getCategories().then(function (results) {
+            $scope.categories = results.data;
 
-    }, function (error) {
-        $scope.message = $scope.translations.error_on_loading; //"Error on loading of categories!";
-    });
+            for (var i = 0, len = $scope.categories.length; i < len; i++) {
+                $scope.categoriesLookup[$scope.categories[i].id] = $scope.categories[i];
+            }
 
-    accountsService.getAccounts().then(function (results) {
-        //$scope.accounts = results.data;
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of categories!";
+        });
+    }
 
-        angular.forEach(results.data, function (obj) {
-            if (obj.accountType == null) this.push(obj);
-        }, $scope.accounts);
+    _categoriesLoad();
 
-        angular.forEach(results.data, function (obj) {
-            if (obj.accountType == 'BCH') this.push(obj);
-        }, $scope.cryptoAccounts);
+    var _accountsLoad = function () {
+        accountsService.getAccounts().then(function (results) {
+            //$scope.accounts = results.data;
+            $scope.accounts = [];
+            $scope.cryptoAccounts = [];
 
-        for (var i = 0, len = $scope.accounts.length; i < len; i++) {
-            $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
-        }
-    }, function (error) {
-        $scope.message = $scope.translations.error_on_loading; //"Error on loading of accounts!";
-    });
+            angular.forEach(results.data, function (obj) {
+                if (obj.accountType == null) this.push(obj);
+            }, $scope.accounts);
+
+            angular.forEach(results.data, function (obj) {
+                if (obj.accountType == 'BCH') this.push(obj);
+            }, $scope.cryptoAccounts);
+
+            for (var i = 0, len = $scope.accounts.length; i < len; i++) {
+                $scope.accountsLookup[$scope.accounts[i].id] = $scope.accounts[i];
+            }
+        }, function (error) {
+            $scope.message = $scope.translations.error_on_loading; //"Error on loading of accounts!";
+        });
+    }
+
+    _accountsLoad();
 
     var getEvents = function () {
         calendarService.getEvents().then(function (results) {
@@ -423,6 +436,12 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
             startErrorTimer();
         });
     }
+
+    $rootScope.$on('neadCALENDARReload', function (event, msg) {
+        _accountsLoad();
+        _categoriesLoad();
+        _currenciesLoad();
+    });
 
     //$scope.event = {};
 

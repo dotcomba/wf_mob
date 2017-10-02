@@ -494,12 +494,25 @@
   "dashboard.Or_you_can_setup_one_of_the_blockchain_addressess": "O puede configurar una de las direcciones de bloque de bloques",
   "dashboard.here": "aqui",
   "dashboard.to_allow_automatically_update_your_crypto_balance": "para permitir actualizar automaticamente el equilibrio criptografico.",
-  "dashboard.Blockchain": "Pagos de facturas con Bitcoin",
-  "dashboard.Try_blockchain": "Pagar sus facturas de electricidad, internet, gas, otras utilidades con criptocurrencies. Bitcoin, Ethereum son aceptados. Restricciones: permitimos facturas por debajo de 300 USD!",
+  "dashboard.Blockchain": "NUEVO: Pagar facturas con Bitcoin",
+  "dashboard.Try_blockchain": "Pruebe nuestra nueva funcion y pague facturas de servicios publicos con Bitcoin! Simplemente proporcionenos su",
+  "dashboard.Try_crypto_payment_2": "nombre del beneficiario, numero de cuenta y direccion",
+  "dashboard.Try_crypto_payment_3": "y nos encargaremos del resto para usted. Estamos aceptando facturas de menos de $ 300.",
   "dashboard.Try_crypto_payment": "Prueba el pago",
   "dashboard.new_feature": "nueva caracteristica",
-
   "bills.On_payment": "En pago",
   "bills.Failed": "Ha fallado",
-  "bills.Confirmed": "Confirmado"
+  "bills.Confirmed": "Confirmado",
+
+  "bills.Invoice": "Factura",
+  "bills.Account_number": "Numero de cuenta",
+  "bills.Acount_holder": "Titular de la cuenta",
+  "bills.Send_exactly": "Enviar exactamente",
+  "bills.to_this_address": "a esta direccion",
+  "bills.You_need_to_pay": "Tienes que pagar",
+  "bills.Invoice_equialent": "Equivalente a la factura",
+  "bills.Service_fee": "Tarifa de servicio",
+  "bills.Bill_amount": "Total de la factura",
+  "bills.I_have_paid": "He pagado",
+  "bills.Print": "Impresion"
 }

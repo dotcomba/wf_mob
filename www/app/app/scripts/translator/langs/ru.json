@@ -496,12 +496,26 @@
   "dashboard.Or_you_can_setup_one_of_the_blockchain_addressess": "Или вы можете настроить ваши криптокошельки",
   "dashboard.here": "сдесь",
   "dashboard.to_allow_automatically_update_your_crypto_balance": "чтобы позволить нам автоматически обновить Ваш баланс.",
-  "dashboard.Blockchain": "Оплата счетов криптовалютой",
-  "dashboard.Try_blockchain": "Платите свои счета за электричество, интернет, газ, другие услуги с криптовалютами. Биткойн, Эфириум принимаются. Ограничения: мы разрешаем счета до 300 долларов США!",
+  "dashboard.Blockchain": "NEW: Оплата счетов криптовалютой",
+  "dashboard.Try_blockchain": "Попробуй нашу новую фичу для оплаты счетов с Bitcoin! Просто предоставь нам",
+  "dashboard.Try_crypto_payment_2": "payee name, account number and address",
+  "dashboard.Try_crypto_payment_3": "и мы сделаем все остальное. Мы сейчас разрешаем счета до $300.",
   "dashboard.Try_crypto_payment": "Попробовать сейчас",
-  "dashboard.new_feature": "новая фича",
+  "dashboard.new_feature": "Читать больше",
 
   "bills.On_payment": "На оплате",
   "bills.Failed": "Провалилось",
-  "bills.Confirmed": "Подтверждено"
+  "bills.Confirmed": "Подтверждено",
+
+  "bills.Invoice": "Счет",
+  "bills.Account_number": "Номер (на счете)",
+  "bills.Acount_holder": "Холдер (на счете)",
+  "bills.Send_exactly": "Отправте точно",
+  "bills.to_this_address": "на этот адрес",
+  "bills.You_need_to_pay": "Вам нужно заплатить",
+  "bills.Invoice_equialent": "Всего к оплате",
+  "bills.Service_fee": "Плата за сервис",
+  "bills.Bill_amount": "Сумма счета",
+  "bills.I_have_paid": "Я оплатил",
+  "bills.Print": "Печать"
 }

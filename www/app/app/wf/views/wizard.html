@@ -14,7 +14,7 @@
 <div class="row" data-ng-show="authentication.isAuth">
     <div class="panel">
         <div class="panel-heading">
-            <h3 class="panel-title">Few things before you will begin</h3>
+            <h3 class="panel-title">Let's set up your account</h3>
         </div>
         <div class="panel-body">
             <!-- Steps -->
@@ -125,7 +125,7 @@
                                                     <select class="form-control" name="currency_thirdCode" data-ng-model="currency.thirdCurencyCode">
                                                         <option ng-selected="currency.thirdCurencyCode == currencyL.code" ng-repeat="currencyL in currencyWizardList" value="{{currencyL.code}}">{{currencyL.code}}</option>
                                                     </select>
-                                                    <label class="floating-label">Home currency</label>
+                                                    <label class="floating-label">Base currency</label>
                                                 </div>
                                             </div>
                                         </form>
@@ -147,8 +147,8 @@
                         <div class="table-responsive" ng-show="currencies.length > 0">
                             <table class="table table-analytics m-b-0 text-nowrap">
                                 <thead>
-                                <th>Home currency</th>
-                                <th>Third currency</th>
+                                <th>Base</th>
+                                <th>Second</th>
                                 <th>Exchange</th>
                                 <th>Actions</th>
                                 </thead>
@@ -162,7 +162,7 @@
                                         </td>
 
                                         <td style="vertical-align:middle">
-                                            <span data-ng-show="currency.thirdCurencyCode == homeCurrency">Home currency</span>
+                                            <span data-ng-show="currency.thirdCurencyCode == homeCurrency">Base currency</span>
                                             <button data-ng-show="currency.thirdCurencyCode != homeCurrency" ng-click="showModal(currency)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></button>
                                             <button data-ng-show="currency.thirdCurencyCode != homeCurrency" ng-click="showRemoveModal(currency)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></button>
                                         </td>
@@ -177,7 +177,7 @@
                             </div>
                             <div class="info-panel col-xl-4 col-md-4 col-xs-12">
                                 <blockquote class="blockquote cover-quote">
-                                    Before you begin you should choose at least <br /><b>Home currency.</b> <br />
+                                    Please select a <b>base currency</b><br /> for your account <br />
                                 </blockquote>
                             </div>
                             <div class="info-panel col-xl-4 col-md-4 col-xs-12">
@@ -186,18 +186,18 @@
                         </div>
 
                             <div class="modal-footer" ng-show="currencies.length == 0">
-                                <p>First of all, choose your home currency</p>
+                                <p>Click here to add your</p>
                                 <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="homeCurrencyModal()">
                                     <i class="icon wb-plus" aria-hidden="true"></i>
-                                    CHOOSE HOME CURRENCY
+                                    BASE CURRENCY
                                 </button>
                             </div>
 
                             <div class="modal-footer" ng-show="currencies.length > 0">
-                                <p>to put additional currency, click</p>
+                                <p>Click here to add</p>
                                 <button class="btn btn-outline btn-info  btn-direction btn-up " ng-click="showModal()">
                                     <i class="icon wb-plus" aria-hidden="true"></i>
-                                    INSERT CURRENCY
+                                    ADDITIONAL CURRENCY
                                 </button>
                             </div>
 
@@ -276,7 +276,7 @@
                         <div class="table-responsive" ng-show="categories.length > 0">
                             <table class="table table-analytics m-b-0 text-nowrap">
                                 <thead>
-                                    <th>TP</th>
+                                    <th>Icon</th>
                                 <th>Type</th>
                                 <th>Category</th>
                                 <th>Actions</th>
@@ -319,7 +319,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <p>to add new category, click</p>
+                            <p>Click here to add</p>
                             <button class="btn btn-outline btn-warning  btn-direction btn-up " ng-click="showModal()">
                                 <i class="icon wb-plus" aria-hidden="true"></i>
                                 NEW CATEGORY
@@ -371,13 +371,13 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account removing</h4>
+                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Remove account</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form role="form">
                                             <div class="form-group form-material row" data-plugin="formMaterial">
                                                 <div class="col-md-12 col-xs-12">
-                                                    We are going to remove <strong>{{account.title}}</strong> account. Are you sure?
+                                                    Are you sure you want to remove <strong>{{account.title}}</strong> account?
                                                 </div>
                                             </div>
                                         </form>
@@ -437,10 +437,10 @@
                         </div>
 
                         <div class="modal-footer">
-                            <p>to add new account, click</p>
+                            <p>Click here to add</p>
                             <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
                                 <i class="icon wb-plus" aria-hidden="true"></i>
-                                CREATE ACCOUNT
+                                NEW ACCOUNT
                             </button>
                         </div>
 
@@ -451,13 +451,14 @@
                         <div class="page-header text-xs-center">
                             <h6 class="page-title">Congratulations!</h6>
                             <p class="page-description">
-                                Now you are ready to start. </p>
+                                 </p>
                             <div class="page-title">
                                 <img src="app/assets/images/logo32.png">
                             </div>
                             <p class="page-description">
+                                Now you are ready to start
                                 <br/>
-                                click button <strong>"Finish"</strong> to start <br />your Welto-experience here.
+                                your <b>Welto</b> experience.
                             </p>
                         </div>
                     </div>

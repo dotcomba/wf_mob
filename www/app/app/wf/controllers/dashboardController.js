@@ -117,7 +117,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
         responsive: true,
 		title: {
             display: true,
-            text:  $scope.homeCurrency + ' ...',
+            text:  (($scope.homeCurrency == 'USD') ? '$': $scope.homeCurrency) + ' ...',
             fontSize: 19,
             position: 'top',
             fontStyle: 'bold',
@@ -186,7 +186,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
     dashboardService.getDashboard().then(function (results) {
             $scope.dashboard = results.data;
-            $scope.options1.title.text = $scope.homeCurrency + ' ' + $scope.dashboard.balanceValue;
+            $scope.options1.title.text = (($scope.homeCurrency == 'USD') ? '$' : $scope.homeCurrency) + ' ' + $scope.dashboard.balanceValue;
             // TEMPORARY DISABLE TOUR !!!!
             //if ($scope.dashboard.balanceValue == 0)
             //    introJs().setOptions(Config.get('tour')).start();
@@ -225,6 +225,12 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
         $('#executeEventForm').modal();
     }
 
+    $scope.open_url = function (processingUrl) {
+        if (processingUrl.indexOf("http") == -1)
+            $location.path(processingUrl);
+        else window.location = processingUrl;
+    }
+
     $scope.invokeEvent = function (obj, operation) {
         calendarService.invokeEvent(obj.id, obj, operation).then(function (response) {
 
@@ -238,7 +244,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
                             $scope.message = response.data;
                             startErrorTimer();
                         }
-                        else window.location = response.data;
+                        else $scope.open_url(response.data);
                 }
             }
             else $scope.message = $scope.translations.calendar_Event_has_been_executed; //"Event has been executed";

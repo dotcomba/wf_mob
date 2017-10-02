@@ -1,0 +1,103 @@
+﻿<style>
+    .site-action {
+        display: none !important;
+    }
+
+    .page-invoice-amount {
+    margin-bottom: 40px;
+    padding-top: 10px;
+    font-size: 20px;
+    border-top: 1px solid #e4eaec;
+}
+</style>
+
+<div ng-cloak data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert dark alert-icon alert-success alert-dismissible content row' : 'alert dark alert-icon alert-warning alert-dismissible content row'">
+    <i class="icon fa fa-check" data-ng-show="(savedSuccessfully)"></i>
+    <i class="icon fa fa-warning" data-ng-show="(!savedSuccessfully)"></i>
+    {{message}}
+</div>
+
+<div class="row" data-ng-show="authentication.isAuth">
+
+    <div class="panel animation-fade animation-duration-1" data-ng-show="invoice != null">
+
+        <div class="app-contacts panel-heading">
+            <h3 class="app-contacts panel-title">{{'bills.Invoice' | translate}}</h3>
+
+            <div class="panel-actions panel-actions-keep">
+                <a class="panel-action icon wb-close" href="#/bills" aria-hidden="true"></a>
+            </div>
+        </div>
+
+   
+
+            <div class="panel-body container-fluid">
+                <div class="row">
+                    <div class="col-xs-6 col-lg-3">
+                        <h4>
+                            <img class="m-r-10" src="app/global/service_providers/{{invoice.cpServiceProviderImg}}.png" alt="...">
+                        </h4>
+                        <address>
+                            {{invoice.payeeNameAndAddress}}
+                        </address>
+                    </div>
+                    <div class="col-xs-6 col-lg-3 offset-lg-6 text-xs-right">
+                       
+                     
+                        <p style="margin-top:24px;">
+                            <br>{{'bills.Account_number' | translate}}:
+                            <br>
+                            <span class="font-size-20" >{{invoice.accountNumber}}</span>
+                            <br>{{'bills.Acount_holder' | translate}}:
+                            <br>
+                            <span class="font-size-20">{{invoice.payerName}}</span>
+                        </p>
+                        <br />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-3 offset-lg-6 vertical-align-middle">
+
+
+
+                    <img src="{{invoice.cpQRCodeUrl}}" border="0">
+                    <p>
+                        {{'bills.Send_exactly' | translate}} <b>{{invoice.cpCoinValue | number : 8 }} {{invoice.cpCoinCurrency}}</b> {{'bills.to_this_address' | translate}}
+                        <span class="bg-grey-200">{{invoice.cpAddress}}</span>
+                    </p>
+                </div>
+                <div class="text-xs-right clearfix">
+                    <div class="pull-xs-right">
+                        <br />
+                        <p>
+                            {{'bills.You_need_to_pay' | translate}}:
+                            <span>{{invoice.cpCoinValue | number : 8 }} {{invoice.cpCoinCurrency}}</span>
+                        </p>
+                        <p>
+                            {{'bills.Invoice_equialent' | translate}}:
+                            <span>{{invoice.cpNeedToPay | number: 2 }} {{invoice.currencyCode}}</span>
+                        </p>
+                        <p>
+                            {{'bills.Service_fee' | translate}}:
+                            <span>{{invoice.cpFeeValue | number: 2 }} {{invoice.currencyCode}}</span>
+                        </p>
+                        <p class="page-invoice-amount">
+                            {{'bills.Bill_amount' | translate}}:
+                            <span>{{invoice.billValue | number: 2 }} {{invoice.currencyCode}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="text-xs-right">
+                    <button type="submit" class="btn btn-animate btn-animate-side btn-primary" data-ng-click="go()">
+                        <span><i class="icon wb-shopping-cart" aria-hidden="true"></i> {{'bills.I_have_paid' | translate}}</span>
+                    </button>
+                    <button type="button" class="btn btn-animate btn-animate-side btn-default btn-outline"
+                            onclick="javascript:window.print();">
+                        <span><i class="icon wb-print" aria-hidden="true"></i> {{'bills.Print' | translate}}</span>
+                    </button>
+                </div>
+            </div>
+
+ 
+        </div>
+
+</div>

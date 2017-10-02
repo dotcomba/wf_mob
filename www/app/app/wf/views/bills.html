@@ -33,7 +33,7 @@
 
                     <div class="form-material floating has-success" data-plugin="formMaterial">
                         <select class="form-control" name="bill_account" data-ng-model="bill.accountSourceId">
-                            <option ng-selected="bill.accountSourceId == account.Value" ng-repeat="account in accounts | filter: {currencyCode:'BTC'}" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                            <option ng-selected="bill.accountSourceId == account.Value" ng-repeat="account in cryptoAccounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                         </select>
                         <label class="floating-label" translate="bill.Account">Account</label>
                     </div>
@@ -102,7 +102,7 @@
 
                     <div class="form-material floating has-success" data-plugin="formMaterial">
                         <select class="form-control" name="bill_account" data-ng-model="bill.accountSourceId" disabled="true">
-                            <option ng-selected="bill.accountSourceId == account.Value" ng-repeat="account in accounts | filter: {currencyCode:'BTC'}" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
+                            <option ng-selected="bill.accountSourceId == account.Value" ng-repeat="account in cryptoAccounts" value="{{account.id}}">{{account.title}} ({{account.currencyCode}} {{account.ammount | number : 2}})</option>
                         </select>
                         <label class="floating-label" translate="bill.Account">Account</label>
                     </div>
@@ -149,7 +149,7 @@
                     <span class="tag tag-outline tag-warning" data-ng-show="bill.status == 'FAILED'" translate="bills.FAILED">FAILED</span>
                 </span>
 
-                <a class="btn btn-primary" href='{{bill.processingUrl}}' ng-hide="bill.processingUrl == '' || bill.processingUrl == null || bill.status != 'PROCESSING'" translate="bill.Payment">Check payment</a>
+                <a class="btn btn-primary" data-dismiss="modal" href="javascript:void(0)" data-ng-click='open_url(bill.processingUrl)' ng-hide="bill.processingUrl == '' || bill.processingUrl == null || bill.status != 'PROCESSING'" translate="bill.Payment">Check payment</a>
                 <a class="btn btn-outline-secondary" data-dismiss="modal" href="javascript:void(0)">{{'bill.Close' | translate}}</a>
             </div>
 

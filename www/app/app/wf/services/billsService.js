@@ -22,6 +22,14 @@ app.factory('billsService', ['$http', 'ngAuthSettings', function ($http, ngAuthS
     };
     billsServiceFactory.getBillsTotals = _getBillsTotals;
 
+    var _getInvoice = function (id) {
+
+        return $http.get(serviceBase + 'api/bills/getinvoice/' + id).then(function (result) {
+            return result;
+        });
+    };
+    billsServiceFactory.getInvoice = _getInvoice;
+
     //Create new record
     billsServiceFactory.createBill = function (bill) {
         var result = $http({

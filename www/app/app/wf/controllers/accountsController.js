@@ -38,6 +38,8 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
             $scope.message = "";
             $timeout.cancel(timer);
             $rootScope.$broadcast('neadTRANReload', '');
+            $rootScope.$broadcast('neadBILLReload', '');
+            $rootScope.$broadcast('neadCALENDARReload', '');
             $route.reload();
         }, 500);
     }
