@@ -406,7 +406,7 @@
                                 </div>
                                 <div class="col-md-2 col-xs-2">
                                     <select class="form-control" name="bill_currency" data-ng-model="calendarEvent.currencyCode">
-                                        <option ng-selected="currency.thirdCurencyCode == calendarEvent.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                        <option ng-selected="currency.thirdCurencyCode == calendarEvent.currencyCode" ng-repeat="currency in currenciesForBill" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
                                     </select>
                                 </div>
                             </div>

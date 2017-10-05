@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.welto" version="2.4.36" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="io.welto" version="2.4.37" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Welto</name>
     <description>
-        Welto is a way to pay bills with cryptocurrency
+        Welto is a way to pay bills with BTC, ETC, ETH, ZEN, CRW
     </description>
     <author email="support@welto.io" href="http://welto.io">
         WELTO LLC

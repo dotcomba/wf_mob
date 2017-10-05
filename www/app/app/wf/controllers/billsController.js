@@ -263,7 +263,13 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
 
     var _currenciesLoad = function () {
         currenciesService.getCurrencies().then(function (results) {
-            $scope.currencies = results.data;
+            //$scope.currencies = results.data;
+            $scope.currencies = [];
+
+            angular.forEach(results.data, function (obj) {
+                if (obj.thirdCurencyCode == 'USD' || obj.thirdCurencyCode == 'EUR' || obj.thirdCurencyCode == 'RUB' || obj.thirdCurencyCode == 'UAH') this.push(obj);
+            }, $scope.currencies);
+
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";

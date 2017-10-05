@@ -149,6 +149,7 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
     reTranslate();
 
     $scope.currencies = [];
+    $scope.currenciesForBill = [];
     $scope.homeCurrency = '';
 
     var initFields = function (type) {
@@ -170,6 +171,13 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
     var _currenciesLoad = function () {
         currenciesService.getCurrencies().then(function (results) {
             $scope.currencies = results.data;
+
+            $scope.currenciesForBill = [];
+
+            angular.forEach(results.data, function (obj) {
+                if (obj.thirdCurencyCode == 'USD' || obj.thirdCurencyCode == 'EUR' || obj.thirdCurencyCode == 'RUB' || obj.thirdCurencyCode == 'UAH') this.push(obj);
+            }, $scope.currenciesForBill);
+
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
             $scope.calendarEvent.currencyCode = $scope.homeCurrency;
         }, function (error) {

@@ -517,8 +517,8 @@
                                 <span class="name" data-ng-show="account.accountType == null"><a class="btn btn-flat btn-default" href="#/transactions/byaccount/{{account.id}}">{{ account.title }}</a></span>
                                 <span class="name btn" data-ng-show="account.accountType != null">{{ account.title }}</span>
 </td>
-                            <td style="vertical-align:middle" ng-show="account.currencyCode != 'ETH' && account.currencyCode != 'BTC'">{{ account.ammount | number: 2 }}</td>
-                            <td style="vertical-align:middle" ng-show="account.currencyCode == 'ETH' || account.currencyCode == 'BTC'">{{ account.ammount | number: 8 }}</td>
+                            <td style="vertical-align:middle" ng-show="account.currencyCode == 'USD' || account.currencyCode == 'EUR' || account.currencyCode == 'UAH' || account.currencyCode == 'RUB'">{{ account.ammount | number: 2 }}</td>
+                            <td style="vertical-align:middle" ng-show="account.currencyCode != 'USD' && account.currencyCode != 'EUR' && account.currencyCode != 'UAH' && account.currencyCode != 'RUB'">{{ account.ammount | number: 8 }}</td>
                             <td style="vertical-align:middle">{{ account.currencyCode }}</td>
                             <td class="hide-sm" style="vertical-align:middle">
                                 <button type="button" data-ng-show="account.accountType == null" class="btn btn-icon btn-default btn-outline fa-dollar" data-target="#addIncomeForm" data-toggle="modal" ng-click="setTransactionAccount('INC',account.id)"></button>
