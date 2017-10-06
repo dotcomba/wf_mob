@@ -267,7 +267,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
             $scope.currencies = [];
 
             angular.forEach(results.data, function (obj) {
-                if (obj.thirdCurencyCode == 'USD' || obj.thirdCurencyCode == 'EUR' || obj.thirdCurencyCode == 'RUB' || obj.thirdCurencyCode == 'UAH') this.push(obj);
+                if (obj.thirdCurencyCode == 'USD' || obj.thirdCurencyCode == 'EUR' || obj.thirdCurencyCode == 'RUB' || obj.thirdCurencyCode == 'UAH' || obj.thirdCurencyCode == 'CAD' || obj.thirdCurencyCode == 'GBP') this.push(obj);
             }, $scope.currencies);
 
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
