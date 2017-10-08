@@ -42,7 +42,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
             if ($scope.currencies.length == 0)
             {
-                $location.path('/wizard/page/1');
+                $location.path('/wizard/page/3');
             }
 
         }, function (error) {
@@ -133,7 +133,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
             if ($scope.categories.length == 0)
             {
-                $location.path('/wizard/page/1');
+                $location.path('/wizard/page/3');
             }
 
             for (var i = 0, len = $scope.categories.length; i < len; i++) {
@@ -150,7 +150,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
             $scope.accounts = results.data;
 
             if ($scope.accounts.length == 0) {
-                $location.path('/wizard/page/1');
+                $location.path('/wizard/page/3');
             }
 
             for (var i = 0, len = $scope.accounts.length; i < len; i++) {

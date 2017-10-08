@@ -17,7 +17,7 @@ app.controller('wizardController', ['$scope', '$rootScope', '$routeParams', '$lo
             else $("#wz" + i).addClass('done')
         }
 
-        if (idParam != 1)
+        if (idParam != 3)
             $("#btnBack").removeClass('disabled');
         if (idParam == 4)
         {
@@ -36,6 +36,10 @@ app.controller('wizardController', ['$scope', '$rootScope', '$routeParams', '$lo
 
     $scope.btnFinish = function () {
         $rootScope.$broadcast('neadTRANReload', '');
+        $rootScope.$broadcast('neadBILLReload', '');
+        $rootScope.$broadcast('neadCALENDARReload', '');
+        $rootScope.$broadcast('neadSETTINGSReload', '');
+        
         $location.path('/dashboard'); 
         //window.location = '/index.html';
 

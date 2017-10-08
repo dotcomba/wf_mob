@@ -49,6 +49,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
 
     // Method to Insert
     $scope.createBill = function () {
+        Site.getInstance().startLoading();  // loading
 
         billsService.createBill($scope.bill).then(function (response) {
 
@@ -85,6 +86,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
             }
             startErrorTimer();
          });
+        $(".loader-overlay").remove();  // end of loading
     };
 
     var startTimer = function () {
@@ -116,6 +118,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
 
     $scope.open_url = function (processingUrl)
     {
+        $(".loader-overlay").remove();
         if (processingUrl.indexOf("http") == -1)
             $location.path(processingUrl);
         else window.location = processingUrl;
@@ -175,20 +178,22 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
 
     $scope.updateBill = function ()
     {
+        Site.getInstance().startLoading();  // loading
+
         billsService.updateBill($scope.bill.id, $scope.bill).then(function (response) {
 
             if (response.status == 200) {
                 if (response.data != '')
                     if (response.data.indexOf('Processing error') !== -1) {
                         $scope.message = response.data;
-                        startErrorTimer();
+                        startErrorTimer(); 
                     }
                     else $scope.open_url(response.data);
                 else
                 {
                     $scope.savedSuccessfully = true;
                     $scope.message = $scope.translations.bill_info_has_been_updated; //"Account info has been updated!";
-                    startTimer();
+                    startTimer(); initFields();
                 }
             }
         },
@@ -209,6 +214,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
             }
             startErrorTimer();
          });
+        $(".loader-overlay").remove();  // end of loading
     };
 
     $scope.removeBill = function ()

@@ -12,6 +12,8 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
     //    }
     //});
 
+    authService.logOut();
+
     $translate(['signup_user_has_been_registered', 'signup_failed_to_register_user_due_to']).then(function (translations) {
         $scope.translations = translations;
     }, null);

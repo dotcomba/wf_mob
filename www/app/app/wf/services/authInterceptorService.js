@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authInterceptorService', ['$q', '$injector','$location', 'localStorageService', function ($q, $injector,$location, localStorageService) {
+app.factory('authInterceptorService', ['$q', '$injector', '$location', 'localStorageService', '$routeParams', function ($q, $injector, $location, localStorageService, $routeParams) {
 
     var authInterceptorServiceFactory = {};
 
@@ -27,8 +27,10 @@ app.factory('authInterceptorService', ['$q', '$injector','$location', 'localStor
                 }
             }
             authService.logOut();
-            //if (getParameterByName('code') == null) {
+            //if (getParameterByName('register') == null) {
+            if ($routeParams.regWeb != 'regWeb') {
                 $location.path('/login');
+            }
             //}
         }
         return $q.reject(rejection);

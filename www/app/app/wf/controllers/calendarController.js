@@ -413,7 +413,7 @@ app.controller('calendarController', ['$scope', '$rootScope', '$routeParams', '$
         calendarService.updateEvent($scope.calendarEvent.id, $scope.calendarEvent).then(function (response) {
             //$scope.savedSuccessfully = true;
             //$scope.message = "Account info has been updated!";
-            startTimer();
+            startTimer(); initFields();
         },
          function (response) {
              if (response.status == 400)

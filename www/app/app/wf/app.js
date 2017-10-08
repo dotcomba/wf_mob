@@ -53,6 +53,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/signup.html"
     });
 
+    $routeProvider.when("/signup/:regWeb", {
+        controller: "signupController",
+        templateUrl: "app/wf/views/signup.html"
+    });
+
     $routeProvider.when("/changePassword", {
         controller: "changePasswordController",
         templateUrl: "app/wf/views/change-password.html"

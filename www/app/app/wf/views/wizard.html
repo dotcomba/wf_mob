@@ -19,19 +19,19 @@
         <div class="panel-body">
             <!-- Steps -->
             <div class="pearls row">
-                <div class="pearl col-xs-3" id="wz1">
+                <!--<div class="pearl col-xs-3" id="wz1">
                     <div class="pearl-icon"><i class="icon fa-dollar" aria-hidden="true"></i></div>
                     <span class="pearl-title">Currencies</span>
                 </div>
                 <div class="pearl col-xs-3" id="wz2">
                     <div class="pearl-icon"><i class="icon ti-shopping-cart" aria-hidden="true"></i></div>
                     <span class="pearl-title">Categories</span>
-                </div>
-                <div class="pearl col-xs-3" id="wz3">
+                </div>-->
+                <div class="pearl col-xs-6" id="wz3">
                     <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
-                    <span class="pearl-title">Accounts</span>
+                    <span class="pearl-title">Wallets</span>
                 </div>
-                <div class="pearl col-xs-3" id="wz4">
+                <div class="pearl col-xs-6" id="wz4">
                     <div class="pearl-icon"><i class="icon wb-check" aria-hidden="true"></i></div>
                     <span class="pearl-title">Ready to use</span>
                 </div>
@@ -337,20 +337,34 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Account</h4>
+                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Wallet</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form role="form">
                                             <div class="form-group form-material row" data-plugin="formMaterial">
                                                 <div class="col-md-12 col-xs-12">
-                                                    <input type="text" class="form-control" name="account_title" data-ng-model="account.title" />
+                                                    <select class="form-control" name="accountTypeC" data-ng-model="account.accountType">
+                                                        <option ng-selected="aType.code == account.accountType" ng-repeat="aType in cryptoAccountTypes" value="{{aType.code}}">{{aType.title}}</option>
+                                                    </select>
+                                                    <label class="floating-label">Wallet type</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <input type="text" class="form-control" placeholder="Name your wallet as you wish" name="account_title" data-ng-model="account.title" />
                                                     <label class="floating-label">Title</label>
                                                 </div>
                                             </div>
                                             <div class="form-group form-material row" data-plugin="formMaterial">
                                                 <div class="col-md-12 col-xs-12">
+                                                    <input type="text" class="form-control" placeholder="Provide your wallet address here" name="account_blockchainAddress" data-ng-model="account.blockchainAddress" />
+                                                    <label class="floating-label">Wallet address</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-material row" data-plugin="formMaterial">
+                                                <div class="col-md-12 col-xs-12">
                                                     <select class="form-control" name="currency" data-ng-model="account.currencyCode">
-                                                        <option ng-selected="currency.thirdCurencyCode == account.currencyCode" ng-repeat="currency in currencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
+                                                        <option ng-selected="currency.thirdCurencyCode == account.currencyCode" ng-repeat="currency in cryptoCurrencies" value="{{currency.thirdCurencyCode}}">{{currency.thirdCurencyCode}}</option>
                                                     </select>
                                                     <label class="floating-label">Currency</label>
                                                 </div>
@@ -358,7 +372,7 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == ''" data-ng-click="saveChanges()">Save</button>
+                                        <button class="btn btn-primary" data-dismiss="modal" type="submit" data-ng-disabled="account.title == '' || account.currencyCode == '' || account.blockchainAddress == '' || account.blockchainAddress == null" data-ng-click="saveChanges()">Save</button>
                                         <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
                                     </div>
                                 </div>
@@ -371,13 +385,13 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Remove account</h4>
+                                        <h4 class="modal-title"> <i class="site-menu-icon wb-payment"></i>Remove wallet</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form role="form">
                                             <div class="form-group form-material row" data-plugin="formMaterial">
                                                 <div class="col-md-12 col-xs-12">
-                                                    Are you sure you want to remove <strong>{{account.title}}</strong> account?
+                                                    Are you sure you want to remove <strong>{{account.title}}</strong> wallet?
                                                 </div>
                                             </div>
                                         </form>
@@ -399,12 +413,12 @@
                         
                         <div class="table-responsive" ng-show="accounts.length > 0">
                             <table class="table table-analytics m-b-0 text-nowrap">
-                        <thead><th>Account title</th>
+                        <thead><th>Wallet</th>
                                 <th>Currency</th>
                                 <th>Actions</th>
                                 </thead>
                                 <tbody>
-                                    <tr data-ng-repeat="account in accounts">
+                                    <tr data-ng-repeat="account in accounts | filter : {accountType: 'BCH' }">
                                         <td style="vertical-align:middle">
                                             <i class="green-400 ti-credit-card" style="font-size:18pt !important; vertical-align:middle" >&nbsp;</i>
                                             <span>{{ account.title }}</span>
@@ -426,9 +440,9 @@
                             <div class="info-panel col-xl-4 col-md-4 col-xs-12">
                                 <blockquote class="blockquote cover-quote">
                                     You should have at least <br />one 
-                                    <b>Account</b> to be able <br />
-                                    put your expenses and incomes. <br/>
-                                    You can create for example <b>"Cash"</b>
+                                    <b>Wallet</b> connected to Welto <br/>to be able 
+                                    pay bills with crypto. <br/>
+                                    You can create for example <br /><b>"BTC Wallet"</b>
                                 </blockquote>
                             </div>
                             <div class="info-panel col-xl-4 col-md-4 col-xs-12">
@@ -440,7 +454,7 @@
                             <p>Click here to add</p>
                             <button class="btn btn-outline btn-primary  btn-direction btn-up " ng-click="showModal()">
                                 <i class="icon wb-plus" aria-hidden="true"></i>
-                                NEW ACCOUNT
+                                NEW WALLET
                             </button>
                         </div>
 

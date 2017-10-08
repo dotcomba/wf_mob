@@ -2,6 +2,7 @@
 app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', '$route', '$modal', 'accountsService', 'currenciesService', 'settingsService', '$translate', function ($scope, $rootScope, $routeParams, $location, $timeout, $route, $modal, accountsService, currenciesService, settingsService, $translate) {
 
     $scope.accountTypes = [{ code: null, title: 'Virtual' }, { code: 'BCH', title: 'Blockchain' }];
+    $scope.cryptoAccountTypes = [{ code: 'BCH', title: 'Blockchain' }];
 
     // Method to Insert
     $scope.createAccount = function () {
@@ -41,7 +42,7 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
             $rootScope.$broadcast('neadBILLReload', '');
             $rootScope.$broadcast('neadCALENDARReload', '');
             $route.reload();
-        }, 500);
+        }, 2200);
     }
 
     var startErrorTimer = function () {
@@ -55,9 +56,9 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
     var initFields = function () 
     {
         $scope.account = {
-            accountType:null,
+            accountType:'BCH',
             title: '',
-            currencyCode: 'USD',
+            currencyCode: 'BTC',
             ammount: 0
         };
     }
@@ -169,10 +170,18 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
         });
 
     $scope.currencies = [];
+    $scope.cryptoCurrencies = [];
     $scope.homeCurrency = '';
 
     currenciesService.getCurrencies().then(function (results) {
-            $scope.currencies = results.data;
+        $scope.currencies = results.data;
+
+        $scope.cryptoCurrencies = [];
+
+        angular.forEach(results.data, function (obj) {
+            if (obj.thirdCurencyCode != 'USD' && obj.thirdCurencyCode != 'EUR' && obj.thirdCurencyCode != 'RUB' && obj.thirdCurencyCode != 'UAH' && obj.thirdCurencyCode != 'CAD' && obj.thirdCurencyCode != 'GBP') this.push(obj);
+        }, $scope.cryptoCurrencies);
+
             if ($scope.currencies.length > 0) $scope.homeCurrency = $scope.currencies[0].homeCurrencyCode;
         }, function (error) {
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
