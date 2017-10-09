@@ -155,6 +155,7 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
     }
 
     $scope.makePayment = function () {
+        toastr["info"]("We are creating an invoice for you. You will be redirected to payment form ...", "Processing");
         $scope.bill.status = 'PROCESSING';
         if ($scope.bill.id == null)
             $scope.createBill();

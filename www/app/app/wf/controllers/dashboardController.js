@@ -232,6 +232,10 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
     }
 
     $scope.invokeEvent = function (obj, operation) {
+
+        if (operation == 'BILL')
+            toastr["info"]("We are creating an invoice for you. You will be redirected to payment form ...", "Processing");
+
         calendarService.invokeEvent(obj.id, obj, operation).then(function (response) {
 
             if (operation == 'REJECT')

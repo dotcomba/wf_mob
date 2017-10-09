@@ -72,7 +72,7 @@
   "dashboard.If_you_want_to_add_new_account_click": "If you want to add new wallet, click",
   "dashboard.CREATE_ACCOUNT": "ADD WALLET",
 
-  "dashboard.Your_current_balance_is_null": "Your current balance is null",
+  "dashboard.Your_current_balance_is_null": "Your current balance is zero",
   "dashboard.Try_add_new_income": "Try add new income",
   "dashboard.Click_on": "Click on",
   "dashboard.big_green_button": "big green button",
@@ -493,7 +493,7 @@
   "calendar.Bill_has_been_paid_for": "Bill has been paid for",
   "calendar.it_was_paid_on": "it was paid on",
 
-  "dashboard.Or_you_can_setup_one_of_the_blockchain_addressess": "Or you can set up one of the blockchain addresses",
+  "dashboard.Or_you_can_setup_one_of_the_blockchain_addressess": "Alternatively you can add your blockchain wallet",
   "dashboard.here": "here",
   "dashboard.to_allow_automatically_update_your_crypto_balance": "to allow automatically update your crypto balance.",
   "dashboard.Blockchain": "NEW: Pay bills with Bitcoin",
