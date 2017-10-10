@@ -190,6 +190,8 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
         });
     }
 
+    _currenciesLoad();
+
     $rootScope.$on('neadAccountReload', function (event, msg) {
         _currenciesLoad();
     });
