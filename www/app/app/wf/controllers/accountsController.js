@@ -170,9 +170,10 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
         });
 
     $scope.currencies = [];
-    $scope.cryptoCurrencies = [];
+    $scope.cryptoCurrencies = [{ thirdCurencyCode: 'BTC' }, { thirdCurencyCode: 'LTC' }, { thirdCurencyCode: 'ZEN' }, { thirdCurencyCode: 'ETH' }, { thirdCurencyCode: 'ETC' }, { thirdCurencyCode: 'CRW' }];
     $scope.homeCurrency = '';
 
+    var _currenciesLoad = function () {
     currenciesService.getCurrencies().then(function (results) {
         $scope.currencies = results.data;
 
@@ -187,6 +188,11 @@ app.controller('accountsController', ['$scope', '$rootScope', '$routeParams', '$
             $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
             startErrorTimer();
         });
+    }
+
+    $rootScope.$on('neadAccountReload', function (event, msg) {
+        _currenciesLoad();
+    });
 
     // ....
 }]);

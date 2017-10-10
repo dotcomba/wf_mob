@@ -42,6 +42,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
             if ($scope.currencies.length == 0)
             {
+                $rootScope.$broadcast('neadAccountReload', '');
                 $location.path('/wizard/page/3');
             }
 
@@ -133,6 +134,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
 
             if ($scope.categories.length == 0)
             {
+                $rootScope.$broadcast('neadAccountReload', '');
                 $location.path('/wizard/page/3');
             }
 
@@ -150,6 +152,7 @@ app.controller('dashboardController', ['$scope', '$rootScope', '$routeParams', '
             $scope.accounts = results.data;
 
             if ($scope.accounts.length == 0) {
+                $rootScope.$broadcast('neadAccountReload', '');
                 $location.path('/wizard/page/3');
             }
 
