@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', 'settingsService', '$translate', function ($scope, $location, $timeout, authService, settingsService, $translate) {
+app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', 'settingsService', '$translate', '$routeParams', function ($scope, $location, $timeout, authService, settingsService, $translate, $routeParams) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
@@ -25,6 +25,9 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
     };
 
     $scope.signUp = function () {
+
+        var refUser = '';
+        if ($routeParams.regWeb != undefined && $routeParams.regWeb != 'regWeb') $scope.registration.refUser = $routeParams.regWeb;
 
         authService.saveRegistration($scope.registration).then(function (response) {
 

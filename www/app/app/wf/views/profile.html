@@ -148,7 +148,50 @@
                         </div>
                     </div>
                 </li>
-						
+
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="media-body">
+                            <h4>{{'profile.Friends' | translate}}</h4>
+                            <table class="table table-analytics m-b-0 text-nowrap" ng-show="referrals.length > 0">
+                                <thead>
+                                <th>{{'profile.Email' | translate}}</th>
+                                <th>{{'profile.Paid' | translate}}</th>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="referral in referrals">
+                                        <td style="vertical-align:middle">
+                                            <span>{{ referral.userId }}</span>
+                                        </td>
+                                        <td style="vertical-align:middle">
+                                            <span ng-show="referral.billsPaid > 0">{{'profile.Yes' | translate}}</span>
+                                            <span ng-show="referral.billsPaid == 0">{{'profile.Not_yet' | translate}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="card card-bordered card-outline-success m-t-20" ng-show="settings.refEndDate != null">
+                                <div class="card-block">
+                                    <h4 class="card-title">{{'profile.Discount_applied' | translate}}</h4>
+                                    <p class="card-text">
+                                        {{'profile.Because_of_your_referrals' | translate}} <b>{{ settings.feeAmount | number:2 }}%</b> {{'profile.till' | translate}} {{ settings.refEndDate | date }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card card-bordered card-outline-success m-t-20" ng-show="settings.refEndDate == null">
+                                <div class="card-block">
+                                    <h4 class="card-title">{{'profile.Jump_into_big_savings_with_Welto' | translate}}</h4>
+                                    <p class="card-text">
+                                        {{'profile.Your_current_transaction_fee_is' | translate}} <b>{{ settings.feeAmount | number:2 }}%</b> <br />
+                                        {{'profile.Refer_to_you' | translate}} <br />
+                                        <i>{{'profile.Share_it_with_your_friends' | translate}}</i> <a href='#/signup/{{ settings.id }}'>https://{{url}}/#/signup/{{ settings.id }}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
 				<li class="list-group-item">
                     <div class="media">
                         <div class="media-body">

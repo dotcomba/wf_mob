@@ -28,7 +28,7 @@ app.factory('authInterceptorService', ['$q', '$injector', '$location', 'localSto
             }
             authService.logOut();
             //if (getParameterByName('register') == null) {
-            if ($routeParams.regWeb != 'regWeb') {
+            if ($routeParams.regWeb == undefined) {
                 $location.path('/login');
             }
             //}

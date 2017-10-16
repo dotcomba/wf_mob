@@ -29,6 +29,12 @@ app.factory('settingsService', ['$http', 'ngAuthSettings', function ($http, ngAu
         });
     };
 
+    settingsServiceFactory.getReferrals = function () {
+        return $http.get(serviceBase + 'api/settings/refs').then(function (results) {
+            return results;
+        });
+    };
+
     return settingsServiceFactory;
 
 }]);

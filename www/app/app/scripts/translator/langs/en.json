@@ -516,5 +516,18 @@
   "bills.Service_fee": "Service fee",
   "bills.Bill_amount": "Bill amount",
   "bills.I_have_paid": "I have paid",
-  "bills.Print": "Print"
+  "bills.Print": "Print",
+
+  "profile.Friends": "Friends",
+  "profile.Email": "Email",
+  "profile.Paid": "Paid",
+  "profile.Yes": "Yes",
+  "profile.Not_yet": "Not yet",
+  "profile.Discount_applied": "Discount applied",
+  "profile.Because_of_your_referrals": "Because of your referrals, your current transaction fee is",
+  "profile.till": "till",
+  "profile.Jump_into_big_savings_with_Welto": "Jump into big savings with Welto",
+  "profile.Your_current_transaction_fee_is": "Your current transaction fee is",
+  "profile.Refer_to_you": "Refer to you two of your friends and get one-year ZERO transaction fee!",
+  "profile.Share_it_with_your_friends": "Share it with your friends"
 }

@@ -25,6 +25,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', '$location', '
             return response;
         });
 
+
     };
 
     var _changePassword = function (cp) {

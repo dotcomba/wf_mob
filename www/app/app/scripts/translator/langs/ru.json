@@ -517,5 +517,18 @@
   "bills.Service_fee": "Плата за сервис",
   "bills.Bill_amount": "Сумма счета",
   "bills.I_have_paid": "Я оплатил",
-  "bills.Print": "Печать"
+  "bills.Print": "Печать",
+
+  "profile.Friends": "Реферралы",
+  "profile.Email": "Email",
+  "profile.Paid": "Оплачивал",
+  "profile.Yes": "Да",
+  "profile.Not_yet": "Нет еще",
+  "profile.Discount_applied": "Скидка применена",
+  "profile.Because_of_your_referrals": "Текущая сервисная плата",
+  "profile.till": "до",
+  "profile.Jump_into_big_savings_with_Welto": "Привлекай новых друзей",
+  "profile.Your_current_transaction_fee_is": "Текущая сервисная плата",
+  "profile.Refer_to_you": "Пригласи двух друзей и получи нулевую сервисную плату на год!",
+  "profile.Share_it_with_your_friends": "Расшарь это с друзьями"
 }

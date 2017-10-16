@@ -1,5 +1,7 @@
 ﻿app.controller('profileController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', '$translate', 'paymentsService', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService, $translate, paymentsService) {
 
+    $scope.url = $location.host();
+
     var idParam = $routeParams.id;
     if (idParam != undefined) {
         if (idParam == 'WORLDPLUS')
@@ -139,6 +141,14 @@
 
     paymentsService.getPayments().then(function (results) {
         $scope.payments = results.data;
+    }, function (error) {
+        $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
+    });
+
+    $scope.referrals = [];
+
+    settingsService.getReferrals().then(function (results) {
+        $scope.referrals = results.data;
     }, function (error) {
         $scope.message = $scope.translations.error_on_loading; //"Error on loading!";
     });

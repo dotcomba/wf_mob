@@ -514,5 +514,18 @@
   "bills.Service_fee": "Tarifa de servicio",
   "bills.Bill_amount": "Total de la factura",
   "bills.I_have_paid": "He pagado",
-  "bills.Print": "Impresion"
+  "bills.Print": "Impresion",
+
+  "profile.Friends": "Amigos",
+  "profile.Email": "Correo electronico",
+  "profile.Paid": "Pagado",
+  "profile.Yes": "Si",
+  "profile.Not_yet": "Todavia no",
+  "profile.Discount_applied": "Descuento aplicado",
+  "profile.Because_of_your_referrals": "Debido a sus referidos, su tarifa de transaccion actual es",
+  "profile.till": "hasta",
+  "profile.Jump_into_big_savings_with_Welto": "Salta con grandes ahorros con Welto",
+  "profile.Your_current_transaction_fee_is": "Su tarifa de transaccion actual es",
+  "profile.Refer_to_you": "Reunanse a ustedes dos de sus amigos y obtenga un arancel de transaccion CERO de un ano!",
+  "profile.Share_it_with_your_friends": "Compartelo con tus amigos"
 }
