@@ -1,6 +1,6 @@
 ﻿app.controller('profileController', ['$scope', '$routeParams', '$rootScope', '$location', '$timeout', '$route', 'authService', 'settingsService', '$translate', 'paymentsService', function ($scope, $routeParams, $rootScope, $location, $timeout, $route, $authService, settingsService, $translate, paymentsService) {
 
-    $scope.url = $location.host();
+    $scope.url = "my.welto.io";//$location.host();
 
     var idParam = $routeParams.id;
     if (idParam != undefined) {
