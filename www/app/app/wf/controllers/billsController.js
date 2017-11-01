@@ -147,6 +147,24 @@ app.controller('billsController', ['$scope', '$rootScope', '$routeParams', '$loc
         $('#editBillForm').modal();
     }
 
+    $scope.showModalCopy = function (obj) {
+        if (obj != null)
+        {
+            $scope.bill = {
+                currencyCode: obj.currencyCode,
+                billValue: obj.billValue,
+                accountSourceId: obj.accountSourceId,
+                categoryId: obj.categoryId,
+                status: 'NEW',
+                payeeNameAndAddress: obj.payeeNameAndAddress,
+                payerName: obj.payerName,
+                accountNumber: obj.accountNumber
+            };
+        }
+
+        $('#editBillForm').modal();
+    }
+
     $scope.saveChanges = function ()
     {
         if ($scope.bill.id == null)

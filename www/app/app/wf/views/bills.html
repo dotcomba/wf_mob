@@ -261,6 +261,7 @@
                                                  && bill.currencyCode !='RUB'">
                                         {{ bill.currencyCode }}
                                     </span> {{ bill.billValue | number:2 }}</span> 
+                                <a ng-click="showModalCopy(bill)" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" title="copy this bill"><i class="icon wb-copy" aria-hidden="true"></i></a>
                             </div>
                         </td>
                         <td class="work-progress">
@@ -276,7 +277,6 @@
 
                             <a ng-click="showModal(bill)" data-ng-show="bill.status == 'NEW'" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>
                             <a ng-click="showRemoveModal(bill)" data-ng-show="bill.status == 'NEW'" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>
-                    
                         </td>
                     </tr>
 
