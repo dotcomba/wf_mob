@@ -28,8 +28,10 @@ app.factory('authInterceptorService', ['$q', '$injector', '$location', 'localSto
             }
             authService.logOut();
             //if (getParameterByName('register') == null) {
-            if ($routeParams.regWeb == undefined) {
-                $location.path('/login');
+            if ($routeParams.regWeb == undefined && $routeParams.tour == undefined) {
+                if (window.innerWidth < 700)
+                    window.location = 'tour/tour.html';
+                else $location.path('/login');
             }
             //}
         }

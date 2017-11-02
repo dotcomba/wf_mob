@@ -43,6 +43,11 @@ app.config(function ($routeProvider) {
         templateUrl: "app/wf/views/login.html"
     });
 
+    $routeProvider.when("/login/:tour", {
+        controller: "loginController",
+        templateUrl: "app/wf/views/login.html"
+    });
+
     $routeProvider.when("/forgot", {
         controller: "forgotPasswordController",
         templateUrl: "app/wf/views/forgot-password.html"
