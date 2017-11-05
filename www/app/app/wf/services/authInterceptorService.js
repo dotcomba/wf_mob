@@ -31,7 +31,7 @@ app.factory('authInterceptorService', ['$q', '$injector', '$location', 'localSto
             if ($routeParams.regWeb == undefined && $routeParams.tour == undefined) {
                 if (window.innerWidth < 700)
                     window.location = 'tour/tour.html';
-                else $location.path('/login');
+                else window.location = 'tour_w/tour.html'; //$location.path('/login');
             }
             //}
         }

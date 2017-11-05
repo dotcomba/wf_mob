@@ -1,68 +1,159 @@
-﻿
-<link rel="stylesheet" href="app/assets/examples/css/pages/register-v3.css">
+﻿<link rel="stylesheet" href="app/assets/examples/css/pages/register-v2.css">
 
-<style type="text/css">
-    .page-content, .page-header, .page {
-        background-color: #5cd29d !important;
+<style>
+    a {
+        color: #5cd29d;
     }
 
-    .content {
-        background-color: #5cd29d !important;
+        a:hover {
+            color: #46be8a;
+        }
+
+    .btn-primary {
+        border-color: #3bce8e;
+        background-color: #3bce8e;
     }
 
-    @media (max-width: 479px) {
-        .page-header {
-            display: none !important;
+        .btn-primary.focus, .btn-primary:focus, .btn-primary:hover {
+            border-color: #66d0a2;
+            background-color: #66d0a2;
         }
 
-        .site-navbar {
-            display: none !important;
+    .form-control:focus {
+        border-color: #66d0a2;
+    }
+
+    .brand-img {
+        width: 110px;
+    }
+
+    .checkbox-primary input[type=radio]:checked + label::before, .checkbox-primary input[type=checkbox]:checked + label::before {
+        background-color: #66d0a2;
+        border-color: #66d0a2;
+    }
+
+    .page-register-v2:before {
+        background-image: url('app/assets/images/SignUpImage.png');
+    }
+
+    .page-login-v2 .page-login-main .brand-text,
+    .page-register-v2 .page-register-main .brand-text {
+        color: #949494;
+    }
+
+    .page-login-v2 .page-login-main .brand-img,
+    .page-register-v2 .page-register-main .brand-img {
+        width: 35%;
+    }
+
+    .page-register-v2 .page-register-main {
+        padding: 35px 60px 180px;
+    }
+
+    /*Fix Fuckimg Amgular*/
+    body {
+      padding-top: 0px;
+    }
+    .page {
+        background: none;
+        position: initial;
+    }
+
+     @media all and (max-width: 750px) {
+        .page-register-v2 .page-register-main .brand {
+            margin-bottom: 0px;
+        }
+    }
+    /*End of Fix Angular*/
+
+    @media all and (max-width: 1024px) {
+        .page-register-v2:before {
+            background-image: url('app/assets/images/SignUpImage-Ipad.png');
         }
 
-        .site-menubar {
-            display: none !important;
+        .page-register-v2 .page-brand-info .brand-text {
+            width: 100%;
+            font-size: 60px !important;
+            margin: 0;
         }
 
-        .page-content {
-            padding: 0px 0px !important;
+        .brand-img {
+            width: 165px;
+            padding-bottom: 30px;
+        }
+    }
+
+   
+    @media all and (max-width: 325px) {
+        .font-size-40 {
+            font-size: 30px !important;
+        }
+
+        .brand-img {
+            width: 65px;
+            padding-bottom: 30px;
         }
     }
 </style>
 
-
-
-
-<div class="page-register-v3 layout-full page vertical-align text-xs-center">
-    
-    <div class="page-content vertical-align-middle">
-        <div class="panel">
-            <div class="panel-body">
-                <div class="brand">
-                    <img class="brand-img" src="app/assets/images/logo-blue.png" alt="...">
-                    <h2 class="brand-text font-size-18">WELTO</h2>
-                </div>
-                <form role="form" data-ng-show="message == '' || !savedSuccessfully">
-                    <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="email" class="form-control" data-ng-model="registration.userName" autofocus />
-                        <label class="floating-label" translate="signup.Email">Email</label>
-                    </div>
-                    <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="password" class="form-control" data-ng-model="registration.password" />
-                        <label class="floating-label" translate="signup.Password">Password</label>
-                    </div>
-                    <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="password" class="form-control" data-ng-model="registration.confirmPassword" />
-                        <label class="floating-label" translate="signup.Re-enter_Password">Re-enter Password</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-disabled="registration.userName == '' || registration.password == '' || registration.confirmPassword == ''" data-ng-click="signUp()" translate="signup.Sign_up">Sign up</button>
-                </form>
-                <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-                    {{message}}
-                </div>
-        
-                <p>{{'signup.Have_account_already_Please_go_to' | translate}} <a href="#/login" translate="signup.Sign_In">Sign In</a></p>
-            </div>
+<div class="page-register-v2 layout-full page-dark">
+    <div class="page-brand-info">
+        <div class="brand">
+            <img class="brand-img" src="app/assets/images/logo@2xBB.png" alt="...">
+            <h2 class="brand-text font-size-40">WELTO</h2>
         </div>
-        <footer class="page-copyright page-copyright-inverse"></footer>
+        <p class="font-size-20">The future has come</p>
     </div>
+    <div class="page-register-main">
+        <div class="brand hidden-md-up">
+            <img class="brand-img" src="app/assets/images/logo-blue@2xBB.png" alt="...">
+            <h3 class="brand-text font-size-40">WELTO</h3>
+        </div>
+        <h3 class="font-size-24">Sign Up</h3>
+        <p>Start paying your bills using your cryptocurrency today!</p>
+        <form data-ng-show="message == '' || !savedSuccessfully" role="form">
+            <div class="form-group">
+                <label class="sr-only" for="txtEmail" translate="signup.Email">Email</label>
+                <input type="email" class="form-control" id="txtEmail" data-ng-model="registration.userName" autofocus placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="txtPassword" translate="signup.Password">Password</label>
+                <input type="password" class="form-control" id="txtPassword" data-ng-model="registration.password"
+                       placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="txtRetypePassword" translate="signup.Re-enter_Password">Retype Password</label>
+                <input type="password" class="form-control" id="txtRetypePassword" data-ng-model="registration.confirmPassword"
+                       placeholder="Confirm Password">
+            </div>
+            <div class="form-group clearfix">
+                <div class="checkbox-custom checkbox-inline checkbox-primary pull-xs-left">
+                    <input type="checkbox" id="chkTerm" name="chkTerm" data-ng-model="registration.term">
+                    <label for="chkTerm"></label>
+                </div>
+                <p class="m-l-40">By clicking Sign Up, you agree to our <a href="https://welto.io/Privacy.html" target="_blank">Privacy policy</a>.</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" data-ng-disabled="registration.userName == '' || registration.password == '' || registration.confirmPassword == '' || registration.term == false" data-ng-click="signUp()" translate="signup.Sign_up">Sign Up</button>
+        </form>
+        <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+            {{message}}
+        </div>
+        <p>{{'signup.Have_account_already_Please_go_to' | translate}} <a href="#/login" translate="signup.Sign_In">Sign In</a></p>
+        <footer class="page-copyright">
+            <p>© 2017. All RIGHT RESERVED.</p>
+            <div class="social">
+                <a class="btn btn-icon btn-round social-twitter" href="https://twitter.com/weltoapp" target="_blank">
+                    <i class="icon bd-twitter" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-icon btn-round social-facebook" href="https://www.facebook.com/weltoapp/" target="_blank">
+                    <i class="icon bd-facebook" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-icon btn-round social-instagram" href="https://www.instagram.com/weltoapp" target="_blank">
+                    <i class="icon bd-instagram" aria-hidden="true"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+ 
 </div>

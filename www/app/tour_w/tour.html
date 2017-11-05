@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html lang="en-US" class="no-js" data-device-type="dedicated">
+<head>
+
+<title>Welto - It’s a secure, easy way to spend your cryptocurrency</title>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="robots" content="NOODP"/>
+<meta charset="UTF-8" />
+<meta name="aweltolication-name" content="Welto" />
+<meta name="keywords" content="cryptocurrency, bitcoin, USA, pay bills with cryptocurrency" />
+<meta name="description" content="Sign up for Welto and pay all of your bills with cryptocurrency. Check all your balance in one place." />
+<meta name="theme-color" content="#46be8a" />
+
+<link rel="stylesheet" href="tour.css" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/css/swiper.css">
+
+    <style>
+
+         .swiper-container {
+          width: 100%;
+          height: 100%;
+          overflow: -webkit-paged-x;
+        }
+        .swiper-slide {
+          text-align: center;
+          font-size: 18px;
+          background: #fff;
+          /* Center slide text vertically */
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+        }
+
+            .swiper-slide span {
+                text-shadow: 2px 2px 6px rgba(150, 150, 150, 1);
+            }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: white;
+        }
+
+        .buttons {
+            position: absolute;
+            width: 100%;
+            height: 10%;
+            margin-top: -65px;
+            z-index: 10;
+        }
+
+        .login-but, .signup-but {
+            width: 50%;
+            text-align: center;
+            vertical-align: middle;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+            .login-but a, .signup-but a {
+                color: #fff;
+                font-size: 18px;
+                text-decoration: none;
+            }
+
+        .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
+            bottom: 0px;
+        }
+        .swiper-slide .swipe-content{
+            font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
+            font-weight: normal;
+            font-variant: normal;
+            line-height: 1.25;
+            margin: 50px;
+            color:#4d4d4d; 
+            font-size: 28px;
+            top: 35px;
+            position: relative;
+        }
+        .swiper-slide .swipe-promo{
+            position: absolute;
+            bottom: -50px;
+            font-size: 14pt;
+            color:#4d4d4d;
+            font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
+        }
+        .swiper-slide .swipe-content-last{
+            font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
+            font-weight: normal;
+            font-variant: normal;
+            line-height: 1.25;
+            margin: 50px;
+            color:#4d4d4d; 
+            font-size: 28px;
+            position: relative;
+        }
+        .swiper-slide .swipe-promo-last{
+            position: absolute;
+            bottom: -12px;
+            font-size: 14pt;
+            color:#4d4d4d;
+        }
+        .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+            background: #46be8a;
+        }
+        .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+            background-image: url('arrow-right.svg');
+        }
+        .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+            background-image: url('arrow-left.svg');
+        }
+        .swiper-slide .swipe-promo, .swiper-slide .swipe-promo-last {
+           text-shadow: 1px 1px 6px rgba(150, 150, 150, 1);
+        }
+        #cta-btn{
+            max-width: 30%;
+            display: block;
+            margin: 0 auto;
+            margin-top: 26px;
+            float: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-size: 1.07142857rem;
+            line-height: 1.5;
+            padding-bottom: 15px;
+            padding-top: 13px;
+            padding-left: 30px;
+            padding-right: 30px;
+            background: #46be8a;
+            -webkit-font-smoothing: antialiased;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            border-radius: 5px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            text-decoration: none;
+            position: absolute;
+            bottom: -85px;
+        }
+        .swipe-link {
+            color: #f09415;
+            text-shadow: none;
+        }
+    </style>
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://welto.io/img/favicon.png">
+
+</head>
+
+<body>
+    <div id="body">
+        <header class="table-row welto-header" role="banner">
+            <div>
+                <div class="containerCentered minimal">
+
+                    <a data-pa-click="header|welto-logo" href="https://welto.io" class="welto-img-logo"></a>
+
+
+
+                    <div id="header-buttons" class="header-buttons">
+
+
+                        <a href="https://my.welto.io/#login/regWeb" data-pa-click="header|login" id="ul-btn" class="btn btn-small btn-secondary">Log In</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <div role="main" id="main" class="containerMobileFullWidth">
+
+            <section class="row-fluid panel">
+                <div class="modal-container containerCentered">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <span class="swipe-content">The simple and secure way to spend cryptocurrency on real goods and services</span>
+                            </div>
+                            <div class="swiper-slide">
+                                <span class="swipe-content">Pay all of your bills directly with your cryptocurrency</span>
+                                <span class="swipe-promo">We support 6 coins that you can use to pay your bills: <br/>BTC, ETH, ETC, LTC, ZEN, CRW</span>
+                            </div>
+                            <div class="swiper-slide">
+                                <span class="swipe-content">Manage all your cryptocurrency wallets in one place</span>
+                                <span class="swipe-promo">Just connect your wallets to Welto and track <br/>the balance from one place</span>
+                            </div>
+                            <div class="swiper-slide">
+                                <span class="swipe-content-last">Simplify access to your digital money with Alexa devices</span>
+                                <span class="swipe-promo-last"><a href="https://www.amazon.com/dp/B06Y4VCPSH/ref=sr_1_1?ie=UTF8&qid=1492696597&sr=8-1&keywords=welto" class="swipe-link">Install the Welto App Skill</a> and manage your<br/> balance and bills by voice</span>
+                                <a id="cta-btn" href="https://my.welto.io/#/signup/regWeb" class="btn">
+                                    Sign Up
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer IntentFooter">
+                <div class="footerNav containerCentered">
+                    <div class="grid12">
+                        <div class="legal">
+                            <p class="copyright">© 2017 Welto</p>
+                            <ul>
+                                <li>
+                                    <a href="http://welto.io/Privacy.html" target="_blank">Privacy</a>
+                                </li>
+                                <li>
+                                    <a href="http://welto.io/#contact" target="_blank">Contact</a>
+                                </li>
+                            
+                            </ul>
+                            <div class="flag country-selector">
+                                <a class="panel-toggler country US" id="countryFlag">countryFlag</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.3/js/swiper.min.js"></script>
+
+
+    <!-- Swiper JS -->
+    <script src="../dist/js/swiper.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'progressbar',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    </script>
+
+</body>
+</html>
+
+
+
+
+

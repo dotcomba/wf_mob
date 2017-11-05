@@ -1,0 +1,244 @@
+html[data-device-type="portable"] body, html[data-device-type="dedicated"] body{
+    background-image: url('nyc_dark.jpg');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+@media (min-width: 1152px) {
+    .welto-header.table-row .header-buttons {
+        right: 2%;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .welto-header.table-row .containerCentered{
+        height: inherit;
+        min-width: auto;
+        position: relative;
+    }
+    .welto-header.table-row .welto-img-logo {
+        background: transparent url('logo.png') center center no-repeat;
+        background-size: contain;
+        left: 30px;
+        margin: 0;
+        position: absolute;
+        top: 13px;
+        height: 45px;
+        width: 165px;
+         z-index: 100;
+    }
+    .welto-header.table-row .minimal .header-buttons {
+        width: auto;
+        height: auto;
+        left: auto;
+        padding: 0;
+        box-sizing: border-box;
+        z-index: 100;
+    }
+    .welto-header.table-row .minimal #ul-btn {
+        float: none;
+    }
+    body #main{
+        padding-top: 0;
+        -webkit-transition: padding-top .3s ease-out;
+        -moz-transition: padding-top .3s ease-out;
+        -ms-transition: padding-top .3s ease-out;
+        transition: padding-top .3s ease-out;
+    }
+}
+
+@media (min-width: 1005px) {
+    html[data-device-type=dedicated] .containerCentered{
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+}
+
+.containerCentered{
+    margin-right: auto;
+    margin-left: auto;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    min-width: 940px;
+    max-width: 1150px;
+}
+
+.welto-header.table-row .header-buttons {
+    position: absolute;
+    top: 18px;
+    right: 3.75%;
+}
+
+.welto-header.table-row .header-buttons .btn-secondary{
+    background: 0 0;
+    border: none;
+    border-radius: 25px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 9pt;
+    font-family: welto-sans-small-medium,Helvetica Neue,Arial,sans-serif;
+    line-height: 9pt;
+    min-width: 84px;
+    overflow: hidden;
+    padding: 9pt 15px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    vertical-align: middle;
+        font-weight: 500;
+}
+
+.welto-header.table-row .header-buttons .btn-small, .welto-header.table-row .header-buttons .btn-small.btn-secondary:focus, .welto-header.table-row .header-buttons .btn-small.btn-signup:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 1px #fff;
+}
+
+html[data-device-type=portable] header[role=banner].welto-header+#main>section.panel:first-of-type, html[data-device-type=dedicated] header[role=banner].welto-header+#main>section.panel:first-of-type{
+    padding-top: 9pc;
+}
+
+.panel {
+        padding-bottom: 10px;
+}
+
+.row-fluid {
+    background: #fff;
+    position: relative;
+    z-index: 2;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate(0,0);
+}
+
+html[data-device-type="portable"] section.row-fluid, html[data-device-type="dedicated"] section.row-fluid {
+    background-color: transparent;
+    min-height: calc(100vh - 280px);
+}
+
+html[data-device-type="portable"] .modal-container.containerCentered, html[data-device-type="dedicated"] .modal-container.containerCentered{
+    width: 25%;
+    min-width: 32.5em;
+    max-width: 32.5em;
+    height: 90%;
+    background-color: white;
+    border-radius: 14px;
+    padding: 3em;
+    padding-bottom: 3em;
+    margin: auto;
+    margin-bottom: 50px;
+    -webkit-box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+.footer .footerNav {
+    padding-top: 6px;
+}
+.containerCentered{
+    margin-right: auto;
+    margin-left: auto;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    min-width: 940px;
+    max-width: 1150px;
+}
+
+.footer .footerNav .legal {
+    margin-top: 6px;
+    overflow: auto;
+}
+
+html[data-device-type="portable"] .footer .footerNav .copyright, html[data-device-type="dedicated"] .footer .footerNav .copyright, html[data-device-type="portable"] .footer .footerNav .legal ul li a, html[data-device-type="dedicated"] .footer .footerNav .legal ul li a{
+        color: #fff;
+}
+
+.footer .footerNav .copyright {
+    color: #333;
+    margin: 0;
+    padding: 0 10px 0 0;
+    float: left;
+    clear: both;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: .92857143em;
+    text-shadow: none;
+    line-height: 2em;
+}
+
+.footer .footerNav .legal ul {
+    width: auto;
+    float: left;
+    margin: 0;
+    line-height: 2em;
+}
+.footer .footerNav .legal ul li {
+    margin: 0 0 0 7px;
+    padding-left: 9px;
+    display: inline-block;
+}
+
+.footer .footerNav .legal ul li a {
+    line-height: 1.5em;
+    color: rgb(102, 102, 102);
+    font-size: 0.928571em;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    text-shadow: none;
+    text-decoration: none;
+}
+
+footer {
+    font-size: 87.5%;
+    margin-top: 2em;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer .footerNav .legal ul li:first-child {
+    border-left: 0;
+    margin: 0;
+    padding: 0;
+}
+ol, ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+ul, menu, dir {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 10px;
+}
+.country-selector {
+    float: right;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.country-selector .US, .country-selector .unitedstates {
+    background-position: 5px -383px;
+}
+
+.country-selector .country {
+    display: inline-block;
+    width: 2pc;
+    height: 24px;
+    vertical-align: middle;
+    text-indent: -999em;
+    text-align: left;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    background: url('usa-flag.jpg') no-repeat transparent;
+}
+
+@media (max-width: 960px) {
+    .containerCentered {
+        min-width: 340px;
+        padding: 0px 55px;
+    }
+}

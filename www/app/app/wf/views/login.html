@@ -1,85 +1,160 @@
-﻿
-<link rel="stylesheet" href="app/assets/examples/css/pages/login-v3.css">
+﻿<link rel="stylesheet" href="app/assets/examples/css/pages/login-v2.css">
 
-<style type="text/css">
-
-    .page-content, .page-header, .page {
-        background-color: #5cd29d !important;
-        
-    }
-    .content {
-        background-color: #5cd29d !important;
+<style>
+    a {
+        color: #5cd29d;
     }
 
-    @media (max-width: 479px) {
-        .page-header {
-            display: none !important;
+        a:hover {
+            color: #46be8a;
         }
 
-        .site-navbar {
-            display: none !important;
+    .btn-primary {
+        border-color: #3bce8e;
+        background-color: #3bce8e;
+    }
+
+        .btn-primary.focus, .btn-primary:focus, .btn-primary:hover {
+            border-color: #66d0a2;
+            background-color: #66d0a2;
         }
 
-        .site-menubar {
-            display: none !important;
+    .form-control:focus {
+        border-color: #66d0a2;
+    }
+
+    .brand-img {
+        width: 110px;
+    }
+
+    .page-login-v2 .page-login-main {
+        padding: 55px 60px 180px;
+    }
+
+    .checkbox-primary input[type=radio]:checked + label::before, .checkbox-primary input[type=checkbox]:checked + label::before {
+        background-color: #66d0a2;
+        border-color: #66d0a2;
+    }
+
+    .page-login-v2:before {
+        background-image: url('app/assets/images/HomeImage.png');
+    }
+
+    .page-login-v2 .page-login-main .brand-text {
+        color: #949494;
+    }
+
+    /*Fix Fuckimg Amgular*/
+    body {
+      padding-top: 0px;
+    }
+    .page {
+        background: none;
+        position: initial;
+    }
+
+     @media all and (max-width: 750px) {
+        .page-register-v2 .page-register-main .brand {
+            margin-bottom: 0px;
+        }
+    }
+    /*End of Fix Angular*/
+
+    @media all and (max-width: 1024px) {
+
+        .page-login-v2 .page-brand-info .brand-text {
+            width: 100%;
+            font-size: 60px !important;
+            margin: 0;
         }
 
-        .page-content {
-            padding: 0px 0px !important;
+        .brand-img {
+            width: 165px;
+            padding-bottom: 30px;
         }
     }
 
+    @media all and (max-width: 700px) {
+        .brand-img {
+            width: 75px;
+            padding-bottom: 30px;
+        }
+    }
+
+    @media all and (max-width: 400px) {
+        .font-size-40 {
+            font-size: 30px !important;
+        }
+
+        .brand-img {
+            width: 65px;
+            padding-bottom: 30px;
+        }
+    }
 </style>
 
+<div class="page-login-v2 layout-full page-dark">
 
-<div class="page-login-v3 layout-full page vertical-align text-xs-center">
-
-    <div class="page-content vertical-align-middle">
-        <div class="panel">
-            <div class="panel-body">
-                <div class="brand">
-                    <img class="brand-img" src="app/assets/images/logo-blue.png" alt="...">
-                    <h2 class="brand-text font-size-18">WELTO</h2>
-                </div>
-                <form role="form">
-                    <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="email" class="form-control" name="email" data-ng-model="loginData.userName" autofocus/>
-                        <label class="floating-label" translate="login.Email">Email</label>
-                    </div>
-                    <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="password" class="form-control" name="password" data-ng-model="loginData.password" />
-                        <label class="floating-label" translate="login.Password">Password</label>
-                    </div>
-
-
-
-                    <div class="form-group clearfix">
-                        <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-xs-left">
-                            <input type="checkbox" id="inputCheckbox" name="remember">
-                            <label for="inputCheckbox" translate="login.Remember_me">Remember me</label>
-                        </div>
-                        <a class="pull-xs-right" href="#/forgot" translate="login.Forgot_password">Forgot password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40" data-ng-disabled="loginData.userName == '' || loginData.password == ''"  data-ng-click="login()" translate="login.Sign_In">
-                      Sign In
-              
-                    </button>
-
-               
-
-                </form>
-                <div data-ng-hide="message == ''" class="alert alert-danger">
-                    {{message}}
-                </div>
-                <p>{{'login.Still_no_account_Please_go_to' | translate}} <a href="#/signup" translate="login.Sign_up">Sign up</a></p>
+        <div class="page-brand-info">
+            <div class="brand">
+                <img class="brand-img" src="app/assets/images/logo@2xBB.png" alt="...">
+                <h2 class="brand-text font-size-40">WELTO</h2>
             </div>
-
-
-          
-
+            <p class="font-size-20">
+                Pay bills online with cryptocurrency and manage all your cryptocurrency wallets
+                in one place.
+            </p>
         </div>
-        <footer class="page-copyright page-copyright-inverse"></footer>
+        <div class="page-login-main">
+            <div class="brand hidden-md-up">
+                <img class="brand-img" src="app/assets/images/logo-blue@2xBB.png" alt="...">
+                <h3 class="brand-text font-size-40">WELTO</h3>
+            </div>
+            <h3 class="font-size-24">Sign In</h3>
+            <p>Welto is a secure, easy and fast way <br />to spend cryptocurrency on real goods and services</p>
+            <form role="form">
 
-    </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="txtEmail" data-ng-model="loginData.userName" placeholder="Email" autofocus />
+                    <label class="sr-only" for="txtEmail" translate="login.Email">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="txtPassword" data-ng-model="loginData.password" placeholder="Password" />
+                    <label class="sr-only" for="txtPassword" translate="login.Password">Password</label>
+                </div>
+
+                <div class="form-group clearfix">
+                    <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-xs-left">
+                        <input type="checkbox" id="inputCheckbox" name="remember">
+                        <label for="inputCheckbox" translate="login.Remember_me">Remember me</label>
+                    </div>
+                    <a class="pull-xs-right" href="#/forgot" translate="login.Forgot_password">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" data-ng-disabled="loginData.userName == '' || loginData.password == ''" data-ng-click="login()" translate="login.Sign_In">
+                    Sign In
+
+                </button>
+            </form>
+            <div data-ng-hide="message == ''" class="alert alert-danger">
+                {{message}}
+            </div>
+            <p>Still no an account? <a href="#/signup">Sign up</a></p>
+            <footer class="page-copyright">
+                <p>© 2017. All RIGHT RESERVED.</p>
+                <div class="social">
+                    <a class="btn btn-icon btn-round social-twitter" href="https://twitter.com/weltoapp" target="_blank">
+                        <i class="icon bd-twitter" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-icon btn-round social-facebook" href="https://www.facebook.com/weltoapp/" target="_blank">
+                        <i class="icon bd-facebook" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-icon btn-round social-instagram" href="https://www.instagram.com/weltoapp" target="_blank">
+                        <i class="icon bd-instagram" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </footer>
+        </div>
+
+  
 </div>
 
